@@ -1,6 +1,7 @@
 ## Latest version
 
-The  ``
+The latest version of the thesis is the document `thesis.pdf` in the main directory.
+The other recent versions, along with the last version, are listed as `thesis_[date].pdf`
 
 ## How to run
 
@@ -16,3 +17,9 @@ Make sure you have Python. Run the `make` as follows
 	$ make pdf
 
 This will produce the dissertation file `thesis.pdf`.
+You can compile each of the chapters separately.
+To incorporate the changes in the thesis, run `make strip` before runing `make pdf`.
+Only run `make bib` after adding/removing bibliography (and the first time).
+Alternatively, use your favourite TeX editor/compiler along with
+`make strip` to incorporate any changes made to any chapter.
+Run `make clean` to get rid of all LaTeX produced files, except the pdf files.
