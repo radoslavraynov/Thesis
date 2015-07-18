@@ -1,0 +1,115 @@
+\documentclass[fleqn,reqno]{amsart}
+\usepackage{../lib/radoslav-macro}
+\usepackage{../lib/radoslav-more}
+\usepackage{times}
+\usepackage{natbib}
+
+
+\newcounter{chapter}
+\setcounter{chapter}{2}
+\numberwithin{first}{chapter}
+
+
+\begin{document}
+%% STRIP END
+
+
+
+\begin{example}[$\mt{ex210}$]
+\label{ex210}
+Let $X=\PP^2$ and $J=\la su^2,t^2(s+u),st(s+u),tu(s+u)\ra$. Then $\phi$ is birational onto its
+image; the basepoints are $(1,0,0)$, $(0,1,0)$ and $(0,0,1)$,
+all ci of multiplicities 2, 3, and 1, respectively. For $d=1$ we get
+\[
+N=\bgroup\begin{bmatrix}{-{x}_{3}}&
+0&
+{x}_{1}&
+{-{x}_{3}^{2}}\\
+0&
+{-{x}_{3}}&
+{-{x}_{2}}&
+{x}_{0} {x}_{2}+{x}_{0} {x}_{3}\\
+{x}_{2}&
+{x}_{1}&
+0&
+0\\
+\end{bmatrix}\egroup
+\]
+and for $d=2$ we get a $6\times 9$-matrix whose columns are all linear.
+
+The matrix $N$ above also give a small example where the containment
+\[
+\la\text{Jac}~P\ra\se\mt{minors}(r-1,N)
+\]
+fails, i.e. the radical on the RHS is necessary, and further the containment of the
+radicals is proper.
+\end{example}
+
+\begin{example}[$\mt{ex211}$]
+Let $X=\PP^2$ and $J=\la s^3,t^2u,s^2t+u^3,stu\ra$. The map is birational
+with a single ci basept of multiplicity 2. For $d=1$ we have
+\label{ex211}
+\[
+	N=\bgroup\begin{bmatrix}{x}_{1}&
+  {-{x}_{3}^{2}}&
+  0\\
+  {-{x}_{3}}&
+  0&
+  {x}_{0}^{2} {x}_{1}^{2}-{x}_{0} {x}_{1} {x}_{2} {x}_{3}\\
+  0&
+  {x}_{0} {x}_{1}&
+  {x}_{3}^{4}\\
+  \end{bmatrix}\egroup
+\]
+and $\det(N)={x}_{0}^{3} {x}_{1}^{4}-{x}_{0}^{2} {x}_{1}^{3} {x}_{2} {x}_{3}+{x}_{3}^{7}$,
+the implicit equation.
+
+For $d=2$ we get a square matrix of order $6$ with linear entries only.
+\end{example}
+
+\begin{example}[$\mt{ex213}$]
+\label{ex213}
+This example has been present elsewhere in the literature and is know to break all the available methods.
+Let $X=\PP^2$ and take
+\begin{align*}
+	J=\la &-s^{2} t^{3}+3 s^{2} t^{2} u+s t^{3} u-4 s t^{2} u^{2}-s t
+	      u^{3}+2 t^{2} u^{3}-t u^{4}+u^{5}, &\ra\\
+		  &s^{2} t^{3}-3 s^{2} t^{2} u+s t^{3} u+3 s t
+	      u^{3}-2 t^{2} u^{3}+t u^{4}-u^{5},\\
+		  &s^{2} t^{3}-3 s^{2} t^{2} u-s t^{3} u+2
+	      s^{2} t u^{2}+4 s t^{2} u^{2}-3 s t u^{3}-2 t^{2} u^{3}+3 t u^{4}-u^{5},\\
+		  &-s^{2}
+	      t^{3}+3 s^{2} t^{2} u-s t^{3} u-3 s t u^{3}+3 t u^{4}-u^{5}
+\end{align*}
+so $\phi$ is generically 1-1 with 3 basepoints of total degree $17$
+and multiplicity 20. More precisely, the basepoints are the ci point $(1,1,1)$ of multiplicity $4$,
+the aci point $(0,1,0)$ of degree 4 and multiplicity 5, and
+the aci point $(1,0,0)$ of degree 9 and multiplicity 11.
+
+Irrelevant of any of the hineous basepoints, we get
+\[
+	N=\bgroup\begin{bmatrix}{x}_{0}+{x}_{1}&
+      0&
+      {x}_{1}^{2}-{x}_{3}^{2}\\
+      -{x}_{0}-{x}_{2}&
+      3 {x}_{0} {x}_{1}-{x}_{1}^{2}+4 {x}_{1} {x}_{2}+3 {x}_{0} {x}_{3}-3 {x}_{1} {x}_{3}+4 {x}_{2} {x}_{3}-2 {x}_{3}^{2}&
+      {x}_{0}^{2}+7 {x}_{0} {x}_{1}-3 {x}_{1}^{2}+{x}_{0} {x}_{2}+10 {x}_{1} {x}_{2}+6 {x}_{0} {x}_{3}-9 {x}_{1} {x}_{3}+9 {x}_{2} {x}_{3}-6 {x}_{3}^{2}\\
+      -{x}_{2}+{x}_{3}&
+      {x}_{0}^{2}-{x}_{0} {x}_{1}-{x}_{1}^{2}-3 {x}_{0} {x}_{3}-3 {x}_{1} {x}_{3}-{x}_{3}^{2}&
+      -5 {x}_{0} {x}_{1}-2 {x}_{1}^{2}-3 {x}_{0} {x}_{2}-6 {x}_{1} {x}_{2}-8 {x}_{0} {x}_{3}-5 {x}_{1} {x}_{3}-3 {x}_{2} {x}_{3}\\
+      \end{bmatrix}\egroup
+\]
+and
+\[
+	\det(N)=P(\mathbf x) \demo
+\]
+\end{example}
+
+
+
+%% STRIP BEGIN
+%% BIBLIOGRAPHY
+\bibliographystyle{unsrtnat}
+\bibliography{../lib/refs}
+
+\end{document}

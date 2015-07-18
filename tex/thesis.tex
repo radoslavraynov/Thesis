@@ -1,0 +1,112 @@
+\documentclass[phd,tocprelim]{cornell}
+\let\ifpdf\relax
+
+\usepackage{../lib/radoslav-macro}
+\usepackage{../lib/radoslav-more}
+% \usepackage{../lib/radoslav-thesis}
+
+%if you're having problems with overfull boxes, you may need to increase
+%the tolerance to 9999
+\tolerance=9999
+
+\renewcommand{\caption}[1]{\singlespacing\hangcaption{#1}\normalspacing}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.75}
+
+\title {Examples of Implicitization of Hypersurfaces through Syzygies}
+\author {Radoslav Zlatev}
+\conferraldate {August}{2015}
+\degreefield {Ph.D.}
+\copyrightholder{Radoslav Zlatev}
+\copyrightyear{2015}
+
+\numberwithin{first}{chapter}
+
+\usepackage{times}
+\usepackage{natbib}
+
+\begin{document}
+
+\maketitle
+\makecopyright
+
+\pagenumbering{Alph}
+\begin{abstract}
+write abstract here --- only after you have an introduction
+\end{abstract}
+
+\begin{biosketch}
+Radoslav was born in Burgas on the Black Sea cost.
+He attended the High School of Mathematics and the Sciences there, graduating in May 2005,
+and later Jacobs University Bremen, earning a Bachelor of Science degree in June 2008.
+He joined the Department of Mathematics at Cornell in August 2010.
+\end{biosketch}
+
+\begin{dedication}
+To my parents.
+
+\end{dedication}
+
+\begin{acknowledgements}
+I want to thank my advisor, Mike Stillman, for the guidance and help during these not-always-happy five years.
+I also want to thank Irena Peeva for many constructive conversations and support, Allen Knutson and Ed Schwarz
+for being on my comitte, among other things, and John Hubbar for many engaging and stumulating discussions.
+Last, I want give special thanks to Hal Schenk at UIUC for introducing me to the problem at the Syzigies in Berlin
+summer school in 2013.
+\end{acknowledgements}
+
+\contentspage
+\tablelistpage
+\figurelistpage
+
+\normalspacing \setcounter{page}{1} \pagenumbering{arabic}
+\pagestyle{cornell} \addtolength{\parskip}{0.5\baselineskip}
+
+\pagenumbering{arabic}
+
+%% INTRODUCTION
+\chapter{Introduction}
+\label{ch:intro}
+\input{intro-incl}
+
+%% PRELIMINARIES
+\chapter{Preliminaries}
+\label{ch:preliminaries}
+\input{preliminaries-incl}
+
+%% MAIN RESULTS
+\chapter{Main Results}
+\label{ch:main-results}
+\input{main-results-incl}
+
+%% EXAMPLES
+\chapter{Examples}
+\label{ch:examples}
+\input{examples-incl}
+
+%% PROOFS OF THE MAIN RESULTS
+\chapter{Proofs of the Main Results}
+\label{ch:main-proofs}
+\input{main-proofs-incl}
+
+%% A METHOD FOR FAST IMPLICITIZATION
+\chapter{A Method for Fast Implicitization}
+\label{ch:fast-method}
+\input{fast-method-incl}
+
+%% KOSZUL SYZYGIES AND BASEPOINT-FREE MAPS
+\chapter{Koszul Syzygies and Basepoint-free Maps}
+\label{ch:koszul-bpf}
+\input{koszul-bpf-incl}
+
+%% BICUBICS
+\chapter{Bicubics with Basepoints in General Position}
+% \label{ch:bicubics}
+% \include{bicubics-incl}
+
+%% BIBLIOGRAPHY
+\bibliographystyle{unsrtnat}
+\bibliography{../lib/refs}
+
+\end{document}

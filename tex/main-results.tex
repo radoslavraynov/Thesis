@@ -1,0 +1,267 @@
+\documentclass[fleqn,reqno]{amsart}
+\usepackage{../lib/radoslav-macro}
+\usepackage{../lib/radoslav-more}
+\usepackage{times}
+\usepackage{natbib}
+
+
+\newcounter{chapter}
+\setcounter{chapter}{2}
+\numberwithin{first}{chapter}
+
+
+\begin{document}
+%% STRIP END
+
+
+
+\begin{paragraf}
+In what follows, let $S,T,\phi,J,P,I,R$ and $B$ be as defined in Chapter \ref{ch:preliminaries}.
+Once a degree $\d$ on the source has been fixed, explicitly or implicitly,
+$N,r,\mu$ and $h_i$ are used to denote the corresponding objects in that degree.
+% \hyperref[ex101]{Example \ref*{ex101}} should serve as a quick reference.
+Examples \ref{ex203} and \ref{ex204} should serve as quick reference points.
+\end{paragraf}
+
+\begin{paragraf*}
+We begin by making a few easy but important observations about the Rees ideal $I$.
+These are needed for the setup of some of the later results.
+\end{paragraf*}
+
+\begin{proposition}
+\label{prop:BP}
+\begin{enumerate}[label=\normalfont(\alph*)]
+\item
+The ideal $I\se R$ is prime, and so is $I_P$ in the $T$-module localization $R_P$.
+\item
+The quotient $B_P$ is naturally a finite-type graded $K(T/P)$-algebra
+with grading induced by $S$.
+\item
+The ideal $I$ is saturated with respect to the irrelevant ideal of $S\se R$.
+\item
+Finally, the $K(T/P)$-algebra $B_P$ is the Cox ring of a projective toric variety.
+\end{enumerate}
+\end{proposition}
+
+\begin{paragraf}
+\label{par:describe-d}
+From now on, we shall only be interested in degrees $\d$ is such that the line bundle
+$\O_X(\d)$ has global sections, that is, $h^0(\O_X(\d))>0$.
+Following \citet{03-Maclagan-Smith}, by part (d) of Proposition \ref{prop:BP}
+there is a notion of regularity on $B_P$, or rather on
+\[
+\Proj_{K(T/P)}(B_P)
+\]
+We denote this order ideal in the poset of degrees by $\reg(B_P)$.
+
+We shall see later that the latter is $0$-dimensional, so one can choose to
+stick to the classical $\Proj(-)$ construction by reembedding the set of points
+in projective space over $K(T/P)$ and thinking of the regularity
+of the toric variety as those $\d\in\Pic(X)$ which correspond to degrees in the
+reembedding that are greater or equal to the Castelnuovo-Mumford regularity.
+\end{paragraf}
+
+\begin{paragraf*}
+In light of Proposition \ref{prop:BP}, our first result becomes an easy exercise.
+It establishes for the first time a general relation between the minors of matrix~$N$
+and the implicit equation~$P$.
+\end{paragraf*}
+
+\begin{theorem}
+\label{thm:rad-minors}
+Let $\mathbf d$ be any degree on $S$. One has
+\[
+\rad(\mt{minors}(r,N))=P
+\]
+\end{theorem}
+
+\begin{paragraf*}
+The geometric interpetation of this theorem is clear ---
+the nonzero minors of $N$ define hypersurfaces in $\PP^n$ whose intersection,
+at least set-theoretically, is the image $Y$.
+\end{paragraf*}
+
+\begin{paragraf*}
+Our next result is the main theorem of this thesis, unifying the two currently
+popular non-Gr\"{o}bner bases approaches and setting the stage for both
+the ad-hoc template proofs in Chapter \ref{ch:koszul-bpf} and
+the fast implicitization method described in Chapter \ref{ch:fast-method}.
+\end{paragraf*}
+
+\begin{theorem}
+\label{thm:gcd-minors}
+Fix a degree $\mathbf d\in\reg(B_P)$. One has
+\[
+	\gcd(\mt{minors}(r, N))=P^{\deg\phi}
+\]
+In particular, if there is a $\mathbf d$ for which $\mu=r$,
+then one has that $N$ is square and, up to a unit,
+\[
+	\det(N)=P(\mathbf x)^{\deg\phi}
+\]
+\end{theorem}
+
+\begin{corollary}
+\label{thm:detM}
+Fix a degree $\d\in\reg(B_P)$ and let $M$ be any $r\times r$ matrix of syzygies over $S_\d$. One has
+\[
+	\det(M)=P(\mathbf x)^{\deg\phi}\cdot H(\mathbf x)
+\]
+for a homogeneous $H(\mathbf x)$ of degree $\deg\det(M)-\deg\phi\cdot\deg(Y)$.
+
+Furthermore, there exist such matrices $M_k$ such that the corresponding $H_k(\mathbf x)$
+are nonzero and without a common factor.
+\end{corollary}
+
+\begin{paragraf*}
+Geometrically, the former is a refinement of Theorem \ref{thm:rad-minors}.
+Each of the maximal minors of $N$, in fact
+the determinant of any $r\times r$ matrix $M$ of syzygies over $S_\d$, is either $0$
+or describes in $\PP^n$ the union of a $\deg\phi$-fold $Y$ and
+a hypersurface of degree $\deg\det(M)-\deg(\phi)\deg(Y)$.
+The maximal minors suffice to shave off the extraneous 
+
+The theme of extraneous factors is already apparent in \citet{BCJ09} and \citet{Botbol2011}
+who use the approximation complex to show that for a toric $X$,
+certain $\d$ and almost complete intersection baselocus $Z$, in our running notation, one has
+\[
+\gcd(\minors(r,N_1))=P^{\deg\phi}\cdot\prod_{p\in Z} L_p(\mathbf x)^{e_p-d_p}
+\]
+where each $L_p(\mathbf x)$ is a linear form.
+
+In the case of complete intersection baselocus, the proof of Theorem \ref{thm:gcd-minors}
+gives for free a special case of the above,
+\end{paragraf*}
+
+\begin{corollary}
+\label{cor:approx-complex}
+Let $\mathbf d$ be large enough in the poset of degrees on $S$.
+Let $N_1\se N$ be the matrix of linear syzygies.
+If the base locus of $\phi$ is empty or locally a complete intersection, then
+\[
+	\gcd(\mt{minors}(r, N_1))=P^{\deg\phi}
+\]
+\end{corollary}
+
+\begin{paragraf*}
+Say how this is relates the singular locus, or rather the double-point locus,
+to the co-maximal minors.
+Say that there is a similar result in the literature relating the comaximal minors
+of a square matrix to the singular locus of the hypersurface defined by the determinant
+but that no referece is given.
+Remember the engineering linear algebra book where you read it.
+Reference examples where this is addressed and examples showing that this is not
+an equality.
+\end{paragraf*}
+
+\begin{conjecture}
+\label{conj:sing-locus}
+Let $\phi$ be birational and $\d$ be any degree on $S$. One has
+\[
+V(\minors(r-1,N))\se\mathrm{Sing}(Y)
+\]
+\end{conjecture}
+
+
+
+\begin{paragraf*}
+In the simplest cases of interest, when $X=\PP^2$ or $X=\PPP$ and $\phi$ is basepoint-free,
+we can chose $\d$ so that the matrix $N$ becomes square.
+Next two theorems are slight generalizations of the results in \citet{00-CGZ-JSC}.
+More importantly, they show that our methods directly generalize the methods of
+moving planes and quadrics in the setting in which they are most useful.
+\end{paragraf*}
+
+\begin{theorem}
+\label{thm:rel-moving-planes-quadrics}
+Let $X=\PP^2$, $\phi$ be basepoint-free,
+and suppose that there are exactly $p=\mathbf e$ linear syzyges over degree $\d=p-1$,
+that is, the minimal possible number.
+Then one has that $N=(N_1~|~N_2)$, $N$ is square and $\phi$ is birational.
+In particular,
+\[
+\det(N)=\det(N_1~|~N_2)=P(\mathbf x)
+\]
+\end{theorem}
+
+\begin{theorem}
+\label{thm:rel-moving-quadrics}
+Let $X=\PP^1\times\PP^1$, $\phi$ be basepoint-free with coordinates in degree $\mathbf e=(p,q)$,
+and suppose there are no linear syzyges over degree $\d=(p-1,q-1)$.
+Then one has that $N_2$ is square, $N=N_2$ and $\phi$ is birational. In particular,
+\[
+	\det(N)=\det(N_2)=P(\mathbf x)
+\]
+\end{theorem}
+
+\begin{paragraf*}
+Both of these theorems are examples of a template proof decribed in Chapter \ref{ch:koszul-bpf}.
+While applying it in general requires elaborate choses of the degree $\d$ and
+regularity computations, in the case of basepoint-free maps we only used a type
+of Koszul-ness on the syzygies of low degree. For details see Chapter \ref{ch:koszul-bpf}.
+\end{paragraf*}
+
+
+
+\begin{paragraf*}
+We close this list by a method to compute the degree of a rational map using Gr\"{o}bner bases
+and an interesting example of a typical relation between the geometry of the image and the
+algebra of the coordinates.
+
+The method below describes what a Gr\"{o}bner basis of $I$ looks like. While we are not
+going to use it in any way in this thesis, it helps expand our understanding about the object $B_P$.
+
+The author wants to thank Mike Stillman for suggesting it.
+\end{paragraf*}
+
+\begin{proposition}
+\label{prop:degviaGB}
+Let $\CC[s_0,\ldots,s_m]$ be the fixed ambient polynomial ring of $S'$ as described in \ref{par:setup}.
+Define the ideal $I_B$ of $\CC[s_0,\ldots,s_m;x_0,\ldots,x_n]$ by the equality
+\[
+	B=\CC[\mathbf s;\mathbf x]/I_B
+\]
+Let $>'$ be any product order in which the $\mathbf s$ variables
+come before the $\mathbf x$ variables.
+Then a reduced Gr\"obner basis for $I_B$ with respect to $>'$ has the form
+\begin{align*}
+	&g_1(\mathbf s;\mathbf x)=p_1(\mathbf x){\mathbf s}^{\alpha_1}+\text{lower order terms}\\
+	&\qquad\cdots\\
+	&g_r(\mathbf s;\mathbf x)=p_r(\mathbf x){\mathbf s}^{\alpha_r}+\text{lower order terms}\\
+	&g_{r+1}(\mathbf s;\mathbf x)=P(\mathbf x)
+\end{align*}
+and
+\[
+	\deg(\phi)=\deg \big(\la{\mathbf s}^{\alpha_1},\ldots,{\mathbf s}^{\alpha_r}\ra\se\CC[\mathbf s]\big)
+\]
+\end{proposition}
+
+\begin{paragraf*}
+Next, we present an example with two surprising features.
+First, it shows what the general map of some fixed degree and base locus looks like,
+and how this is related to the geometry of its image.
+Second, this will be an example of a map whose image is the determinant of a matrix
+of linear forms, yet not one build from syzygies.
+It foreshadows the results in Chapter \ref{ch:bicubics} and highlights the close
+relation of $N$ to $S$, not just $Y$.
+See Example \ref{ex311} for a concrete calculation and the examples in Chapter \ref{ch:examples}
+for a further discussion.
+\end{paragraf*}
+
+\begin{conjecture}
+\label{conj:nice-example}
+Let $X=\PPP$ and $\phi$ be a general map among the maps be given by four bicubics with
+a common zero locus the single point $(0,1)\times(0,1)$ of degree $3$ and multiplicity $4$.
+Then $\phi$ is generically 1-1, the image $Y$ is of degree $4$ and is singular along
+three non-degenerate concurent lines.
+Further, $Y$ is defined by the determinant of a $4\times4$-matrix of linear forms.
+\end{conjecture}
+
+
+
+%% STRIP BEGIN
+%% BIBLIOGRAPHY
+\bibliographystyle{unsrtnat}
+\bibliography{../lib/refs}
+
+\end{document}

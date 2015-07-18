@@ -1,0 +1,605 @@
+\documentclass[fleqn,reqno]{amsart}
+\usepackage{../lib/radoslav-macro}
+\usepackage{../lib/radoslav-more}
+\usepackage{times}
+\usepackage{natbib}
+
+\newcounter{chapter}
+\setcounter{chapter}{6}
+\numberwithin{first}{chapter}
+
+\begin{document}
+%% STRIP END
+
+[also mention that when $d=e$ this is just solving a system of linear equations for each of the coefficients
+of $P(\mathbf x)$. See \citet{Wang2004} for an article devoted to this idea.]
+
+\begin{paragraf*}
+This chapter describes an algorithm for computing the closed image in the running setup.
+While somewhat similar algorithms have been proposed along the lines of
+the approximation complex (see [ref]),
+our algorithm utilizes the theory developed in Charpter \ref{chap:main-results}
+and allows for a general treatement regardless of the structure of the basepoints.
+Compared to the Gr\"obner basis calculations and even more naive approaches
+such as direct linear algebra calculations of the coefficients [],
+the method presented in Section \ref{sec:algorithm} has two advantages:
+\begin{enumerate}
+\item
+its bottleneck parallelizes directly and, in fact, can be tackled separately;
+\item
+it is not a blackbox in terms of the geometry, which allows for a probabilistic speedups;
+\end{enumerate}
+
+In Section \ref{sec:first-example} we study a concrete example in which the second
+property manifests.
+This allows us to compute an image of degree 26 in 20 minutes as oppesed to 5 hours
+using Gr\"obner bases computations.
+In Section \ref{sec:second-example} we come back the failing example from
+Section \ref{sec:failing-numerics-P4} and compute its degree-48 image.
+\end{paragraf*}
+
+\section{The Algorithm}
+\label{sec:algorithm}
+
+\begin{paragraf}
+We continue to assume the setup of \ref{ch:preliminaries}.
+We work over a fixed degree $\d$ in the regularity of $B_P$.
+To avoid distraction, we assume throughout this chapter that $\phi$ is birational.
+Most of what is said here holds for maps of degree greater than 1 essentially by
+substituting $P^{\deg\phi}$ for $P$.
+\end{paragraf}
+
+\begin{paragraf}
+At first glance, it seems that an algorithm for the computation of the image of $\phi$ can be
+extracted from our main result, Theorem \ref{thm:gcd-minors}, and in fact,
+is already outlined in the examples of Chapter \ref{ch:examples}.
+In its simplest form, it becomes
+\end{paragraf}
+
+% \begin{absolutelynopagebreak}
+\begin{algorithm} {\sc FakeAlgorithm\bf.}
+\label{algo:simplest}
+\begin{algorithmic}
+  \State Set $r=\dim_\CC(S_{\mathbf d})$
+  \State Set $N$ to be the matrix of syzygies over $S_{\mathbf d}$ (i.e. $N$ is an $r\times\delta$ matrix over $T$ with $r\leq\delta$)
+  \State Report $P=\gcd(\mt{minors}(r,N))$
+\end{algorithmic}
+\end{algorithm}
+% \end{absolutelynopagebreak}
+
+\begin{paragraf}
+\label{par:problem-computing-rees-gb}
+In reality, unless we figure out how to compute $N$ efficiently,
+the algorithm boils down to computing a Gr\"obner basis again.
+In fact, one that is much more complex ---
+we need to find a Gro\"{o}bner basis for the Rees ideal $I$,
+which already contains $P(\mathbf x)$ as the unique generator in degree $(0,\deg(Y))$.
+So while Algorithm \ref{algo:simplest} may be useful when studing
+the relation between the baselocus and the geometry of the image,
+it is rather useless as means of implicitization.
+\end{paragraf}
+
+\begin{paragraf}
+\label{par:problem-too-many-minors}
+Another problem with Algorithm \ref{algo:simplest} is the computation of the minors.
+While computing the $\gcd$ of polynomials is fast,
+symbolicly computing determinants of large order is very time consuming even for a small number of variables.
+The number of minors to be computed is also very large.
+For exampe, in Section \ref{sec:second-example} below find a description of the equation when $N$ is of size
+$18\times50$.
+The number of minors to compute is
+\[
+\binom{50}{18}=18053528883775
+\]
+so even if it took the unrealistic $0.001$ seconds to compute each minor,
+a single machine would require 572 years to compute them all.
+\end{paragraf}
+
+\begin{paragraf}
+% Loosely speaking, we shall modify the algorithm in such a way that
+Recall that
+\[
+	N=N_1~|~\cdots~|~N_\delta
+\]
+where $N_i$ is the submatrix of $N$ whose columns are degree-$i$ syzygies.
+Loosely speaking, our plan is the following:
+\begin{enumerate}
+\item
+instead of computing the whole matrix $N$, we compute the $N_i$'s and keep track
+of a partial syzygy matrix $N'$;
+\item
+instead of computing all the minors, we only compute as many as needed
+to determine the $\gcd$ correctly;
+\end{enumerate}
+
+These two simple observations produce an immense speed up on average.
+In the case of the example described in the previous paragraph,
+we only need to compute 2 minors of $N_4$ [are you sure this is not all of $N$?]
+
+Another feature of the algorithm that we are not going to pursue is
+
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item
+\label{superhui}
+the setup should allow for an easy parallelization
+\end{enumerate}
+\end{paragraf}
+
+\begin{lemma}
+\label{lemma:C1}
+Let
+\[
+	N'=N'_i=N_1~|~\cdots~|~N_i
+\]
+be the partial matrix of syzygies up to degree $i$.
+If $N'$ satisfies the following condition
+\begin{align}
+	\label{C:OK-matrix}
+	\tag{C1}
+	\minors(r,N')\neq0 \text{ and } \deg(\gcd(\minors(r,N')))=\deg(Y)
+\end{align}
+then
+\[
+\gcd(\minors(r,N'))=P
+\]
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{check}, we have that $\det(M)\in P$ for any square matrix of syzygies,
+so for every minors of $N'$ in particular.
+It follows that the $\gcd$ of the minors is in $P$.
+The sufficiency follows since $P$ is principal of the same degree as the $\gcd$.
+\end{proof}
+
+\begin{paragraf}
+After we detail the outline above, we prove correctness of the algorithm and
+then discuss some of its strong and weak points.
+\end{paragraf}
+
+% \begin{absolutelynopagebreak}
+\begin{algorithm}{\sc Main -- First Version}{\bf.}
+\label{algo:compute-N'}
+\begin{algorithmic}
+\State{{\bf input:} none}
+\State{{\bf output:} the implicit equation $P$}
+\State{Set $r=h^0(S_\mathbf d)$}
+\State{Set $N'=r\times0$ matrix over $T$}
+\While{\ref{C:OK-matrix} is not satisfied for $N'$}
+	\State{Given $N_1,\ldots,N_{i-1}$, use Algorithm \ref{algo:compute-Ni} to compute $N_i$}
+	% \Comment{Call Recursion again}
+	\State{Set $N'=N'~|~N_i$}
+\EndWhile
+\State{Report $P=\gcd(\minors(r, N'))$}
+\end{algorithmic}
+\end{algorithm}
+% \end{absolutelynopagebreak}
+
+% \begin{paragraf}
+% To present the subroutine we introduce the following notation.
+%
+% For any valid $i$, let $G_i$ be a generating set of the syzygies of degree $i$ over $S_{\mathbf d}$.
+% In our notation, this is just the list of coordinates of ${\mathbf b}\cdot N_i$ where $\mathbf b$
+% is the row-$r$-vector of a vector space basis for $S_{\mathbf d}$.
+% For example, $X=\PP^2_{s,t,u}$, $\mathbf d=1$ and
+% \[
+% N_2=\begin{bmatrix}
+% x^2 & z^2\\
+% y^2 & 0 \\
+% z^2 & xy
+% \end{bmatrix}
+% \]
+% then
+% \[
+% G_2=\{sx^2+ty^2+uz^2,~sz^2+uxy\}
+% \]
+%
+% Now for any $0< i\leq j$ we set $G_{ij}$ to be the list of $j$-syzygies coming from $i$-syzygies
+% in the obvious way. Formally,
+% \[
+% 	G_{ij}=\bigcup_{|\alpha|=j-i}\bigcup_{g\in G_i}\{{\mathbf x}^\alpha\cdot g(\mathbf s,\mathbf x)\}
+% \]
+% In the example, above
+% \[
+% G_{23}=\{
+% 	sx^3+txy^2+uxz^2,sxz^2+ux^2y,
+% 	sx^2y+ty^3+uyz^2,syz^2+uxy^2,
+% 	sx^2z+ty^2z+uz^3,sz^3+uxyz
+% \}
+% \]
+% \end{paragraf}
+
+% \begin{absolutelynopagebreak}
+\begin{algorithm}{\sc ComputePartialSyzyzies}{\bf.}
+\label{algo:compute-Ni}
+\begin{algorithmic}
+\State{{\bf input:} a list of matrices of sygygy-generators $N_1,\ldots,N_{i-1}$}
+\State{{\bf output:} the syzygy-generators matrix $N_i$}
+\For{$0<j<i$}
+%	\State{Let $\mt{basis}(T)$ be the basis for $T_{i-j}$ as a row vector}
+	\State{Set $N_{ji}=\mt{basis}(T_{i-j})\tensor N_{j}$}
+	\State{Set $K_{ji}$ to be the linearization of $N_{ji}$}
+\EndFor
+\State{Set $K_i=\ker(\Phi^{(i)})$}
+\State{Let $K_i'$ be such that $\Span(K_i)=\Span(K_i')\oplus(\sum_j\Span(K_{ji}))$}
+\State{Let $N_i$ be such that $\mt{basis}(R_{\mathbf d,i})\cdot K_i'=\mt{basis}(S_{\mathbf d})\cdot N_i$}
+\State{Report $N_i$}
+\end{algorithmic}
+\end{algorithm}
+% \end{absolutelynopagebreak}
+
+\begin{paragraf}
+A few remarks are in order.
+We prove the correctness of Algorithm \ref{algo:compute-N'} below and provide a complete realization
+in Macaulay2 in Implementation \ref{algo:fast-method-impl-M2}.
+For example, finding a matrix ``such that'' is really finding a coefficient matrix for some
+vectors given some basis.
+\end{paragraf}
+
+\begin{theorem}
+\label{thm:algo-proof-of-correctness}
+Let $\phi:X\To\PP^n$ be as before. Suppose that $\mathbf d$ is in the regularity of $\Proj(B_P)$.
+Then Algorithm \ref{algo:compute-N'} correctly computes $P^{\deg\phi}$
+in at most $\delta$ steps, where $\delta$ is the maximal degree showing up in a minimal set of homogeneous
+generators for $I_{\mathbf d,\bullet}$.
+\end{theorem}
+
+\begin{proof}
+Given that \ref{C:OK-matrix} is suffient, we only need to show $N'$ is going to
+satisfy it after finitely many steps.
+But $N'=N$ at step $\delta$ and $N$ satisfies the condition by Theorem \ref{thm:gcd-minors}.
+It follows that the matrix $N'$ is going to satisfy \ref{C:OK-matrix} after at most $\delta$ iterations,
+in which case the $\gcd$ of the minors is $P$.
+
+Remark: any nonzero minor is divisible by $P^{\deg\phi}$ by the main theorem.
+\end{proof}
+
+\begin{paragraf}
+As presented, the algorithm has an obvious bottle neck---the number of minors to be computed is {\em very}
+large. For example, [show the example of the $\binom{72}{36}$ and use Stirling numbers to say how many matrices there are].
+A probabilistic remedy is the following.
+Make a generic change coordinates on the column-space of $N$.
+Now pick minors as along as they are nonzero (test rank) but vanish on the $\phi_j$ (test rank after substitute).
+Now you expect every next minor to knock the degree of the $\gcd$ down by at least one.
+Stop when the degree become $\deg(\phi)\deg(Y)$.
+This method obviously terminates---eventually all the minors are taken---but generally {\em much} quicker than
+computing all the minors.
+It is worth pointing out that the $\gcd$ computation is fast, computing determinants symbolically isn't.
+\end{paragraf}
+
+\begin{paragraf}
+We now present the final version of our algorithm using the probabilistic speed-ups described above.
+Because the algorithm's pseudo code closely follows typical computer algebra system's routines,
+we close the section with a realization in Macaulay2.
+In the next two sections, we explore the positives of even further, showing how it is sometimes
+possible to avoid even the determinant computations.
+\end{paragraf}
+
+\section{Implementation in Macaulay2}
+
+\begin{paragraf}
+\label{par:algo-impl-1}
+See \href{http://www.math.cornell.edu/~rzlatev/phd-thesis/}{\tt http://www.math.cornell.edu/$\sim$rzlatev/phd-thesis/}.
+Should include it here in one way or another or at least mention what I really do computationally.
+\end{paragraf}
+
+
+\section{First Example}
+\label{sec:first-example}
+
+As a first showcase example, we carry out the computation of a general degree-$26$
+implicit equation with a preset baselocus.
+
+Let $X=\PP^1_{s,u}\times\PP^1_{t,v}$ and $Q=\la s^3,s^2t,t^2\ra$.
+Let $\m=\la st,sv,ut,uv\ra$ be the irrelevant ideal of $X$.
+Take $J$ to be an ideal generated by $4$ general biquartics ${\phi_0,\ldots,\phi_3}$ in $Q$
+and set
+\[
+\phi=(\phi_0,\ldots,\phi_3):\PPP\To\PP^3
+\]
+
+Note that here {\em general} refers to a choice of $\Span_\CC\{\phi_0,\ldots,\phi_3\}$ as an
+element in
+\[
+\text{Gr}(4,\mt{basis}(Q_{4,4}))\cong\mathbb{G}(3,19)
+\]
+with respect to the resulting structure of $I$---see Theorem \ref{1} for a precise statement.
+Over a finite field, however, this is equivalent to a
+{\em uniformly random} choice of the $80$ coefficients.
+
+A possible realization in Macaulay2 follows.
+
+\begin{verbatim}
+i1 : KK=ZZ/32009;
+
+i2 : S=KK[s,u,t,v,Degrees=>{2:{1,0},2:{0,1}}];
+
+i3 : T=KK[x_0..x_3];
+
+i4 : Q=ideal(s^3,t^2,s^2*t);
+
+o4 : Ideal of S
+
+i5 : mm=ideal(s,u)*ideal(t,v);
+
+o5 : Ideal of S
+
+i6 : super basis({4,4},Q);
+
+             1       20
+o6 : Matrix S  <--- S
+
+i7 : J=ideal(o6*random(S^20,S^4));
+
+o7 : Ideal of S
+
+\end{verbatim}
+
+Since $Q$ is saturated with respect to $\m$ and the saturation of $J$ is $Q$,
+scheme-theoretically, $\phi$'s baselocus is just $V(Q)$.
+The latter is supported on a single point $q=(0,1)\times(0,1)$
+of degree $5$ and multiplicity $6$.
+
+\begin{verbatim}
+i8 : decompose Q
+
+o8 = {ideal (s, t)}
+
+o8 : List
+
+i9 : saturate(Q,mm)==Q
+
+o9 = true
+
+i10 : saturate(J,mm)==Q
+
+o10 = true
+
+i11 : multiplicity Q
+
+o11 = 6
+
+i12 : degree Q
+
+o12 = 5
+
+\end{verbatim}
+
+We refer the reader to Section \ref{sec:multiplicity} for an explanation why
+Macaulay2's routines compute the correct values (in biprojective space) and
+how to compute them by hand in the case of monomial baselocus.
+
+We continue by setting up the ambient ring $R$.
+
+\begin{verbatim}
+i13 : R=KK[s,u,t,v,x_0..x_3,Degrees=>{2:{1,0,0},2:{0,1,0},4:{0,0,1}}];
+
+i14 : J=sub(J, R);
+
+o14 : Ideal of R
+
+\end{verbatim}
+
+Fix $\mathbf d=(3,3)$.
+Because $\delta=2$ in this case, we can compute the $N_{ji}$ matrices directly.
+Here is an alternative calculation to the one described in the previous section.
+
+We start by computing $N_1$.
+
+\begin{verbatim}
+i15 : subs=toList((0..3)/(i->x_i=>J_i));
+
+i16 : time G1=sub(super basis({3,3,1},R),subs)//(super basis({7,7,0}, R));
+     -- used 0.013008 seconds
+
+              64       64
+o16 : Matrix R   <--- R
+
+i17 : time K1=matrix entries gens ker G1;
+     -- used 0.014648 seconds
+
+              64       5
+o17 : Matrix R   <--- R
+
+i18 : time N1=(super basis({3,3,1},R))*K1//(super basis({3,3,0},R));
+     -- used 0.000439 seconds
+
+              16       5
+o18 : Matrix R   <--- R
+
+\end{verbatim}
+
+At this point $N'=N_1$.
+Because there are only $5$ linear syzygies, $N'$ cannot satisfy \ref{C:OK-matrix},
+so we continue.
+
+\begin{verbatim}
+i19 : time G2=sub(super basis({3,3,2},R),subs)//(super basis({11,11,0}, R));
+     -- used 0.19233 seconds
+
+              144       160
+o19 : Matrix R    <--- R
+
+i20 : time K22=matrix entries gens ker G2;
+     -- used 0.177021 seconds
+
+              160       32
+o20 : Matrix R    <--- R
+
+i21 : time K12=(((super basis({3,3,1},R))*K1)**(super basis({0,0,1}, R)))//(super basis({3,3,2},R));
+     -- used 0.009606 seconds
+
+              160       20
+o21 : Matrix R    <--- R
+
+i22 : time K2=gens trim image (K22%K12);
+     -- used 0.009801 seconds
+
+              160       12
+o22 : Matrix R    <--- R
+
+i23 : time N2=(super basis({3,3,2},R))*K2//(super basis({3,3,0},R));
+     -- used 0.007547 seconds
+
+              16       12
+o23 : Matrix R   <--- R
+
+i24 : time N=N1|N2;
+     -- used 0.000043 seconds
+
+              16       17
+o24 : Matrix R   <--- R
+
+\end{verbatim}
+
+We now have a partial matrix $N'=N_1~|~N_2$ with $5$ linear and $12$ quadratic columns.
+This gives more columns than rows and, furthermore, any maximal minor would have degree
+27 or 28, depending on whether it involves all the linear columns or not.
+
+Because we actually have $N=N'$ in this case, $N'$ would certainly satisfy \ref{C:OK-matrix}.
+A probabilistic test for $N'$ follows.
+
+\begin{verbatim}
+i25 : time Nf=sub(N, subs);
+     -- used 0.447607 seconds
+
+              16       17
+o25 : Matrix R   <--- R
+
+i26 : time rank N
+     -- used 0.007021 seconds
+
+o26 = 16
+
+i27 : time rank Nf
+     -- used 0.910507 seconds
+
+o27 = 15
+
+\end{verbatim}
+
+This shows us that the ideal of maximal minors of $N$ is nonzero
+and that every minor is a multiple of the implicit equation.
+We randomly pick two minors of degree 27 and check if \ref{C:OK-matrix}
+is satisfied.
+
+\begin{verbatim}
+i28 : cols1=sort join({0,1,2,3,4},RandPerm(5,16,11))
+
+o28 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}
+
+o28 : List
+
+i29 : time rank (N_cols1)
+     -- used 0.00428 seconds
+
+o29 = 16
+
+i30 : time rank (Nf_cols1)
+     -- used 5.32849 seconds
+
+o30 = 15
+
+i31 : cols2=sort join({0,1,2,3,4},RandPerm(5,16,11))
+
+o31 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16}
+
+o31 : List
+
+i32 : cols1==cols2
+
+o32 = false
+
+i33 : time rank (N_cols2)
+     -- used 0.005311 seconds
+
+o33 = 16
+
+i34 : time rank (Nf_cols2)
+     -- used 5.15664 seconds
+
+o34 = 15
+
+\end{verbatim}
+
+We selected 11 random columns out of the 12 quadratic syzygies and added them
+to the list of linear syzygies.
+The (0-indexed) columns represented by the lists $cols_1$ and $cols_2$ correspond
+to nonzero minors vanishing on the implicit equation.
+Because both are of degree 27 and the equation of degree 26,
+those are going to be linear multiples of $P(\mathbf x)$.
+
+We have two possibilities for finding the equation. The first is direct computation.
+
+\begin{verbatim}
+i35 : time D1=det (N_cols1);
+     -- used 475.552 seconds
+
+i36 : time D2=det (N_cols2);
+     -- used 485.142 seconds
+
+i37 : time P=gcd (D1,D2);
+     -- used 0.19819 seconds
+
+\end{verbatim}
+
+Note that each of the determinants took about 8 minutes to get
+while the $\gcd$ --- under 20 seconds.
+Computing determinants symbolically is another routine that is
+readily parallelizibe but very time consuming in general.
+
+For a comparison the following -- the machine, the time, etc, etc
+
+[Say why this is needed and that after a general change of coordinates...
+the latter is part of the algorithm.]
+
+[Sometimes inspecting $N_{cols_1}$ we are able to find a $15\times15$ minor
+which would then be the implicit equation.]
+
+\begin{paragraf*}
+Sometimes we can only give the answer as the gcd of two minors. Next example
+explores this situation.
+\end{paragraf*}
+
+
+
+\section{Second Example}
+\label{sec:second-example}
+
+\begin{paragraf*}
+I have a few more examples in this spirit. Specifically, examples 604 and 605 in {\tt ./test}
+at \href{https://github.com/radoslavraynov/ImplAlgos}{https://github.com/radoslavraynov/ImplAlgos}.
+Those show that wheather or not the numerics workout nicely, one should not study the
+syzygies separately, far less so, should one restric to linear and quadratic syzygies.
+Some of the matrices turn out to be square but also, what is apparent, is that there is no
+single recipe for what $\d$ to be used for a given $\mathbf e$ and some adjustments have to be made
+in order to balance the size of the matrices and the degrees of the entries (the degrees of the syzygies).
+\end{paragraf*}
+
+\begin{paragraf*}
+Include the example where we compute the image of 5 general $(2,2,2)$-forms on $\PPP$.
+This example is hard. Here we have a basepoint-free birational map whose image is of degree $48$.
+Over $\d=(1,1,1)$ we get $r=8$, so one can hope that something along the lines of the result
+over $\PP^2$ and $\PPP$ would work. Admittedly, I hoped that the image would be the determinant
+of an $8\times8$ matrix of sextics, and for this to be true, there has to be no syzygies in degree $5$.
+Regrettably, things could not be further from the truth --- there are no syzygies in degree up to 8,
+and computation for larger degrees would take even longer than the few hours or so I needed on my
+machine.
+
+However, in degree $\d=(2,2,1)$, I get, easily or rather, quickly,
+an $18\times50$ matrix $N_4$ and $N_1=N_2=N_3=0$. Each of the maximal minors has degree 72 and has
+as a factor our degree-48 implicit equation.
+
+Computing even a single determinant is very very hard---it took me an hour to compute a determinant
+of a $12\times12$ matrix in 5 variables, so it would probably take something in the magnitude of
+$13*14*15*16*17*18$ hours to compute a single $18\times18$ minor. The good news is that we only need two.
+In fact, by intersecting with a line in $\PP^4$ we can detect if two minors share more than just
+the implicit equation---simply find the multiplicity of the zero-dimensional intersection. If it is
+48, the gcd of those 2 is our guy.
+This is easy and quick---takes a minute or so.
+\end{paragraf*}
+
+
+
+%% STRIP BEGIN
+\end{document}
