@@ -1,0 +1,125 @@
+\usepackage{xspace}
+% \usepackage{enumitem}
+\usepackage{algpseudocode}
+
+
+
+
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\allowdisplaybreaks
+
+
+
+
+
+%% MATHEMATICAL FONTS
+%------------------------------------------
+% provides a script mathematical symbols as
+% opposed to the alligraphic font
+\usepackage{mathrsfs}
+% defines a font that is convenient for
+% script or calligraphic-like names not just
+% symbols, eg SheafProj
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+% a roman font
+\DeclareMathAlphabet{\mathlx}{OT1}{lxfonts}{m}{n}
+% define bold math and italic math
+\usepackage{mathptmx}
+\DeclareMathAlphabet{\mathbf}{OT1}{bch}{b}{it}
+\DeclareMathAlphabet{\mathit}{OT1}{bch}{n}{it}
+% the Euler font
+\DeclareMathAlphabet{\Eul}{U}{eur}{m}{n}
+\SetMathAlphabet\Eul{bold}{U}{eur}{b}{n}
+%------------------------------------------
+
+
+
+
+
+%% MATHEMATICAL SYMBOLS AND MACROS
+%------------------------------------------
+\def\tensor{\otimes}
+\def\la{\langle}
+\def\ra{\rangle}
+\def\T{^\top}
+\def\opp{^{\circ}}
+\def\inv{^{-1}}
+\def\To{\longrightarrow}
+\def\Ot{\longleftarrow}
+\def\se{\subset}
+\def\k{\Eul{k}}
+\newcommand\mt[1]{\mathop{\tt#1}}
+\newcommand\nstar[1]{\text{*}\hspace{-.1ex}#1}
+\def\nbul{{\raisebox{.2ex}{\text{\bf\Large.}}}}
+%------------------------------------------
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\therk}{rk}
+\DeclareMathOperator{\theIm}{Im}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\theht}{ht}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Proj}{Proj}
+\DeclareMathOperator{\Rees}{Rees}
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\Span}{Span}
+\DeclareMathOperator{\Biproj}{Biproj}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\Fitt}{Fitt}
+\DeclareMathOperator{\image}{image}
+\DeclareMathOperator{\reg}{reg}
+\DeclareMathOperator{\Pic}{Pic}
+\DeclareMathOperator{\mult}{mult}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\ann}{ann}
+\DeclareMathOperator{\thediv}{div}
+\DeclareMathOperator{\thelength}{length}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\rad}{rad}
+\DeclareMathOperator{\gr}{gr}
+\DeclareMathOperator{\sat}{sat}
+\DeclareMathOperator{\Frac}{Frac}
+\def\length{\thelength}
+\def\minors{\mt{minors}}
+\def\basis{\mt{basis}}
+\newcommand\DistTo{\xrightarrow{
+   \,\smash{\raisebox{-0.65ex}{\ensuremath{\scriptstyle\sim}}}\,}}
+%------------------------------------------
+\def\PP{\mathbb{P}}
+\def\PPP{\PP^1\times\PP^1}
+\def\AA{\mathbb{A}}
+\def\NN{\mathbb{N}}
+\def\ZZ{\mathbb{Z}}
+\def\QQ{\mathbb{Q}}
+\def\CC{\mathbb{C}}
+\def\RR{\mathbb{R}}
+\def\ZZ{\mathbb{Z}}
+\def\KK{\mathbb{K}}
+\def\DD{\mathbb{D}}
+\def\SS{\mathbb{S}}
+\def\kk{\boldsymbol{k}}
+%------------------------------------------
+\def\m{\mathfrak{m}}
+\def\p{\mathfrak{p}}
+\def\q{\mathfrak{q}}
+\def\I{\mathbb{I}}
+\def\O{\mathscr{O}}
+\def\L{\mathscr{L}}
+\def\d{\mathbf d}
+\def\e{\mathbf e}
+\def\s{\mathbf s}
+\def\x{\mathbf x}
+%------------------------------------------
+\newtheorem{conjecture}{Conjecture}
+% \newtheorem{lemma}{Lemma}
+\newtheorem{algorithm}{Algorithm}
+\theoremstyle{definition}
+\newtheorem{paragraf}{~}
+
+\usepackage{tikz}
+\usetikzlibrary{tikzmark,calc}
+% this defines nice commutative diagrams
+\usepackage{tikz-cd}
