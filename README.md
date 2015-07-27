@@ -22,5 +22,5 @@ You can compile each of the chapters separately.
 To incorporate the changes in the thesis, run `make strip` before running `make pdf`.
 Only run `make bib` after modifying the bibliography (and the first time, of course).
 Alternatively, use your favorite TeX editor/compiler along with
-`make strip` to incorporate any changes made to any chapter.
+`make add` to incorporate any changes made to any chapter.
 Run `make clean` to get rid of all LaTeX produced files, except for the pdf files.
