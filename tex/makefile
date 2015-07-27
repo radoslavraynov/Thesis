@@ -8,3 +8,10 @@ $(FILES): %-incl.tex: %.tex
 
 clean:
 	rm *.aux *.bbl *.blg *.lb *.lof *.log *.lot *.out *.pdf *.synctex.gz *.toc *-incl.tex
+
+pdf:
+	pdflatex thesis.tex
+
+bib:
+	bibtex thesis
+	pdflatex thesis.tex
