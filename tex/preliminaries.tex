@@ -420,7 +420,50 @@ We have that $d_q\leq e_q$ with equality if and only if $q$ is a local complete 
 point (\citet{BH-98-CMrings}, Theorem 4.7.4).
 \end{paragraf}
 
+\begin{paragraf}
+We denote by $\widetilde{J}$ the ideal sheaf arizing from $J$.
+\end{paragraf}
 
+\begin{paragraf}
+Let $\L$ be a line bundle on $X$.
+We denote by $[\L]$ the class of $\L$ in the Chow ring of $X$.
+Since $\dim(X)=n-1$, we have that $[\L]^{n-1}\in\ZZ$.
+Suppose that the baselocus $Z$ is zero-dimensional.
+Then by [Fulton, Proposition 4.4], see [Cox 2001] for details,
+we have the following
+\begin{align}
+	\label{eq:degree-formula}
+	\deg(\phi)\deg(Y)=[\O(\e)]^{n-1}-\sum_{q\in Z}e(\widetilde{J}_q,\O_q)
+\end{align}
+\end{paragraf}
+
+\begin{example}
+The following cases are easy to analize: $\PP^n$, $(\PP^1)^n$.
+\end{example}
+
+\begin{example}
+Here is a list of ways to compute the degree and multiplicity, and also
+to show how not to compute them.
+\begin{itemize}
+	\item Both notions are geometric which means that we need to saturate our ideals
+	before computing the degree and multiplicity.
+	\item For both, the sum of the values at the points in a zero-dimensional scheme
+	add to the corresponding notion for the scheme.
+	This works better with degree.
+	\item Just typing $\mt{degree}(J)$ and $\mt{multiplicity}(J)$ in Macaulay2 often
+	has dissasterous results.
+	\item If $X=\PP^n$ and $J$ is saturated, then $\mt{degree}(J)$ is in fact the degree
+	of the zero-dimensional scheme.
+	If the scheme is supported on a single point, then that's the degree of the point.
+	Else, saturate with respect to the prime ideals of the other points.
+	\item We can freely work over non-algebraically closed fields.
+	Points in the same Galois closure are algebraically indistinguishable,
+	so just assume they split equally to closed points over $\CC$, or the algebraic closure.
+	\item $\mt{multiplicity}(J)$ does work in projective space for an ideal supported
+	on a single point.
+	And the implementation uses a cool trick --- the reference I have is due to Eisenbud.
+\end{itemize}
+\end{example}
 
 \section{Examples}
 
@@ -429,14 +472,14 @@ by detailing them in a couple of explicit examples.
 
 \begin{example}[$\mt{ex203}$]
 \label{ex203}
-Let $X=\PP^1_{s,u}\times\PP^1_{t,v}$ be the product of projective lines and let $S=\CC[s,u;t,v]$
+Let $X=\PP^1_{s,u}\times\PP^1_{t,v}$ be the product of two projective lines and let $S=\CC[s,u;t,v]$
 be its Cox ring---a homogeneous coordinate ring graded by $\Pic(X)$ such that $\deg(s)=\deg(u)=(1,0)$
 and $\deg(t)=\deg(v)=(0,1)$.
 We write $X=\Proj(S)$ for the construction in the toric setting.
 
-Let $\mathscr{L}=\O_X(2,2)$ be the line bundle on $X$ given by $\mathbf p=(2,2)$,
-either as an element in $\Pic(X)=\ZZ^2$ or as a degree on $S$.
-Since $h^0(\mathscr{L})=5$, we can choose $n+1=\dim(X)+2=4$ linearly independent over $\CC$
+Let $\mathscr{L}=\O_X(2,2)$ be the line bundle on $X$ given by twisting the structure sheaf by
+$\mathbf p=(2,2)$, either as an element in $\Pic(X)=\ZZ^2$ or as a degree on $S$.
+Since $h^0(\mathscr{L})=9$, we can choose  linearly independent over $\CC$
 global section $\phi_0,\ldots,\phi_3$ of $\mathscr{L}$ to get a rational map
 \[
 	\phi=(\phi_0,\ldots,\phi_3):X\To\PP^3=\Proj(T)

@@ -1,6 +1,6 @@
 ## Latest version
 
-The latest version of the thesis is the document `thesis.pdf` in the main directory.
+The latest version of the thesis is the document `THESIS.pdf` in the main directory.
 The other recent versions, along with the last version, are listed as `thesis_[date].pdf`
 
 ## How to run
@@ -22,4 +22,4 @@ To incorporate the changes in the thesis, run `make strip` before runing `make p
 Only run `make bib` after adding/removing bibliography (and the first time).
 Alternatively, use your favourite TeX editor/compiler along with
 `make strip` to incorporate any changes made to any chapter.
-Run `make clean` to get rid of all LaTeX produced files, except the pdf files.
+Run `make clean` to get rid of all LaTeX produced files, except for the pdf files.

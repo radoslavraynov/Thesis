@@ -15,60 +15,454 @@
 
 
 
-\begin{example}[$\mt{ex210}$]
-\label{ex210}
-Let $X=\PP^2$ and $J=\la su^2,t^2(s+u),st(s+u),tu(s+u)\ra$. Then $\phi$ is birational onto its
-image; the basepoints are $(1,0,0)$, $(0,1,0)$ and $(0,0,1)$,
-all ci of multiplicities 2, 3, and 1, respectively. For $d=1$ we get
-\[
-N=\bgroup\begin{bmatrix}{-{x}_{3}}&
-0&
-{x}_{1}&
-{-{x}_{3}^{2}}\\
-0&
-{-{x}_{3}}&
-{-{x}_{2}}&
-{x}_{0} {x}_{2}+{x}_{0} {x}_{3}\\
-{x}_{2}&
-{x}_{1}&
-0&
-0\\
-\end{bmatrix}\egroup
-\]
-and for $d=2$ we get a $6\times 9$-matrix whose columns are all linear.
+\begin{paragraf*}
+This chapter consists of the heart of the thesis. In fact, carefully studied,
+this list of examples could probably make the proofs chapter obsolete.
 
-The matrix $N$ above also give a small example where the containment
+Every example comes with a label of the form $(\mt{exXYZ})$, which refers its a Macaulay2
+test code. Those files can found at
+\begin{center}
+\url{http://www.math.cornell.edu/~rzlatev/phd-thesis/ex/XYZ.m2}
+\end{center}
+\end{paragraf*}
+
+\begin{example}[$\mt{ex301}$]
+\label{ex301}
+Let $X=\PP^2_{s,t,u}$ and $J=\la tu,su,st,s^2+t^2+u^2\ra$.
+Then $\phi$ is basepoint-free and birational.
+The monic implicit equation is given by
 \[
-\la\text{Jac}~P\ra\se\mt{minors}(r-1,N)
+	P(\mathbf x)={x}_{0}^{2} {x}_{1}^{2}+{x}_{0}^{2} {x}_{2}^{2}+{x}_{1}^{2}
+	{x}_{2}^{2}-{x}_{0} {x}_{1} {x}_{2} {x}_{3}
 \]
-fails, i.e. the radical on the RHS is necessary, and further the containment of the
-radicals is proper.
+
+Setting $\d=1$, we get
+\[
+	N=
+	\bgroup\begin{bmatrix}0&
+      {x}_{0}&
+      {x}_{1} {x}_{2}\\
+      {x}_{1}&
+      0&
+      {x}_{0} {x}_{2}\\
+      {-{x}_{2}}&
+      {-{x}_{2}}&
+      {x}_{0} {x}_{1}-{x}_{2} {x}_{3}\\
+      \end{bmatrix}\egroup
+\]
+whose determinant is $P(\mathbf x)$.
+The results of \citet{CGZ-00} apply and the matrix $N$ is a variant of the matrix
+produced by the method of moving planes and quadrics.
+
+Setting $\d=2$, we get
+\[
+	N=
+	\bgroup\begin{bmatrix}{x}_{2}&
+	      0&
+	      0&
+	      0&
+	      {x}_{1}&
+	      0&
+	      0&
+	      0&
+	      {x}_{0}\\
+	      {-{x}_{3}}&
+	      0&
+	      0&
+	      {x}_{1}&
+	      0&
+	      0&
+	      0&
+	      {x}_{0}&
+	      0\\
+	      0&
+	      0&
+	      0&
+	      {-{x}_{2}}&
+	      {-{x}_{3}}&
+	      {x}_{0}&
+	      {x}_{2}&
+	      0&
+	      {-{x}_{2}}\\
+	      {x}_{2}&
+	      0&
+	      {x}_{1}&
+	      0&
+	      0&
+	      0&
+	      {x}_{0}&
+	      0&
+	      0\\
+	      0&
+	      {x}_{1}&
+	      {-{x}_{2}}&
+	      0&
+	      {x}_{2}&
+	      0&
+	      {-{x}_{3}}&
+	      {-{x}_{2}}&
+	      0\\
+	      {x}_{2}&
+	      {-{x}_{2}}&
+	      0&
+	      0&
+	      {x}_{1}&
+	      {-{x}_{2}}&
+	      {x}_{0}&
+	      0&
+	      0\\
+	      \end{bmatrix}\egroup
+\]
+which is a $6\times9$ matrix of linear forms.
+This was expected --- the results of \cite{BJ-03} also apply and the method
+of the approximation complex guarantees a matrix of linear forms.
+Accordingly,
+\[
+	\gcd(\minors(6,N))=P
+\]
+
+Note that the claim that $\phi$ is birational follows, a fortiori, from the degree formula
+\eqref{eq:degree-formula}. Indeed, we have
+\[
+	4\deg(\phi)=2^2-0
+\]
+We confirm this using Proposition \ref{prop:deg-GB} in Example \ref{ex310}.
 \end{example}
 
-\begin{example}[$\mt{ex211}$]
-Let $X=\PP^2$ and $J=\la s^3,t^2u,s^2t+u^3,stu\ra$. The map is birational
-with a single ci basept of multiplicity 2. For $d=1$ we have
-\label{ex211}
+\begin{example}[$\mt{ex302}$]
+\label{ex302}
+Clearly, if we replace $s,t,u$ in Example \ref{ex301} by general linear forms $L_0,L_1,L_2$,
+effectively changing coordinates on the source, we get the same answer.
+In this example we describe what happens if we take $X=\PP^1_{s,u}\times\PP^1_{t,v}$ instead
+and let the $L_k$ be $(1,1)$-forms.
+Since the algebraic structure of the coordinates is the same, so is the equation of the image,
 \[
-	N=\bgroup\begin{bmatrix}{x}_{1}&
-  {-{x}_{3}^{2}}&
-  0\\
-  {-{x}_{3}}&
-  0&
-  {x}_{0}^{2} {x}_{1}^{2}-{x}_{0} {x}_{1} {x}_{2} {x}_{3}\\
-  0&
-  {x}_{0} {x}_{1}&
-  {x}_{3}^{4}\\
-  \end{bmatrix}\egroup
+	Y=V({x}_{0}^{2} {x}_{1}^{2}+{x}_{0}^{2} {x}_{2}^{2}+{x}_{1}^{2}
+	{x}_{2}^{2}-{x}_{0} {x}_{1} {x}_{2} {x}_{3})
 \]
-and $\det(N)={x}_{0}^{3} {x}_{1}^{4}-{x}_{0}^{2} {x}_{1}^{3} {x}_{2} {x}_{3}+{x}_{3}^{7}$,
+and $\phi$ is again basepoint-free, basically because the $L_k$ are three general forms on
+a 2-dimensional variety.
+However, the self-intersection of $\O(2,2)$ is now $8$.
+It follows that $\phi$ is generically 2-1.
+
+For $\d=(1,1)$ we get a square matrix of size $4$ with $h=(2,1,0,1)$.
+As expected, up to a unit
+\[
+	\det(N)=P(\mathbf x)^2
+\]
+
+For $\d=(2,1)$ we get a square matrix of size $6$ with $h=(4,2)$ for the which the
+last equality applies.
+For $\d=(2,2)$ we get a $9\times12$ matrix with $h=(11,1)$.
+\end{example}
+
+\begin{example}[$\mt{ex303}$]
+\label{ex303}
+Suppose that in the situation of Example \ref{ex302} we took the forms $L_k$ from
+$\la st,sv,ut\ra$ instead.
+Now $\phi$ has the unique basepoint $(0,1)\times(0,1)$ which is c.i. of degree $4$.
+Indeed, on the affine local where $u=v=1$, the point looks like $V(st,s^2+t^2)$.
+The equation of the image remains the same.
+Once again, \eqref{eq:degree-formula} we know that $\phi$ must be birational.
+For $\d=(1,1)$ we get a $4\times5$-matrix.
+Below is the matrix resulting from $(L_0,L_1,L_2)=(st,sv,ut)$,
+\[
+	N=
+	\bgroup\begin{bmatrix}0&
+      0&
+      0&
+      {x}_{0}&
+      {x}_{1} {x}_{2}\\
+      {x}_{1}&
+      {x}_{0}&
+      0&
+      0&
+      0\\
+      {-{x}_{2}}&
+      0&
+      {x}_{0}&
+      {-{x}_{2}}&
+      {-{x}_{2} {x}_{3}}\\
+      0&
+      {-{x}_{2}}&
+      {-{x}_{1}}&
+      0&
+      {x}_{1}^{2}+{x}_{2}^{2}\\
+      \end{bmatrix}\egroup
+\]
+and we have
+\[
+	\gcd(\minors(4,N))=P
+\]
+\end{example}
+
+\begin{example}[$\mt{ex304}$]
+\label{ex304}
+Let $X=\PP^2$ and $J=\la su^2,t^2(s+u),st(s+u),tu(s+u)\ra$.
+Then $\phi$ is birational with three basepoints --- $(1,0,0)$, $(0,1,0)$ and $(0,0,1)$,
+all c.i. of degree 2, 3, and~1, respectively.
+
+The implicit equation is given by
+\[
+	P(\mathbf x)={x}_{0} {x}_{1} {x}_{2}+{x}_{0} {x}_{1} {x}_{3}-{x}_{2} {x}_{3}^{2}
+\]
+
+As before, both the method of the moving planes and quadrics,
+and the method of the approximation complex apply.
+For $\d=1$, we get
+\[
+	N=
+	\bgroup\begin{bmatrix}{-{x}_{3}}&
+      0&
+      {x}_{1}&
+      {-{x}_{3}^{2}}\\
+      0&
+      {-{x}_{3}}&
+      {-{x}_{2}}&
+      {x}_{0} {x}_{2}+{x}_{0} {x}_{3}\\
+      {x}_{2}&
+      {x}_{1}&
+      0&
+      0\\
+      \end{bmatrix}\egroup
+\]
+and for $\d=2$, we get a $6\times 9$-matrix whose entries are all linear.
+\end{example}
+
+\begin{example}[$\mt{ex305}$]
+\label{ex305}
+Let $X=\PP^2$ and $J=\la s^3,tu^2,s^2t+u^3,stu\ra$.
+The map is birational with a single c.i. basepoint of degree 2.
+For $\d=1$ we have
+\[
+	N=
+	\bgroup\begin{bmatrix}{x}_{1}&
+      0&
+      {-{x}_{3}^{2}}\\
+      0&
+      {x}_{1} {x}_{2}-{x}_{3}^{2}&
+      {x}_{0} {x}_{1}\\
+      {{x}_{3}}&
+      {x}_{1}^{2}&
+      0\\
+      \end{bmatrix}\egroup
+\]
+and $\det(N)={x}_{0} {x}_{1}^{4}-{x}_{1} {x}_{2} {x}_{3}^{3}+{x}_{3}^{5}$,
 the implicit equation.
 
-For $d=2$ we get a square matrix of order $6$ with linear entries only.
+Starting from $\d=2$, in which case we have
+\[
+	N=
+	\bgroup\begin{bmatrix}0&
+      0&
+      0&
+      {x}_{1}&
+      {-{x}_{3}}&
+      0&
+      0\\
+      {x}_{3}&
+      0&
+      {x}_{1}&
+      0&
+      0&
+      {-{x}_{2}}&
+      0\\
+      0&
+      {x}_{1}&
+      0&
+      {-{x}_{3}}&
+      0&
+      0&
+      0\\
+      0&
+      0&
+      0&
+      0&
+      0&
+      {x}_{0}&
+      -{x}_{1} {x}_{2}+{x}_{3}^{2}\\
+      {-{x}_{2}}&
+      0&
+      {-{x}_{3}}&
+      0&
+      {x}_{0}&
+      0&
+      {x}_{1}^{2}\\
+      {x}_{1}&
+      {-{x}_{3}}&
+      0&
+      0&
+      0&
+      {x}_{3}&
+      0\\
+      \end{bmatrix}\egroup
+\]
+we always have $\mu-1$ linear columns and a single quadratic one.
 \end{example}
 
-\begin{example}[$\mt{ex213}$]
-\label{ex213}
+\begin{example}[$\mt{ex306}$]
+\label{ex306}
+Let $X=\PP^2$ and $J=\la s^3,t^2u,s^2t+u^3,stu\ra$.
+The map is birational with a single c.i. basepoint of degree 2.
+and $\det(N)={x}_{0}^{3} {x}_{1}^{4}-{x}_{0}^{2} {x}_{1}^{3} {x}_{2} {x}_{3}+{x}_{3}^{7}$,
+\end{example}
+
+\begin{example}[$\mt{ex307}$]
+\label{307}
+Consider the twisted cubic curve $C$.
+It is the image of $X=\PP^1_{s,t}$ under the map
+\[
+	\phi=(s^3,s^2t,st^2,t^3):\PP^1\To\PP^3
+\]
+which is birational onto its image.
+In light of Theorem \ref{th:rad-minors}, we can carry out the same calculations
+even though the image is of codimension strictly bigger than $1$.
+
+Setting $\d=1$, we get
+\[
+	N=
+	\bgroup\begin{bmatrix}{-{x}_{3}}&
+      {-{x}_{2}}&
+      {-{x}_{1}}\\
+      {x}_{2}&
+      {x}_{1}&
+      {x}_{0}\\
+      \end{bmatrix}\egroup
+\]
+and
+\[
+	\minors(2,N)=\la {x}_{2}^{2}-{x}_{1} {x}_{3},{x}_{1} {x}_{2}-{x}_{0}
+      {x}_{3},{x}_{1}^{2}-{x}_{0} {x}_{2}\ra
+\]
+which is the usual equation for $C$ in $\PP^3$. Setting $\d=2$, we get
+\[
+	N=
+	\bgroup\begin{bmatrix}0&
+      {-{x}_{3}}&
+      {-{x}_{3}}&
+      {-{x}_{2}}&
+      {-{x}_{2}}&
+      {-{x}_{1}}\\
+      {-{x}_{3}}&
+      {x}_{2}&
+      0&
+      {x}_{1}&
+      0&
+      {x}_{0}\\
+      {x}_{2}&
+      0&
+      {x}_{1}&
+      0&
+      {x}_{0}&
+      0\\
+      \end{bmatrix}\egroup
+\]
+We have
+\[
+	\minors(3,N)=\Bigg\la
+	\begin{cases}
+	{x}_{2}^{2} {x}_{3}-{x}_{1} {x}_{3}^{2},
+	{x}_{1} {x}_{2} {x}_{3}-{x}_{0}{x}_{3}^{2},
+	{x}_{1}^{2} {x}_{3}-{x}_{0} {x}_{2} {x}_{3},\\
+	{x}_{2}^{3}-{x}_{0}{x}_{3}^{2},
+	{x}_{1} {x}_{2}^{2}-{x}_{0} {x}_{2} {x}_{3},
+	{x}_{0}{x}_{2}^{2}-{x}_{0} {x}_{1} {x}_{3},\\
+	{x}_{1}^{2} {x}_{2}-{x}_{0} {x}_{1}{x}_{3},
+	{x}_{0} {x}_{1} {x}_{2}-{x}_{0}^{2} {x}_{3},
+	{x}_{1}^{3}-{x}_{0}^{2}{x}_{3},{x}_{0} {x}_{1}^{2}-{x}_{0}^{2} {x}_{2}
+	\end{cases}
+	\Bigg\ra
+\]
+and
+\[
+	\rad(\minors(3,N))=
+	\la {x}_{2}^{2}-{x}_{1} {x}_{3},{x}_{1} {x}_{2}-{x}_{0}
+	      {x}_{3},{x}_{1}^{2}-{x}_{0} {x}_{2}\ra
+\]
+showing that the radical is necessary.
+\end{example}
+
+\begin{example}[$\mt{ex308}$]
+\label{ex308}
+Let $X=\PP^2_{s,t,u}$ and $J=\la s^5,t^5,su^4,st^2u^2\ra$.
+Then $\phi$ is generically 2-1 map with the unique basepoint $(0,0,1)$
+which is c.i. of degree $5$.
+The image is defined by
+\[
+	P(\mathbf x)={x}_{0} {x}_{1}^{4} {x}_{2}^{5}-{x}_{3}^{10}
+\]
+
+Setting $\d=1$, we get
+\[
+	N=
+	\bgroup\begin{bmatrix}{x}_{1} {x}_{2}&
+      {-{x}_{3}^{8}}&
+      0\\
+      {-{x}_{3}^{2}}&
+      {x}_{0} {x}_{1}^{3} {x}_{2}^{4}&
+      0\\
+      0&
+      0&
+      {x}_{0} {x}_{1}^{4} {x}_{2}^{5}-{x}_{3}^{10}\\
+      \end{bmatrix}\egroup
+\]
+and
+\[
+	\det(N)=P(\mathbf x)^2
+\]
+where one should note the principal $2$-minor is just $P(\mathbf x)$.
+
+The alternative non-Gr\"obner bases approaches would require difficult computations;
+the method of the approximation complex would need to find the $\gcd$ of the maximal
+minors of a matrix of size $36\times58$, and none of the moving plane and quadrics
+methods will work since the map isn't birational
+(and (BP3) of \citet{BCD-03} fails in any case).
+
+The practical gain of our method for this example, however, is arguable at best ---
+we have to compute a degree $10$ syzygy which is already the degree of the implicit equation.
+On the other hand, a better choice for $\d$ might help.
+For $\d=3$ we get a $10\times10$-matrix with $h=(4,4,1,0,1)$,
+and for $\d=4$ we get a $15\times16$-matrix with $h=(11,4,1)$.
+\end{example}
+
+\begin{example}[$\mt{ex309}$]
+\label{ex309}
+Let $N_1$ be the matrix of linear columns for $\d=1$ in Example \ref{ex305}.
+We have that $\det(N_1)=0$. This shows that not all maximal minors need to be nonzero.
+
+This has nothing to do with the fact that $N_1$ is special.
+For another example, let us take $\d=4$ in Example \ref{ex308}.
+Then $N$ is a $15\times16$-matrix whose columns correspond to the syzygies
+\[
+	\begin{cases}
+	t^{2} u^{2} {x}_{2}-u^{4} {x}_{3},
+	t^{3} u {x}_{2}-t u^{3} {x}_{3},
+	s t^{2} u{x}_{2}-s u^{3} {x}_{3},
+	t^{4} {x}_{2}-t^{2} u^{2} {x}_{3},\\
+	s t^{3} {x}_{2}-s tu^{2} {x}_{3},
+	s^{2} t^{2} {x}_{2}-s^{2} u^{2} {x}_{3},
+	s u^{3} {x}_{1}-t^{3} u{x}_{3},
+	s t u^{2} {x}_{1}-t^{4} {x}_{3},\\
+	s^{2} u^{2} {x}_{1}-s t^{3}{x}_{3},
+	u^{4} {x}_{0}-s^{4} {x}_{2},
+	t^{2} u^{2} {x}_{0}-s^{4} {x}_{3},
+	s^{2} t u {x}_{1} {x}_{2}-s t^{2} u {x}_{3}^{2},\\
+	s^{3} u {x}_{1} {x}_{2}-s^{2} t u
+      {x}_{3}^{2},s^{3} t {x}_{1} {x}_{2}-s^{2} t^{2} {x}_{3}^{2},
+	  s^{4} {x}_{1}{x}_{2}-s^{3} t {x}_{3}^{2},
+	  t u^{3} {x}_{0} {x}_{1} {x}_{2}-s^{3} u{x}_{3}^{3}
+	\end{cases}
+\]
+
+Let $M$ be the square submatrix of the first 14 columns and the last column of $N$,
+that is, except the one corresponding to the syzygy $s^{4} {x}_{1}{x}_{2}-s^{3} t {x}_{3}^{2}$.
+Then $\det(M)=0$.
+The same is true for the square submatrix consisting of the first 15 columns
+but in that case $M=(N_1~|~N_2)$ which we wanted to avoid.
+\end{example}
+
+\begin{example}[$\mt{ex310}$]
+\label{ex310}
 This example has been present elsewhere in the literature and is know to break all the available methods.
 Let $X=\PP^2$ and take
 \begin{align*}
@@ -86,7 +480,7 @@ and multiplicity 20. More precisely, the basepoints are the ci point $(1,1,1)$ o
 the aci point $(0,1,0)$ of degree 4 and multiplicity 5, and
 the aci point $(1,0,0)$ of degree 9 and multiplicity 11.
 
-Irrelevant of any of the hineous basepoints, we get
+Irrelevant of any of the hideous basepoints, we get
 \[
 	N=\bgroup\begin{bmatrix}{x}_{0}+{x}_{1}&
       0&
@@ -105,6 +499,199 @@ and
 \]
 \end{example}
 
+\begin{example}[$\mt{ex311}$]
+\label{ex311}
+Let $\phi$ be the rational map from Example \ref{ex310}.
+We compute the degree and multiplicity of the base locus $Z$.
+
+Set $q_1=(1,0,0)$, $q_2=(0,1,0)$ and $q_3=(1,1,1)$, so that set-theoretically $Z=\{q_1,q_2,q_3\}$.
+Since $J$ is saturated,
+the sum of the degrees of the basepoints is just the degree of the base locus,
+\[
+	\deg(Z\se\PP^2)=\deg(J\se\CC[s,t,u])=17
+\]
+
+Because we are in projective space, this can be checked directly in Macaulay2.
+However, since $Z$ is supported on multiple points,
+we cannot compute the total multiplicity in the same way.
+Indeed, $\mt{multiplicity}(J)$ gives $45$.
+
+Let $Q_k$ be the prime ideals corresponding to the points $q_k$, and let $J_k=J:{Q_k}^\infty$.
+The the individual degree and multiplicity can be computed by computing the degree and multiplicity
+of the corresponding ideals $J_k$. Those capture the local structure of $Z$ near $q_k$.
+We have
+\[
+	\begin{cases}
+	J_1=\la t u^{2},t^{3}-3 t^{2} u,u^{5}\ra\\
+	J_2=\la s u,s^{2},u^{3}\ra\\
+	J_3=\la t^{2}-2 t u+u^{2},s^{2}-2 s u+u^{2}\ra
+	\end{cases}
+\]
+so in particular, $q_3$ is c.i., while $q_1$ and $q_2$ are a.c.i. points.
+\end{example}
+
+\begin{example}[$\mt{ex312}$]
+\label{ex312}
+Let $Y=V(P)$ for an irreducible form $P(\mathbf x)$ of degree $4$ on $\PP^3$.
+Suppose further that $\text{Sing}(Y)$, the singular locus $Y$,
+contains 3 concurrent non-degenerate lines
+(that is, passing trough a common point and spanning all of $\PP^3$).
+Then $P(\mathbf x)$ is the determinant of a square order-$4$ matrix $M$ of linear forms.
+
+We can prove this claim by a direct calculation.
+After a linear change of coordinates on~$\PP^3$,
+we can assume that the lines are the 3 coordinate axes in the distinguished $\{x_3\neq0\}$,
+that is, the lines are given by $V(x_0,x_1)$, $V(x_1,x_2)$ and $V(x_0,x_2)$.
+
+On the level of ideals, using Euler's identity, the assumption translates to
+\[
+	\la P_{x_0}(\mathbf x),\ldots, P_{x_3}(\mathbf x) \ra\se\la x_0x_1,x_0x_2,x_1x_2\ra
+\]
+so writing out $P(\mathbf x)=\sum_{|\alpha|=4} a_\alpha {\mathbf x}^\alpha$
+and noting that each of the partials must be zero modulo $\la x_0x_1,x_0x_2,x_1x_2\ra$,
+we only need to solve a linear system in the indeterminate coefficients.
+We get
+\[
+	P(\mathbf x)=
+	a_1x_0^2x_1^2+a_2x_0^2x_2^2+a_3x_1^2x_2^2+a_4x_0^2x_1x_2+a_5x_0x_1^2x_2+a_6x_0x_1x_2^2+a_7x_0x_1x_2x_3
+\]
+which is the determinant of
+\[
+	M=\begin{bmatrix}
+	x_0&&&x_1\\
+	&x_1&&x_2\\
+	&&x_2&x_0\\
+	-a_3x_2&-a_2x_0&-a_1x_1& a_4x_0+a_5x_1+a_6x_2+a_7x_3
+	\end{bmatrix}
+\]
+
+In fact, if $a_7\neq0$ we can do better.
+Setting $a_7=1$, a linear change of coordinates by the matrix
+\[
+\begin{bmatrix}
+1&&&-a_4\\
+&1&&-a_5\\
+&&1&-a_6\\
+&&&1
+\end{bmatrix}
+\]
+leaves the singular locus the same but simplifies the general form to
+\[
+P'(\mathbf x)=a_1x_0^2x_1^2+a_2x_0^2x_2^2+a_3x_1^2x_2^2+x_0x_1x_2x_3
+\]
+and the matrix $M$ to
+\[
+M'=\begin{bmatrix}
+x_0&&&x_1\\
+&x_1&&x_2\\
+&&x_2&x_0\\
+-a_3x_2&-a_2x_0&-a_1x_1&x_3
+\end{bmatrix}
+\]
+where the entries are scaled variables.
+\end{example}
+
+\begin{example}[313]
+\label{ex313}
+It turns out, however, that this $M$ is not a matrix of syzygies,
+in the sense that only 3 out of its 4 columns are syzygies.
+
+The example with 3 syzygies from the B exam.
+\end{example}
+
+\begin{example}[$\mt{ex314}$]
+\label{ex314}
+We apply Proposition \ref{prop:deg-GB} to compute the degree of the rational map in Example \ref{ex301}.
+We have
+\[
+	I=\Bigg\la
+	\begin{cases}
+		{x}_{1} t-{x}_{2} u,\\{x}_{0} s-{x}_{2} u,\\{x}_{2} s^{2}-{x}_{3} s t+{x}_{2}
+	     t^{2}+{x}_{2} u^{2},\\{x}_{1} s^{2}-{x}_{3} s u+{x}_{2} t u+{x}_{1} u^{2},\\{x}_{0}
+	     t^{2}+{x}_{2} s u-{x}_{3} t u+{x}_{0} u^{2},\\{x}_{1} {x}_{2} s+{x}_{0} {x}_{2}
+	     t+({x}_{0} {x}_{1}-{x}_{2} {x}_{3}) u,\\{x}_{0}^{2} {x}_{1}^{2}+{x}_{0}^{2}
+	     {x}_{2}^{2}+{x}_{1}^{2} {x}_{2}^{2}-{x}_{0} {x}_{1} {x}_{2} {x}_{3}
+	\end{cases}\Bigg\ra
+\]
+and we see $P(\mathbf x)$ as the last generator.
+Next, we calculate a Gr\"obner basis with respect to a product monomial order where
+the $s,t,u$ variables come before the $x_j$ variables.
+Dropping the implicit equation, we get
+\[
+	\begin{cases}
+		{x}_{1} t-{x}_{2} u,\\{x}_{0}^{2}
+	      {x}_{2} t+({x}_{0}^{2} {x}_{1}+{x}_{1} {x}_{2}^{2}-{x}_{0} {x}_{2} {x}_{3})
+	      u,\\{x}_{0} s-{x}_{2} u,\\{x}_{1} {x}_{2} s+{x}_{0} {x}_{2} t+({x}_{0}
+	      {x}_{1}-{x}_{2} {x}_{3}) u,\\{x}_{0} t^{2}+{x}_{2} s u-{x}_{3} t u+{x}_{0}
+	      u^{2},\\{x}_{2} s^{2}-{x}_{3} s t+{x}_{2} t^{2}+{x}_{2} u^{2},{x}_{1}
+	      s^{2}-{x}_{3} s u+{x}_{2} t u+{x}_{1} u^{2}
+	\end{cases}
+\]
+Collecting the $S$-part of the leading terms, we get the ideal $\la s,t\ra$ whose degree
+is obviously $1$.
+
+We can carry out the same calculation for the map in Example \ref{ex308}.
+The Rees ideal and its Gr\"obner basis are as follow,
+\[
+	I=\Bigg\la\begin{cases}
+	{x}_{2} t^{2}-{x}_{3} u^{2},\\{x}_{1} {x}_{2} s-{x}_{3}^{2} t,\\-{x}_{3}
+	     t^{3}+{x}_{1} s u^{2},\\-{x}_{2} s^{4}+{x}_{0} u^{4},\\-{x}_{3} s^{4}+{x}_{0} t^{2}
+	     u^{2},\\-{x}_{1} s^{5}+{x}_{0} t^{5},\\-{x}_{3}^{3} s^{3}+{x}_{0} {x}_{1} {x}_{2} t
+	     u^{2},\\-{x}_{3}^{5} s^{2}+{x}_{0} {x}_{1}^{2} {x}_{2}^{2} u^{2},\\-{x}_{3}^{8}
+	     s+{x}_{0} {x}_{1}^{3} {x}_{2}^{4} t,\\{x}_{0} {x}_{1}^{4}
+	     {x}_{2}^{5}-{x}_{3}^{10}
+	\end{cases}\Bigg\ra,
+	\quad
+	\begin{cases}
+		{x}_{1} {x}_{2} s-{x}_{3}^{2}
+		      t,\\{x}_{3}^{8} s-{x}_{0} {x}_{1}^{3} {x}_{2}^{4} t,\\{x}_{2} t^{2}-{x}_{3}
+		      u^{2},\\{x}_{3}^{9} t^{2}-{x}_{0} {x}_{1}^{4} {x}_{2}^{4} u^{2},\\{x}_{3}^{7} s
+		      t-{x}_{0} {x}_{1}^{3} {x}_{2}^{3} u^{2},\\{x}_{3}^{5} s^{2}-{x}_{0} {x}_{1}^{2}
+		      {x}_{2}^{2} u^{2},\\{x}_{3} t^{3}-{x}_{1} s u^{2},\\{x}_{3}^{3} s^{3}-{x}_{0}
+		      {x}_{1} {x}_{2} t u^{2},\\{x}_{3}^{4} s^{2} t^{2}-{x}_{0} {x}_{1}^{2} {x}_{2}
+		      u^{4},\\{x}_{3}^{2} s^{3} t-{x}_{0} {x}_{1} u^{4},\\{x}_{3} s^{4}-{x}_{0} t^{2}
+		      u^{2},\\{x}_{2} s^{4}-{x}_{0} u^{4},\\{x}_{1} s^{5}-{x}_{0} t^{5}
+	\end{cases}
+\]
+This time the ideal of the $S$-part of the leading terms is $\la s,t^2\ra$ which is of degree 2.
+\end{example}
+
+\begin{example}[$\mt{ex315}$]
+\label{ex315}
+While Examples \ref{ex301}, \ref{ex306} and \ref{ex307} support Conjecture \ref{conj:sing-locus},
+we point out that the latter is stated in its strongest possible form.
+For one, the claim is trivial in the case $\deg(\phi)>1$ ---
+in that case the singular locus is all of $Y$. This can be seen in Example \ref{ex308}.
+
+On the other hand, while it is tempting to conjecture that
+\[
+	\rad(\la P_{x_j}:j\ra)\se\sat(\minors(r-1,N))
+\]
+that is, that the inclusion of the conjecture is on the level of schemes,
+this is not true as illustrated by Example \ref{ex304}.
+In the case $\d=1$, we get
+\begin{align*}
+	\rad(\la P_{x_j}:j\ra)&=\la {x}_{3},{x}_{1} {x}_{2},{x}_{0} {x}_{2},{x}_{0} {x}_{1}\ra\\
+	\sat(\minors(r-1,N))&=\la{x}_{3}^{2},{x}_{2} {x}_{3},{x}_{1} {x}_{3},{x}_{2}^{2},{x}_{1}
+      {x}_{2},{x}_{1}^{2}\ra\\
+	\rad(\minors(r-1,N))&=\la {x}_{1},{x}_{2},{x}_{3}\ra
+\end{align*}
+and the only inclusion we have is
+\[
+	\rad(\la P_{x_j}:j\ra)\se\rad(\minors(r-1,N))
+\]
+The results for other values of $\d$ are analogous.
+\end{example}
+
+\begin{example}[316]
+\label{ex316}
+Structure of $B_P$
+\end{example}
+
+\begin{example}[317]
+\label{ex317}
+Longer computation
+\end{example}
 
 
 %% STRIP BEGIN

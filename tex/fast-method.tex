@@ -11,6 +11,161 @@
 \begin{document}
 %% STRIP END
 
+This chapter is devoted to a description of a method for fast implicitization using
+the theory developed in Chapters \ref{ch:main-results} and \ref{ch:main-proofs}.
+We present our main algorithm in Section \ref{sec:algorithm} after we discuss
+the problems arising from the naive algorithm
+which we used for the examples of Chapter \ref{ch:examples}.
+In Section \ref{sec:example1} and \ref{sec:example2},
+we employ the algorithm and its implementation to compute examples which are unfeasible
+to attack using the standard methods.
+
+While some details on the Macaulay2 implementations follow the pseudo code presented,
+the code is available at
+\begin{center}
+	\url{http://www.math.cornell.edu/~rzlatev/phd-thesis/algos}
+\end{center}
+
+\begin{paragraf*}
+We continue to assume the notation of Chapter \ref{ch:preliminaries}
+and the setup of Chapter \ref{ch:main-results}.
+\end{paragraf*}
+
+
+
+\section{Algorithm}
+\label{sec:algorithm}
+
+\begin{paragraf*}
+At first glance, an algorithm for finding the implicit equation is contained in the proof
+of the our main theorem, Theorem \ref{th:gcd-minors}.
+It consist of finding a $T$-module generating set for~$I_{\d,\bullet}$,
+which can be done using Lemma \ref{lemma:basis-Id}.
+In fact, this is exactly what used to construct a naive algorithm for finding $N$
+in all explicit calculations so far.
+The pseudo code for the algorithm and its implementation follow.
+\end{paragraf*}
+
+% \begin{absolutelynopagebreak}
+\begin{algorithm} {\sc Naive Algorithm\bf.}
+\label{algo:naive-algorithm}
+\begin{algorithmic}
+  \State Set $r=\dim_\CC(S_{\mathbf d})$
+  % \State Compute a generating set $\{h_l:l\}$ for the Rees ideal $I$
+  \State Compute a generating set $\{g_k:k\}$ for $I_{\d,\bullet}$
+  	using Lemma \ref{lemma:basis-Id}
+  \State Set $N$ to be the coefficient matrix of the $g_k$ with respect to $\mt{basis}(S_\d)$
+  \State Compute $P=\gcd(\mt{minors}(r,N))$
+\end{algorithmic}
+\end{algorithm}
+% \end{absolutelynopagebreak}
+
+\begin{implementation}
+We first need an implementation of Lemma \ref{lemma:basis-Id}.
+It takes an $R$-module $M$ and degree $\mathbf{a}$ on $S$,
+and tries to produces the linearly independent elements in $M_{\mathbf a,\bullet}$
+each generator gives rise to.
+\label{code:naive-algorithm}
+\begin{verbatim}
+procPushGensHigher = (a,r,M) -> (
+  G := for g in M_* list (
+    if all(a-((degree g)_r), Z->Z>=0) then
+      basis((a-((degree g)_r))|{0},ring M)**g
+    else continue);
+  trim image fold(G,matrix {{0_(ring M)}},(a, b)->a|b)
+)
+\end{verbatim}
+The actual implementation of Algorithm \ref{algo:naive-algorithm} is pretty straight-forward.
+We only note that the ambient ring $R$ is required as input for encapsulation.
+\begin{verbatim}
+ComputeNRees = method ()
+ComputeNRees (Ideal, List, Ring) := Matrix => (J, d, R) -> (
+  x := symbol x;
+  I := reesIdeal(J, Variable=>x);
+  AI := ring I;
+  zm := 0*d;
+  g := map(R,AI,first entries super basis(zm|{1},R));
+  I = g(I);
+  r := toList(0..#(degree J_0)-1);
+  V := procPushGensHigher (d,r,I);
+  matrix entries ( (gens V) // basis(d|{0}, R) )
+)
+\end{verbatim}
+\end{implementation}
+
+\begin{paragraf}
+\label{par:flaws}
+The flaws of this algorithm as a method for fast implicitization are fatal.
+\begin{enumerate}
+\item
+\label{itm:flaws:GB}
+Line 3 of the algorithm refers to Lemma \ref{lemma:basis-Id} but unless we were given
+an $R$-generating set for the Rees ideal,
+we have to compute it from scratch.
+This is at least as hard a computation as the computation of the implicit equation
+in a very strict sense ---
+the Rees ideal contains the implicit equation as its only generator in bidegree $(0,\bullet)$.
+This follows from Proposition \ref{prop:deg-GB} and is shown in Example \ref{ex314}.
+If we had a way to efficiently compute this, however,
+then we would only need an algorithm find the unique generator in the aforementioned degree.
+
+\item
+\label{itm:flaws:many-minors}
+In line 5, while computing the $\gcd$ of polynomials is fast,
+the number of minors to be computed can be very large.
+This happens even for reasonably small examples ---
+the one described in Section \ref{sec:example2} finds a matrix $N$ of size $18\times50$.
+The number of minors to compute is
+\[
+	\binom{50}{18}=18053528883775
+\]
+so even if it took the unrealistic $0.001$ seconds to compute each minor,
+a single machine would require 572 years to compute them all.
+
+\item
+\label{itm:flaws:large-det}
+It gets worse.
+Coming back to the example referenced in \ref{itm:flaws:many-minors},
+we note that each minor is a determinant of order $18$, over 5 variables,
+and of total degree $72$.
+Computing large determinants symbolically is time-consuming.
+The calculation of the determinant of a $13\times13$-matrix of quartic forms
+over 5 variables took about an hour to finish.
+Scaling this, we can expect this calculation to take around
+\[
+	14\times15\times16\times17\times18=1028160
+\]
+hours or about $714$ days.
+
+\item
+\label{itm:flaws:large-poly}
+Finally, suppose we have found the polynomial in question --- by whatever means.
+It is a form of degree $48$ over 5 variables, and very likely dense in those monomials.
+This suggests that the polynomial will be represented by
+\[
+	\binom{53}{5}=2869685
+\]
+coefficients.
+\end{enumerate}
+\end{paragraf}
+
+\begin{paragraf*}
+Regrettably,
+\itmref{itm:flaws:large-det}{par:flaws} would be an issue for any algorithm
+relying on computing determinants of matrices of syzygies,
+while \itmref{itm:flaws:large-poly}{par:flaws}
+would an issue for any implicitization algorithm whatsoever.
+However, this can be used as an argument {\em for}
+using syzygy matrices in place of the implicit equation altogether.
+The examples of Sections \ref{sec:example1} and \ref{sec:example2} further explore this theme.
+
+In addition, we note that issue \itmref{itm:flaws:many-minors}{par:flaws}
+could and should be attacked by parallel computing in addition to whatever method is used.
+\end{paragraf*}
+
+
+
+\newpage
 [also mention that when $d=e$ this is just solving a system of linear equations for each of the coefficients
 of $P(\mathbf x)$. See \citet{Wang2004} for an article devoted to this idea.]
 
@@ -38,9 +193,6 @@ In Section \ref{sec:second-example} we come back the failing example from
 Section \ref{sec:failing-numerics-P4} and compute its degree-48 image.
 \end{paragraf*}
 
-\section{The Algorithm}
-\label{sec:algorithm}
-
 \begin{paragraf}
 We continue to assume the setup of \ref{ch:preliminaries}.
 We work over a fixed degree $\d$ in the regularity of $B_P$.
@@ -56,16 +208,6 @@ is already outlined in the examples of Chapter \ref{ch:examples}.
 In its simplest form, it becomes
 \end{paragraf}
 
-% \begin{absolutelynopagebreak}
-\begin{algorithm} {\sc FakeAlgorithm\bf.}
-\label{algo:simplest}
-\begin{algorithmic}
-  \State Set $r=\dim_\CC(S_{\mathbf d})$
-  \State Set $N$ to be the matrix of syzygies over $S_{\mathbf d}$ (i.e. $N$ is an $r\times\delta$ matrix over $T$ with $r\leq\delta$)
-  \State Report $P=\gcd(\mt{minors}(r,N))$
-\end{algorithmic}
-\end{algorithm}
-% \end{absolutelynopagebreak}
 
 \begin{paragraf}
 \label{par:problem-computing-rees-gb}
@@ -84,15 +226,6 @@ it is rather useless as means of implicitization.
 Another problem with Algorithm \ref{algo:simplest} is the computation of the minors.
 While computing the $\gcd$ of polynomials is fast,
 symbolicly computing determinants of large order is very time consuming even for a small number of variables.
-The number of minors to be computed is also very large.
-For exampe, in Section \ref{sec:second-example} below find a description of the equation when $N$ is of size
-$18\times50$.
-The number of minors to compute is
-\[
-\binom{50}{18}=18053528883775
-\]
-so even if it took the unrealistic $0.001$ seconds to compute each minor,
-a single machine would require 572 years to compute them all.
 \end{paragraf}
 
 \begin{paragraf}
