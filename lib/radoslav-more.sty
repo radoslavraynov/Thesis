@@ -1,0 +1,37 @@
+\usepackage{algpseudocode}
+
+\newenvironment{absolutelynopagebreak}
+  {\par\nobreak\vfil\penalty0\vfilneg
+   \vtop\bgroup}
+  {\par\xdef\tpd{\the\prevdepth}\egroup
+   \prevdepth=\tpd}
+
+% redefine verbatim to insert
+% Macaulay2 code as is
+\makeatletter
+{\obeyspaces\global\let =\ }
+\font\tteight=cmtt9
+\font\ttnine=cmtt9
+\newskip\beginOutputSkip
+        \beginOutputSkip = 4.5 pt plus .5 pt minus .5 pt
+
+\def\verbatim{
+	\@verbatim
+	\tteight
+	\leftskip = 13pt
+    \def\\{%
+        \leavevmode
+        \hss
+        \endgraf
+        \penalty 150
+        }
+	\baselineskip = 5pt
+    \penalty -150
+    \vskip \beginOutputSkip
+    \penalty -150
+    \parskip=0pt
+    \lineskip=3pt
+	\@vobeyspaces
+	\@xverbatim
+	}
+\makeatother

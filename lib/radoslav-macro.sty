@@ -1,0 +1,289 @@
+% HOW TO INSTALL
+%------------------------------------------
+% on OS X: /usr/local/texlive/texmf-local/
+% on Linux: ~/texmf/
+%------------------------------------------
+
+
+
+
+
+% HYPERREFS AND OTHER TOOLS
+%------------------------------------------
+% hyperfers in the file as well as colors
+% for the bibs and external links
+\usepackage{hyperref}
+\usepackage{xcolor}
+% used for \xspace which is a virtual space
+% put after for example keyword but suppressed
+% if a punctuation sign is used; not used at
+% the moment
+\usepackage{xspace}
+% used for custom list counters and style
+\usepackage{enumitem}
+%------------------------------------------
+
+
+
+
+
+% AMS STYLE THEOREMS AND EQUATION NUMBERING
+%------------------------------------------
+% include in case using with article, etc
+% in particular, necessary for the
+% \allowdisplaybreaks below
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+% allows tex to break multiline equations
+% into different pages; looks better
+\allowdisplaybreaks
+% declares counters to be used both in
+% technical and nontechnical articles
+\newcounter{first}
+\newcounter{second}[subsection]
+\numberwithin{second}{subsection}
+\newcounter{purvi}
+\newcounter{third}
+% defines theorem, lemma and proposition
+% as theoremstyle, using the subsection
+% counter; sets the equation counter also
+%\swapnumbers % make this bit an option
+\newtheorem{theorem}[first]{Theorem}
+\newtheorem{proposition}[first]{Proposition}
+\newtheorem{lemma}[first]{Lemma}
+\newtheorem{conjecture}[first]{Conjecture}
+\newtheorem{corollary}[first]{Corollary}
+\newtheorem{zadacha}[purvi]{Задача}
+\newtheorem{uslovie}[purvi]{Условие}
+\numberwithin{equation}{first}
+% defines example and exercise using the
+% definition theoremstyle
+\theoremstyle{definition}
+\newtheorem{example}[first]{Example}
+\newtheorem{problem}[first]{Problem}
+\newtheorem{exercise}[first]{Exercise}
+% \newtheorem{question}[third]{Question\tikz[overlay]{\draw [purple, very thick] circle (-1,0);}}
+\newtheorem{question}[first]{Question}
+\newtheorem{remark}[first]{Remark}
+\newtheorem{listing}[first]{Listing}
+\newtheorem{algorithm}[first]{Algorithm}
+\newtheorem{implementation}[first]{Implementation}
+\newtheorem{definition}[first]{}
+\newtheorem{primer}[purvi]{Пример}
+\newtheorem{izsledvane}[purvi]{Изследване}
+\newtheorem{paragraf}[first]{}
+\renewenvironment{paragraph}{\begin{definition}}{\end{definition}}
+\newenvironment{paragraph*}{\begin{definition*}}{\end{definition*}}
+% in case I am writing a solutions paper
+% these define a solution and a remark
+% environments as proofs
+\newenvironment{solution}
+{\begin{proof}[Solution]\def\qedsymbol{}}
+{\end{proof}}
+\newenvironment{hintremark}
+{\begin{proof}[Hint]\def\qedsymbol{}}
+{\end{proof}}
+\newenvironment{remarkhint}
+{\begin{proof}[Remark]\def\qedsymbol{}}
+{\end{proof}}
+% this is pure vanity - I sometimes want to
+% wrap paragraphs without a leading number
+% and this takes care of the trailing dot
+\makeatletter
+\g@addto@macro\th@remark{\thm@headpunct{}}
+\makeatother
+\theoremstyle{remark}
+\newtheorem*{definition*}{\;\;\,}
+\newtheorem*{paragraf*}{\;\;\,}
+% vanity again. gee, wtf. this time -
+% algorithms
+% \newtheoremstyle{algostyle}
+%   {\topsep} % Space above
+%   {\topsep} % Space below
+%   {} % Body font
+%   {} % Indent amount
+%   {\bfseries} % Theorem head font
+%   {} % Punctuation after theorem head
+%   {.5em} % Space after theorem head
+%   {} % Theorem head spec (can be left empty, meaning `normal')
+% \theoremstyle{algostyle}
+% \newtheorem{algorithm}[first]{Algorithm}
+%------------------------------------------
+
+
+
+
+
+%% COMMUTATIVE DIAGRAMS AND TIKZ
+%------------------------------------------
+% tikz is a very powerful tex script tool
+% for the pgf picture environment
+\usepackage{tikz}
+\usetikzlibrary{tikzmark,calc}
+% this defines nice commutative diagrams
+\usepackage{tikz-cd}
+%------------------------------------------
+
+
+
+
+
+%% MATHEMATICAL FONTS
+%------------------------------------------
+% provides a script mathematical symbols as
+% opposed to the alligraphic font
+\usepackage{mathrsfs}
+% defines a font that is convenient for
+% script or calligraphic-like names not just
+% symbols, eg SheafProj
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+% a roman font
+\DeclareMathAlphabet{\mathlx}{OT1}{lxfonts}{m}{n}
+% define bold math and italic math
+\usepackage{mathptmx}
+\DeclareMathAlphabet{\mathbf}{OT1}{bch}{b}{it}
+\DeclareMathAlphabet{\mathit}{OT1}{bch}{n}{it}
+% the Euler font
+\DeclareMathAlphabet{\Eul}{U}{eur}{m}{n}
+\SetMathAlphabet\Eul{bold}{U}{eur}{b}{n}
+%------------------------------------------
+
+
+
+
+
+%% SOURCE CODE AND ALGORITHMS
+%------------------------------------------
+% provides a very extensive and customizable
+% environment for writing source code
+%\usepackage{listings}
+% use with specific language
+%\lstset{language=Matlab}
+% have predefined language sets
+%\usepackage{algo}
+%------------------------------------------
+
+
+
+
+
+%% MATHEMATICAL SYMBOLS AND MACROS
+%------------------------------------------
+\def\tensor{\otimes}
+\def\la{\langle}
+\def\ra{\rangle}
+\def\T{^\top}
+\def\opp{^{\circ}}
+\def\inv{^{-1}}
+\def\To{\longrightarrow}
+\def\Ot{\longleftarrow}
+\def\se{\subset}
+\def\k{\Eul{k}}
+\newcommand\mt[1]{\mathop{\tt#1}}
+\newcommand\nstar[1]{\text{*}\hspace{-.1ex}#1}
+\def\nbul{{\raisebox{.2ex}{\text{\bf\Large.}}}}
+%------------------------------------------
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\therk}{rk}
+\DeclareMathOperator{\theIm}{Im}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\theht}{ht}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Proj}{Proj}
+\DeclareMathOperator{\Rees}{Rees}
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\Span}{Span}
+\DeclareMathOperator{\Biproj}{Biproj}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\Fitt}{Fitt}
+\DeclareMathOperator{\image}{image}
+\DeclareMathOperator{\reg}{reg}
+\DeclareMathOperator{\Pic}{Pic}
+\DeclareMathOperator{\mult}{mult}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\ann}{ann}
+\DeclareMathOperator{\thediv}{div}
+\DeclareMathOperator{\thelength}{length}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\rad}{rad}
+\DeclareMathOperator{\gr}{gr}
+\DeclareMathOperator{\sat}{sat}
+\DeclareMathOperator{\Frac}{Frac}
+\def\length{\thelength}
+\def\minors{\mt{minors}}
+\def\basis{\mt{basis}}
+\newcommand\DistTo{\xrightarrow{
+   \,\smash{\raisebox{-0.65ex}{\ensuremath{\scriptstyle\sim}}}\,}}
+%------------------------------------------
+\def\PP{\mathbb{P}}
+\def\PPP{\PP^1\times\PP^1}
+\def\AA{\mathbb{A}}
+\def\NN{\mathbb{N}}
+\def\ZZ{\mathbb{Z}}
+\def\QQ{\mathbb{Q}}
+\def\CC{\mathbb{C}}
+\def\RR{\mathbb{R}}
+\def\ZZ{\mathbb{Z}}
+\def\KK{\mathbb{K}}
+\def\DD{\mathbb{D}}
+\def\SS{\mathbb{S}}
+\def\kk{\boldsymbol{k}}
+%------------------------------------------
+\def\m{\mathfrak{m}}
+\def\n{\mathfrak{n}}
+\def\p{\mathfrak{p}}
+\def\q{\mathfrak{q}}
+\def\I{\mathscr{I}}
+\def\O{\mathscr{O}}
+\def\L{\mathscr{L}}
+\def\d{\mathbf d}
+\def\e{\mathbf e}
+%------------------------------------------
+
+
+
+
+%% MANUSCRIPT STYLING
+%------------------------------------------
+% do not include. put in a decor file instead
+%------------------------------------------
+
+
+
+
+
+%% SUGARING
+%------------------------------------------
+% \usepackage{showlabels}
+% \renewcommand{\showlabelfont}{\scriptsize}
+\newcommand{\itmref}[2]{{\normalfont\hyperref[#1]{(\ref*{#2}.\ref*{#1})}}}
+
+% status
+\newcommand{\status}[1]{%
+\tikz[remember picture]{%
+\coordinate(O);
+\node[overlay,anchor=base west,circle,fill=#1,draw,very thick,inner sep=0.2cm] at ($(O-|current page.west)+(3,0)$) {};
+}}
+
+% the option [nomargin] hides or shows margin notes
+\usepackage{marginnote}
+\def\mref#1{\marginnote{\scriptsize\normalfont\texttt{#1}}}
+\DeclareOption{nomargin}{
+	\def\mref#1{\marginnote{\small\normalfont\texttt ~}}}
+\ProcessOptions
+
+% typing \rtodo puts a todo entry
+\newcounter{todo}
+\newcommand{\rtodo}[1]{\refstepcounter{todo}\label{todo-#1}%
+{\tt\scriptsize\bf(\arabic{todo}:#1)}}
+\setcounter{todo}{0}
+
+% typing \demo puts a triangle for ending long examples
+\newcommand\xqed[1]{%
+  \leavevmode\unskip\penalty9999 \hbox{}\nobreak\hfill
+  \quad\hbox{#1}}
+%\newcommand\demo{\xqed{/\hspace{-1pt}/}}
+\newcommand\demo{\xqed{$\triangle$}}
+\def\titlestyle{\bf}
