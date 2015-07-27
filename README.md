@@ -12,7 +12,8 @@ Make sure you have Git. Get this repository locally
 
 Make sure you have Python. Run the `make` as follows
 
-    $ make strip
+    $ make add
+	$ make pdf
 	$ make bib
 	$ make pdf
 
