@@ -19,7 +19,7 @@ Make sure you have Python. Run the `make` as follows
 
 This will produce the dissertation file `thesis.pdf`.
 You can compile each of the chapters separately.
-To incorporate the changes in the thesis, run `make strip` before running `make pdf`.
+To incorporate the changes in the thesis, run `make add` before running `make pdf`.
 Only run `make bib` after modifying the bibliography (and the first time, of course).
 Alternatively, use your favorite TeX editor/compiler along with
 `make add` to incorporate any changes made to any chapter.
