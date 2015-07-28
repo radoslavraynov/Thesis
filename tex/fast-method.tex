@@ -111,15 +111,16 @@ of quartic forms on 5 variables.
 Computing large determinants symbolically is time-consuming.
 While we could not calculate the degree-$72$ determinant,
 we can try to scale the running time for the similar calculation
-of Example~\ref{}
+of Example~\ref{ex602}.
 
-The calculation of the determinant of a $13\times13$-matrix of quartic forms
+The calculation of the determinant of a $12\times12$-matrix of quadratic forms
 over 5 variables took about an hour to finish.
-Scaling this, we can expect this calculation to take around
+Very roughly, we can expect more than
 \[
-	14\times15\times16\times17\times18=1028160
+	13\times14\times15\times16\times17\times18=1028160
 \]
-hours or about $714$ days.
+hours for the $18\times18$ determinant.
+That is about $714$ days.
 
 \item
 \label{itm:flaws:large-poly}
@@ -140,9 +141,9 @@ relying on computing determinants of matrices of syzygies,
 while \itmref{itm:flaws:large-poly}{par:flaws}
 would be an issue for any implicitization algorithm whatsoever.
 Rather than seeing these as obstacles,
-we point them out as an argument {\em for} the idea of using such
+we point them out as an argument {\em for} the idea of using
 representation matrices in place of the implicit equation altogether.
-We explores this theme further in Section \ref{sec:long-examples}.
+We explore this theme further in the examples of Section~\ref{sec:long-examples}.
 \end{paragraf*}
 
 \begin{paragraf}
@@ -152,27 +153,27 @@ Fix a degree $\d$ and recall that
 	N=(~N_1~|~\cdots~|~N_\delta~)
 \]
 where $N_i$ is the submatrix of $N$ consisting of the degree-$i$ columns,
-and $\delta$ is the maximal degree in a minimal system of homogeneous generators
-for~$I_{\d,\bullet}$.
+and $\delta$ is the maximal degree of a generator
+in a minimal system of homogeneous generators for~$I_{\d,\bullet}$.
 
-Loosely speaking, we propose an method which employs the following two observations:
+Loosely speaking, we propose an method which employs the following two observations
 \begin{enumerate}
 \item
 \label{itm:N'}
-instead of computing the whole matrix $N$, one can compute the $N_i$'s separately,
-keeping track of a partial syzygy matrix $N'$;
+Instead of computing the whole matrix $N$, one can compute the $N_i$'s separately,
+keeping track of a partial syzygy matrix $N'$.
 \item
 \label{itm:gcd}
-instead of computing all the minors, one only needs to compute enough to determine
-the $\gcd$ correctly;
+Instead of computing all the minors, one only needs to compute enough to determine
+the $\gcd$ correctly.
 \end{enumerate}
 \end{paragraf}
 
 \begin{paragraf*}
 These two simple observations produce an immense speed up on average.
 The advantage of \itmref{itm:N'}{par:proposed} over computing an $R$-generating set for the
-Rees ideal is that the former uses only linear algebraic routines.
-The advantage of computing only the needed, rather than all minors, is clear.
+Rees ideal is that it uses only linear algebraic routines.
+The advantage of computing only a sufficient number, rather than all, minors is pretty clear.
 \end{paragraf*}
 
 \begin{lemma}

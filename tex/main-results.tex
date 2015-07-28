@@ -19,7 +19,7 @@
 We are now ready to state our main results.
 While this chapter is supposed to be self-contained and most of the relevant notation
 and definitions are listed in \eqref{par:again} below,
-one should consult Chapter \ref{ch:prelim} for a more relaxed exposition
+one should consult Chapter \ref{ch:preliminaries} for a more relaxed exposition
 and further definitions, for instance,
 for the notions of degree and multiplicity of a basepoint.
 
@@ -34,17 +34,19 @@ Let $T=\CC[x_0,\ldots,x_n]$ and let
 \[
 \phi=(\phi_0,\ldots,\phi_n):X\To\PP^n=\Proj(T)
 \]
-be a rational map given by linearly independent sections of the line bundle $\O_X(\mathbf p)$
-for some degree $\mathbf p$ on $S$.
-Let $J=\la \phi_0,\ldots,\phi_n\ra\se S$ be ideal of the coordinate functions of $\phi$.
+be a rational map given by linearly independent sections of the line bundle $\O_X(\e)$
+for some degree $\e$ on $S$.
+Let $J=\la \phi_0,\ldots,\phi_n\ra\se S$ be the ideal of the coordinates $\phi_j$.
 
 Let $\d$ be a degree on $S$ such that $r=\dim_\CC(S_\d)>0$ and let $I\se R=S\tensor T$ be the
 Rees ideal of $J$. Let $I_{\d,\bullet}$ be its degree-$\d$ bigraded piece,
 considered as a finite graded $T$-module.
 We denote by $B=R/I$ the Rees algebra of $J$.
 
-Let $N$ be the $r\times\mu$ matrix of a minimal set of homogeneous generators for $I_{\d,\bullet}$
-and let $N_i$ be the submatrix of $N$ corresponding to generators of degree $i$, that is,
+Let $N$ be the $r\times\mu$ coefficient matrix of
+a minimal set of homogeneous generators for~$I_{\d,\bullet}$,
+and let $N_i$ be the submatrix of $N$ corresponding to generators of degree $i$,
+so that
 \[
 N=(~N_1~|\ldots|~N_\delta~)
 \]
@@ -58,13 +60,19 @@ Let $Z=V(J)\se X$ be the base locus of $\phi$.
 
 We are going to be interested the following three conditions:
 \begin{enumerate}
-	\item\label{itm:conds:1} The map $\phi$ is generically finite onto its image, that is,
-	$Y\se\PP^n$ is of codimension $1$ and in particular, the ideal $P$ is principal.
-	In this case, we denote a generator of $P$ by $P(\mathbf x)$.
-	\item\label{itm:conds:2} The base locus $Z$ is $0$-dimensional, that is,
-	consists of finitely many points.
-	Note that those are necessarily closed over $\CC$ but this is not needed for our results.
-	\item\label{itm:conds:3} The map $\phi$ is birational.
+\item
+\label{itm:conds:1}
+The map $\phi$ is generically finite onto its image, that is,
+$Y\se\PP^n$ is of codimension~$1$ and in particular, the ideal $P$ is principal.
+In this case, we denote a generator of~$P$ by~$P(\mathbf x)$.
+
+\item
+\label{itm:conds:2} The base locus $Z$ is zero-dimensional, that is,
+consists of finitely many points.
+Note that those are necessarily closed over $\CC$.
+
+\item
+\label{itm:conds:3} The map $\phi$ is birational.
 \end{enumerate}
 
 Clearly, either of \eqref{itm:conds:2} and \eqref{itm:conds:3} implies \eqref{itm:conds:1}.
@@ -80,29 +88,33 @@ These are needed later.
 \begin{enumerate}[label=\normalfont(\alph*)]
 \item
 The ideal $I\se R$ is prime, and so is $I_P$ in the $T$-module localization $R_P$.
+
 \item
-The quotient $B_P$ is naturally a finite-type graded $K(T/P)$-algebra
-with grading induced by $S$.
+The quotient $B_P$ is naturally a finite-type graded $K(T/P)$-algebra with grading induced by $S$.
+
 \item\label{itm:BPKTP-alg}
-The $K(T/P)$-algebra $B_P$ is a homogeneous coordinate ring of a
-projective variety.
+The $K(T/P)$-algebra $B_P$ is a homogeneous coordinate ring of a projective variety.
 \end{enumerate}
 \end{proposition}
 
 \begin{paragraf}
-\label{par:reg-BP}
-By part \ref{itm:BPKTP-alg} of Proposition \ref{prop:BP}, $\Proj(B_P)$ becomes a toric
-projective variety.
-Following either [Greg Smith and Maclagan] or [Hoffman and Wang],
-we can define its regularity, denoted $\reg(B_P)$.
-It is similar to the Castenlnuovo-Mumford regularity over $\PP^n$ in sense that
-$\reg(B_P)$ is a finitely generated additively-closed subset of the semigroup of degrees on $S$,
-and for any $\d\in\reg(B_P)$, the scheme structure of $V(I_P)$ is already reflected in degree $\d$.
+\label{par:reg-IP}
+Let $V(I_P)$ be the closed subset of the projective toric variety $\Proj(R_P)$.
+Note that the latter is a variety over $K(T/P)$ with the grading of $S$.
+Following \citet{MS-04} and using Proposition~\ref{prop:BP},
+we consider the regularity of the defining ideal $I_P$,
+and denote it from now on by $\reg(I_P)$.
+
+We recall that $\reg(I_P)$ is a finitely generated additively-closed subset
+of the semigroup of degrees on $S$, and that
+for any $\d\in\reg(I_P)$, we have $\la(I_P)_\d\ra=I$.
+This parallels the usual Castelnuovo-Mumford regularity for $\PP^n$
+and is the content of Theorem 1.3 in the referenced paper.
 \end{paragraf}
 
 \begin{paragraf*}
 In light of Proposition \ref{prop:BP}, our first result becomes an easy exercise.
-However, it a step toward the goal of this paper---to exhibit a general relation between
+However, it a step toward the goal of this paper --- to exhibit a general relation between
 the algebra of the coordinates $\phi_j$ and the geometry of the image $Y$.
 \end{paragraf*}
 
@@ -115,27 +127,26 @@ In the setup of \eqref{par:again}, one has
 \end{theorem}
 
 \begin{paragraf*}
-The geometric interpetation of the theorem is clear ---
+The geometric interpretation of the theorem is clear ---
 the nonzero minors of $N$ define hypersurfaces in $\PP^n$ whose intersection,
 at least set-theoretically, is the image $Y$.
 
-Example [the twisted-cubic], for instance, shows that the radical is necessary.
+Example~\ref{ex307}, for instance, shows that the radical is necessary.
 \end{paragraf*}
 
 \begin{paragraf*}
 Our next result is the main theorem of this thesis, unifying two currently
 popular non-Gr\"{o}bner bases approaches to implicitization and setting the stage for both
-the ad-hoc template proofs in Chapter \ref{ch:koszul-bpf} and
-the fast implicitization method described in Chapter \ref{ch:fast-method}.
+the ad-hoc template proofs in Chapter~\ref{ch:koszul-bpf} and
+the fast implicitization method described in Chapter~\ref{ch:fast-method}.
 
-We point out that the following theorem is neither a stronger nor a weaker version
-of Theorem \ref{thm:rad-minors} but rather a specialization along the lines of [Buse-Juonolou].
+From now on, we shall only be interested in maps which are generically finite.
 \end{paragraf*}
 
 \begin{theorem}
 \label{thm:gcd-minors}
 Consider the setup of \eqref{par:again} and assume \itmref{itm:conds:1}{par:conds}.
-Fix a degree $\mathbf d\in\reg(B_P)$ as described in \eqref{par:reg-BP}.
+Fix a degree $\mathbf d\in\reg(I_P)$ as described in \eqref{par:reg-IP}.
 One has
 \[
 \gcd(\mt{minors}(r, N))=P^{\deg\phi}
@@ -149,71 +160,75 @@ then $N$ is square and, up to a unit,
 
 \begin{corollary}
 \label{thm:detM}
-In the setup of Theorem \ref{thm:gcd-minors},
-let $M$ be any $r\times r$ matrix of syzygies over $S_\d$. One has
+In the setup of Theorem~\ref{thm:gcd-minors},
+let $M$ be any $r\times r$~matrix of syzygies over~$S_\d$. One has
 \[
 	\det(M)=P(\mathbf x)^{\deg\phi}\cdot H(\mathbf x)
 \]
 for a homogeneous $H(\mathbf x)$ of degree
 \begin{align}
 \label{eq:degree-offset}
-\deg\det(M)-\deg(\phi)\cdot\deg(Y)
+\deg(\det(M))-\deg(\phi)\cdot\deg(Y)
 \end{align}
 
-Furthermore, there exist a list of such matrices $\{M_k\}$ such that
-the corresponding $H_k(\mathbf x)$ are nonzero and without a common factor.
+Furthermore, there exist a list of such matrices $\{M_k\}$ whose
+corresponding $H_k(\mathbf x)$ are nonzero and without a common factor.
 \end{corollary}
 
 \begin{paragraf*}
 Geometrically, the former is a refinement of Theorem \ref{thm:rad-minors}.
-Each of the maximal minors of $N$, in fact
-the determinant of any $r\times r$ matrix $M$ of syzygies over $S_\d$, is either $0$
+Each of the maximal minors of $N$, in fact,
+the determinant of any $r\times r$ matrix $M$ of syzygies over~$S_\d$, is either zero
 or describes in $\PP^n$ the union of a $\deg(\phi)$-fold $Y$ and
 a hypersurface of degree \eqref{eq:degree-offset}.
 While an arbitrary collection $M_k$ of such matrices may introduce hypersurfaces
 with an intersection that is strictly larger than $Y$,
 the maximal minors suffice to shave off any extraneous components.
 
-The theme of extraneous factors is already apparent in \citet{BCJ09} and \citet{Botbol2011}
-who use the approximation complex to show that, in our running notation, for a toric $X$,
-certain $\d$ and almost complete intersection baselocus $Z$,
+The theme of extraneous factors is already apparent in
+\citet{BCD-03}, \citet{BCJ-09} and \citet{BDD-09}.
+In our notation, they used the approximation complex to show that for a toric $X$,
+certain $\d$ and empty or zero-dimensional almost complete intersection base locus $Z$,
 \[
-	\gcd(\minors(r,N_1))=P^{\deg\phi}\cdot\prod_{p\in Z} L_p(\mathbf x)^{e_p-d_p}
+	\gcd(\minors(r,N_1))=P^{\deg\phi}\cdot\prod_{q\in Z} L_q(\mathbf x)^{e_q-d_q}
 \]
-where each $L_p(\mathbf x)$ is a linear form.
+where each $L_q(\mathbf x)$ is a linear form, and
+$e_q$ and $d_q$ are the multiplicity and degree of $q$.
 
-In the case of complete intersection baselocus, the proof of Theorem \ref{thm:gcd-minors}
+In the case of complete intersection base locus, the proof of Theorem~\ref{thm:gcd-minors}
 gives a special case of the above.
 \end{paragraf*}
 
-\begin{corollary}[Buse-Jouanoulo]
+\begin{corollary}[\citet{BCD-03}]
 \label{cor:approx-complex}
-In the setup of Theorem \ref{thm:gcd-minors}, let $\d$ be {\em large enough} in the semigroup
-of degrees on $S$.
-Recall that $N_1$ is the matrix of linear syzygies.
-If $\Proj(B)$ is isomorphic to $\Proj(\Sym(J))$ in the sense of [equation from before], then
+In the setup of Theorem~\ref{thm:gcd-minors}, let $\d$ be {\em large enough} in $\reg(I_P)$.
+Let $\Proj(B)$ and $\Proj(\Sym(J))$ be naturally isomorphic in the sense of~\eqref{eq:R-Sym-B}.
+One has
 \[
 	\gcd(\mt{minors}(r, N_1))=P^{\deg\phi}
 \]
 
-In particular, the result holds if the baselocus is $0$-dimensional and locally a complete intersection.
+In particular, the result holds if the base locus is empty or
+zero-dimensional and locally a complete intersection.
 \end{corollary}
 
 \begin{paragraf*}
-It is a know fact that if $M$ is a square matrix over $T$ of size $r$,
+It is known that if $M$ is a square matrix over $T$ of size $r$,
 then the singular locus of $V(\det(M))$ is contained in the closed subset defined by the
 comaximal minors, that is, the $(r-1)$-minors.
-Although we failed to find a reference for the aforementioned result,
+Although we failed to find a reference,
 we believe that this relation is more intrinsic and holds for all matrices $N$.
-Examples [at least 2-3 examples] explore this further.
-Specifically, we conjecture the following
+However, what this ought to correspond to is the multiple-point locus of the image.
+See Example~\ref{ex315} for details.
+We conjecture the following
 \end{paragraf*}
 
 \begin{conjecture}
 \label{conj:sing-locus}
-Let $\phi$ be birational and $\d$ be any degree on $S$. One has
+Consider the setup of \eqref{par:again} and assume \itmref{itm:conds:3}{par:conds}.
+On the level of closed points, one has
 \[
-V(\minors(r-1,N))\se\mathrm{Sing}(Y)
+	V(\minors(r-1,N))\se\mathrm{Sing}(Y)
 \]
 \end{conjecture}
 
@@ -222,7 +237,7 @@ V(\minors(r-1,N))\se\mathrm{Sing}(Y)
 \begin{paragraf*}
 In the simplest cases of interest, when $X=\PP^2$ or $X=\PPP$ and $\phi$ is basepoint-free,
 we can chose $\d$ so that the matrix $N$ becomes square.
-Next two theorems are slight generalizations of the results in \citet{00-CGZ-JSC}.
+Next two theorems are slight generalizations of the results in \citet{CGZ-00}.
 More importantly, they show that our methods directly generalize the methods of
 moving planes and quadrics in the setting in which they are most useful.
 \end{paragraf*}
@@ -230,19 +245,19 @@ moving planes and quadrics in the setting in which they are most useful.
 \begin{theorem}
 \label{thm:rel-moving-planes-quadrics}
 Let $X=\PP^2$, $\phi$ be basepoint-free,
-and suppose that there are exactly $p=\mathbf e$ linear syzyges over degree $\d=p-1$,
+and suppose that there are exactly $p=\e$ linear syzygies over degree $\d=p-1$,
 that is, the minimal possible number.
-Then one has that $N=(N_1~|~N_2)$, $N$ is square and $\phi$ is birational.
+One has that $N=(N_1~|~N_2)$, $N$ is square and $\phi$ is birational.
 In particular,
 \[
-\det(N)=\det(N_1~|~N_2)=P(\mathbf x)
+	\det(N)=\det(N_1~|~N_2)=P(\mathbf x)
 \]
 \end{theorem}
 
 \begin{theorem}
 \label{thm:rel-moving-quadrics}
 Let $X=\PP^1\times\PP^1$, $\phi$ be basepoint-free with coordinates in degree $\mathbf e=(p,q)$,
-and suppose there are no linear syzyges over degree $\d=(p-1,q-1)$.
+and suppose there are no linear syzygies over degree $\d=(p-1,q-1)$.
 Then one has that $N_2$ is square, $N=N_2$ and $\phi$ is birational. In particular,
 \[
 	\det(N)=\det(N_2)=P(\mathbf x)
@@ -250,11 +265,12 @@ Then one has that $N_2$ is square, $N=N_2$ and $\phi$ is birational. In particul
 \end{theorem}
 
 \begin{paragraf*}
-Both of these theorems are examples of a template proof decribed in Chapter \ref{ch:koszul-bpf}.
+Both of these theorems are examples of a template proof described in Chapter~\ref{ch:koszul-bpf}.
 While applying it in general requires elaborate choses of the degree $\d$ and
-regularity computations, in the case of basepoint-free maps we only used a type
-of Koszul-ness on the syzygies of low degree.
-This is the content of Theorem [reference the theorem in Chapter 7]
+regularity computations, for example \citet{AHW-05},
+in the case of Theorems \ref{thm:rel-moving-planes-quadrics} and \ref{thm:rel-moving-quadrics},
+we only use a type of Koszul-ness on the syzygies of low degree.
+This is the content of Section~\ref{sec:bpf-low-koszul}.
 \end{paragraf*}
 
 
@@ -264,12 +280,13 @@ We conclude this list by a method to compute the degree of a rational map using 
 While we are only going to use this in our examples,
 it helps expand our understanding about the object $B_P$.
 
-The author wants to thank Mike Stillman for suggesting it.
+The author wants to thank Mike Stillman for suggesting the following
 \end{paragraf*}
 
 \begin{proposition}
 \label{prop:deg-GB}
-Let $\CC[s_0,\ldots,s_m]$ be the fixed ambient polynomial ring of $S'$ as described in \ref{par:setup}.
+Let $\CC[s_0,\ldots,s_m]$ be the fixed ambient polynomial ring of $S'$ as described in
+\eqref{par:setup}.
 Define the ideal $I_B$ of $\CC[s_0,\ldots,s_m;x_0,\ldots,x_n]$ by the equality
 \[
 	B=\CC[\mathbf s;\mathbf x]/I_B
@@ -285,7 +302,8 @@ Then a reduced Gr\"obner basis for $I_B$ with respect to $>'$ has the form
 \end{align*}
 and
 \[
-	\deg(\phi)=\deg \big(\la{\mathbf s}^{\alpha_1},\ldots,{\mathbf s}^{\alpha_r}\ra\se\CC[\mathbf s]\big)
+	\deg(\phi)=
+	\deg \big(\la{\mathbf s}^{\alpha_1},\ldots,{\mathbf s}^{\alpha_r}\ra\se\CC[\mathbf s]\big)
 \]
 \end{proposition}
 
