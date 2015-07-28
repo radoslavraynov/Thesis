@@ -1,5 +1,8 @@
 FILES = intro-incl.tex preliminaries-incl.tex main-results-incl.tex main-proofs-incl.tex fast-method-incl.tex koszul-bpf-incl.tex examples-incl.tex
 
+all: add pdf
+	open thesis.pdf
+
 add: $(FILES)
 	echo "OK DONE"
 

@@ -10,17 +10,27 @@ Make sure you have Git. Get this repository locally
     $ git clone https://github.com/radoslavraynov/Thesis.git
 	$ cd Thesis/tex
 
-Make sure you have Python. Run the `make` as follows
+Make sure you have Python. We provide a `makefile` with rules `add`, `pdf`, `bib` and `clean`.
+Running
+
+    $ make
+
+really runs
+
+    $ make add
+	$ make pdf
+	$ open theis.pdf
+
+This will produce the dissertation file `thesis.pdf`.
+However, whenever you edit a bibliography, or run this for the first time, do
 
     $ make add
 	$ make pdf
 	$ make bib
-	$ make pdf
+	$ make
 
-This will produce the dissertation file `thesis.pdf`.
 You can compile each of the chapters separately.
 To incorporate the changes in the thesis, run `make add` before running `make pdf`.
-Only run `make bib` after modifying the bibliography (and the first time, of course).
 Alternatively, use your favorite TeX editor/compiler along with
 `make add` to incorporate any changes made to any chapter.
 Run `make clean` to get rid of all LaTeX produced files, except for the pdf files.

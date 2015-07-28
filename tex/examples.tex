@@ -16,11 +16,12 @@
 
 
 \begin{paragraf*}
-This chapter consists of the heart of the thesis. In fact, carefully studied,
-this list of examples could probably make the proofs chapter obsolete.
+This chapter is the heart of the thesis.
+It consists of examples highlighting the results of Chapter~\ref{ch:main-results}
+and motivating the results of Chapters \ref{ch:fast-method} and \ref{ch:koszul-bpf}.
 
-Every example comes with a label of the form $(\mt{exXYZ})$, which refers its a Macaulay2
-test code. Those files can found at
+Recall that a label of the form $(\mt{exXYZ})$, refers to the Macaulay2 test code for the example.
+Those files can found at
 \begin{center}
 \url{http://www.math.cornell.edu/~rzlatev/phd-thesis/ex/XYZ.m2}
 \end{center}
@@ -29,7 +30,7 @@ test code. Those files can found at
 \begin{example}[$\mt{ex301}$]
 \label{ex301}
 Let $X=\PP^2_{s,t,u}$ and $J=\la tu,su,st,s^2+t^2+u^2\ra$.
-Then $\phi$ is basepoint-free and birational.
+Then $\phi$ is basepoint-free and generically 1-1.
 The monic implicit equation is given by
 \[
 	P(\mathbf x)={x}_{0}^{2} {x}_{1}^{2}+{x}_{0}^{2} {x}_{2}^{2}+{x}_{1}^{2}
@@ -50,7 +51,7 @@ Setting $\d=1$, we get
       {x}_{0} {x}_{1}-{x}_{2} {x}_{3}\\
       \end{bmatrix}\egroup
 \]
-whose determinant is $P(\mathbf x)$.
+whose determinant is just $P(\mathbf x)$.
 The results of \citet{CGZ-00} apply and the matrix $N$ is a variant of the matrix
 produced by the method of moving planes and quadrics.
 
@@ -121,18 +122,18 @@ Accordingly,
 	\gcd(\minors(6,N))=P
 \]
 
-Note that the claim that $\phi$ is birational follows, a fortiori, from the degree formula
+Note that the claim that $\phi$ is of degree~$1$ follows, a fortiori, from the degree formula
 \eqref{eq:degree-formula}. Indeed, we have
 \[
 	4\deg(\phi)=2^2-0
 \]
-We confirm this using Proposition \ref{prop:deg-GB} in Example \ref{ex310}.
+We confirm this using Proposition \ref{prop:deg-GB} in Example \ref{ex314}.
 \end{example}
 
 \begin{example}[$\mt{ex302}$]
 \label{ex302}
 Clearly, if we replace $s,t,u$ in Example \ref{ex301} by general linear forms $L_0,L_1,L_2$,
-effectively changing coordinates on the source, we get the same answer.
+effectively changing coordinates on the source, we get the same equation.
 In this example we describe what happens if we take $X=\PP^1_{s,u}\times\PP^1_{t,v}$ instead
 and let the $L_k$ be $(1,1)$-forms.
 Since the algebraic structure of the coordinates is the same, so is the equation of the image,
@@ -140,9 +141,10 @@ Since the algebraic structure of the coordinates is the same, so is the equation
 	Y=V({x}_{0}^{2} {x}_{1}^{2}+{x}_{0}^{2} {x}_{2}^{2}+{x}_{1}^{2}
 	{x}_{2}^{2}-{x}_{0} {x}_{1} {x}_{2} {x}_{3})
 \]
-and $\phi$ is again basepoint-free, basically because the $L_k$ are three general forms on
-a 2-dimensional variety.
-However, the self-intersection of $\O(2,2)$ is now $8$.
+and $\phi$ is again basepoint-free, basically for the same reason ---
+the $L_k$ are general.
+However, the self-intersection of the divisor corresponding to the coordinates,
+now $[\O(2,2)]$, is $8$.
 It follows that $\phi$ is generically 2-1.
 
 For $\d=(1,1)$ we get a square matrix of size $4$ with $h=(2,1,0,1)$.
@@ -151,9 +153,12 @@ As expected, up to a unit
 	\det(N)=P(\mathbf x)^2
 \]
 
-For $\d=(2,1)$ we get a square matrix of size $6$ with $h=(4,2)$ for the which the
-last equality applies.
-For $\d=(2,2)$ we get a $9\times12$ matrix with $h=(11,1)$.
+For $\d=(2,1)$ we get a square matrix of size $6$ with $h=(4,2)$, for which the
+last equality again applies.
+For $\d=(2,2)$ we get a $9\times12$-matrix with $h=(11,1)$ such that
+\[
+	\gcd(\minors(9,N))=P^2
+\]
 \end{example}
 
 \begin{example}[$\mt{ex303}$]
@@ -161,9 +166,10 @@ For $\d=(2,2)$ we get a $9\times12$ matrix with $h=(11,1)$.
 Suppose that in the situation of Example \ref{ex302} we took the forms $L_k$ from
 $\la st,sv,ut\ra$ instead.
 Now $\phi$ has the unique basepoint $(0,1)\times(0,1)$ which is c.i. of degree $4$.
-Indeed, on the affine local where $u=v=1$, the point looks like $V(st,s^2+t^2)$.
+Indeed, on the affine open where $u=v=1$, the point looks like $V(st,s^2+t^2)$.
 The equation of the image remains the same.
-Once again, \eqref{eq:degree-formula} we know that $\phi$ must be birational.
+Once again, by \eqref{eq:degree-formula} we know that $\phi$ must be generically 1-1.
+
 For $\d=(1,1)$ we get a $4\times5$-matrix.
 Below is the matrix resulting from $(L_0,L_1,L_2)=(st,sv,ut)$,
 \[
@@ -190,7 +196,7 @@ Below is the matrix resulting from $(L_0,L_1,L_2)=(st,sv,ut)$,
       {x}_{1}^{2}+{x}_{2}^{2}\\
       \end{bmatrix}\egroup
 \]
-and we have
+and, of course,
 \[
 	\gcd(\minors(4,N))=P
 \]
@@ -199,7 +205,7 @@ and we have
 \begin{example}[$\mt{ex304}$]
 \label{ex304}
 Let $X=\PP^2$ and $J=\la su^2,t^2(s+u),st(s+u),tu(s+u)\ra$.
-Then $\phi$ is birational with three basepoints --- $(1,0,0)$, $(0,1,0)$ and $(0,0,1)$,
+Then $\phi$ is generically 1-1 with three basepoints --- $(1,0,0)$, $(0,1,0)$ and $(0,0,1)$,
 all c.i. of degree 2, 3, and~1, respectively.
 
 The implicit equation is given by
@@ -232,7 +238,7 @@ and for $\d=2$, we get a $6\times 9$-matrix whose entries are all linear.
 \begin{example}[$\mt{ex305}$]
 \label{ex305}
 Let $X=\PP^2$ and $J=\la s^3,tu^2,s^2t+u^3,stu\ra$.
-The map is birational with a single c.i. basepoint of degree 2.
+Then $\phi$ is generically 1-1 with a single c.i. basepoint of degree 2.
 For $\d=1$ we have
 \[
 	N=
@@ -315,8 +321,8 @@ It is the image of $X=\PP^1_{s,t}$ under the map
 	\phi=(s^3,s^2t,st^2,t^3):\PP^1\To\PP^3
 \]
 which is birational onto its image.
-In light of Theorem \ref{th:rad-minors}, we can carry out the same calculations
-even though the image is of codimension strictly bigger than $1$.
+In light of Theorem \ref{thm:rad-minors}, we can carry out the same calculations
+as before, even though the image is of codimension strictly bigger than $1$.
 
 Setting $\d=1$, we get
 \[
@@ -410,7 +416,7 @@ and
 \[
 	\det(N)=P(\mathbf x)^2
 \]
-where one should note the principal $2$-minor is just $P(\mathbf x)$.
+One should note that the principal $2$-minor of $N$ is just $P(\mathbf x)$.
 
 The alternative non-Gr\"obner bases approaches would require difficult computations;
 the method of the approximation complex would need to find the $\gcd$ of the maximal
@@ -427,7 +433,7 @@ and for $\d=4$ we get a $15\times16$-matrix with $h=(11,4,1)$.
 
 \begin{example}[$\mt{ex309}$]
 \label{ex309}
-Let $N_1$ be the matrix of linear columns for $\d=1$ in Example \ref{ex305}.
+Let $N_1$ be the matrix of linear columns for $\d=1$ in Example \ref{ex304}.
 We have that $\det(N_1)=0$. This shows that not all maximal minors need to be nonzero.
 
 This has nothing to do with the fact that $N_1$ is special.
@@ -455,7 +461,8 @@ Then $N$ is a $15\times16$-matrix whose columns correspond to the syzygies
 \]
 
 Let $M$ be the square submatrix of the first 14 columns and the last column of $N$,
-that is, except the one corresponding to the syzygy $s^{4} {x}_{1}{x}_{2}-s^{3} t {x}_{3}^{2}$.
+that is,
+leaving out the column corresponding to the syzygy $s^{4} {x}_{1}{x}_{2}-s^{3} t {x}_{3}^{2}$.
 Then $\det(M)=0$.
 The same is true for the square submatrix consisting of the first 15 columns
 but in that case $M=(N_1~|~N_2)$ which we wanted to avoid.
@@ -514,11 +521,14 @@ the sum of the degrees of the basepoints is just the degree of the base locus,
 Because we are in projective space, this can be checked directly in Macaulay2.
 However, since $Z$ is supported on multiple points,
 we cannot compute the total multiplicity in the same way.
-Indeed, $\mt{multiplicity}(J)$ gives $45$.
+Indeed, running $\mt{multiplicity}(J)$ gives $45$, not the correct $20$.
 
-Let $Q_k$ be the prime ideals corresponding to the points $q_k$, and let $J_k=J:{Q_k}^\infty$.
-The the individual degree and multiplicity can be computed by computing the degree and multiplicity
-of the corresponding ideals $J_k$. Those capture the local structure of $Z$ near $q_k$.
+Let $Q_k$ be the prime ideals corresponding to the points $q_k$, and set
+\[
+	J_k=J:(J:{Q_k}^\infty)
+\]
+The degree and multiplicity of $q_k$ can be computed from the ideal $J_k$ ---
+those capture the local structure of $Z$ near $q_k$.
 We have
 \[
 	\begin{cases}
@@ -533,7 +543,7 @@ so in particular, $q_3$ is c.i., while $q_1$ and $q_2$ are a.c.i. points.
 \begin{example}[$\mt{ex312}$]
 \label{ex312}
 Let $Y=V(P)$ for an irreducible form $P(\mathbf x)$ of degree $4$ on $\PP^3$.
-Suppose further that $\text{Sing}(Y)$, the singular locus $Y$,
+Suppose further that $\text{Sing}(Y)$, the singular locus of $Y$,
 contains 3 concurrent non-degenerate lines
 (that is, passing trough a common point and spanning all of $\PP^3$).
 Then $P(\mathbf x)$ is the determinant of a square order-$4$ matrix $M$ of linear forms.
@@ -588,7 +598,7 @@ x_0&&&x_1\\
 -a_3x_2&-a_2x_0&-a_1x_1&x_3
 \end{bmatrix}
 \]
-where the entries are scaled variables.
+whose entries are scaled variables.
 \end{example}
 
 \begin{example}[313]
@@ -601,7 +611,8 @@ The example with 3 syzygies from the B exam.
 
 \begin{example}[$\mt{ex314}$]
 \label{ex314}
-We apply Proposition \ref{prop:deg-GB} to compute the degree of the rational map in Example \ref{ex301}.
+We apply Proposition \ref{prop:deg-GB} to compute the degree of the rational map
+in Example \ref{ex301}.
 We have
 \[
 	I=\Bigg\la
@@ -660,8 +671,9 @@ This time the ideal of the $S$-part of the leading terms is $\la s,t^2\ra$ which
 \label{ex315}
 While Examples \ref{ex301}, \ref{ex306} and \ref{ex307} support Conjecture \ref{conj:sing-locus},
 we point out that the latter is stated in its strongest possible form.
-For one, the claim is trivial in the case $\deg(\phi)>1$ ---
-in that case the singular locus is all of $Y$. This can be seen in Example \ref{ex308}.
+For one, the claim is trivial in the case $\deg(\phi)>1$
+for then the comaximal minors vanish on all of $Y$ again.
+This can be seen in Example \ref{ex308}.
 
 On the other hand, while it is tempting to conjecture that
 \[
@@ -688,9 +700,15 @@ The results for other values of $\d$ are analogous.
 Structure of $B_P$
 \end{example}
 
-\begin{example}[317]
-\label{ex317}
-Longer computation
+\begin{example}
+It may seem at first that taking the smallest possible degree is always our best option,
+but Example~\ref{ex308} provides a good counterexample.
+The examples in Chapter~\ref{ch:fast-method}, which are computationally more complex,
+often have the first few $N_i$ being zero, for low $\d$,
+so nonzero matrices tend to be larger in size and degree of their minors.
+
+It is the possibility to choose a good $\d$ that is one of the contributions of
+our results to the methods of moving hypersurfaces.
 \end{example}
 
 

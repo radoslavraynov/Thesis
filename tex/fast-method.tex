@@ -12,26 +12,28 @@
 %% STRIP END
 
 \begin{paragraf*}
-This section describes a method for fast implicitization.
+This chapter is devoted to the computational aspects of our results.
+Section~\ref{sec:algorithms} describes two algorithms for implicitization.
+The first one is simple and robust and is used for studying the matrices $N$
+when Gr\"obner bases calculations can be carried out efficiently.
+The second one is more involved and is used when direct computations are unfeasible.
+In those cases its advantage is significant.
+Details about the algorithms and support for the latter claim
+are provided in the form of several examples in Section~\ref{sec:long-examples}.
 \end{paragraf*}
 
 \begin{paragraf*}
-This chapter describes a method for fast implicitization using
-the theory developed in Chapters \ref{ch:main-results} and \ref{ch:main-proofs}.
-We present two algorithms in Section \ref{sec:algorithm}.
-We then discuss the problems arising from the naive version.
-
-In Section \ref{sec:example1} we carry out a calculation which 
-and \ref{sec:example2},
-we employ the algorithm and its implementation to compute examples which are unfeasible
-to attack using the standard methods.
+Both, as means to illustrate that the presented algorithms are effective for those who are
+new to computational algebraic geometry,
+and as a setup for the examples to follow,
+Section~\ref{sec:implementation} includes Macaulay2 realizations for many
+of the routines in Section~\ref{sec:algorithms}.
 \end{paragraf*}
 
 \begin{paragraf*}
-The Macaulay2 code presented in this chapter is available at
+The complete code is available at
 \begin{center}
-	\href{http://www.math.cornell.edu/~rzlatev/phd-thesis/algos}
-	{\ttten http://www.math.cornell.edu/$\sim$rzlatev/phd-thesis/algos}
+	\url{http://www.math.cornell.edu/~rzlatev/phd-thesis/algos}
 \end{center}
 \end{paragraf*}
 
@@ -43,16 +45,16 @@ However, to avoid distraction, we assume that the map $\phi$ is generically 1-1.
 
 
 
-\section{Algorithm}
-\label{sec:algorithm}
+\section{The Algorithms}
+\label{sec:algorithms}
 
 \begin{paragraf*}
 At first glance, an algorithm for finding the implicit equation is contained in the proof
-of the our main theorem, Theorem \ref{th:gcd-minors}.
-In its simplest form, the algorithm is as follows
+of the our main theorem, Theorem \ref{thm:gcd-minors}.
+In its simplest form, it becomes
 \end{paragraf*}
 
-% \begin{absolutelynopagebreak}
+\begin{absolutelynopagebreak}
 \begin{algorithm} {\sc Naive Algorithm\bf.}
 \label{algo:naive}
 \begin{algorithmic}
@@ -61,46 +63,12 @@ In its simplest form, the algorithm is as follows
   \State Set $r=\dim_\CC(S_{\mathbf d})$
   \State Compute an $R$-generating set $\{h_l:l\}$ for the Rees ideal $I$
   \State Compute a $T$-generating set $\{g_k:k\}$ for $I_{\d,\bullet}$ from the $h_l$
-  	using Lemma \ref{lemma:basis-Id}
+  	using Lemma \ref{lemma:push-gens}
   \State Set $N$ to be the coefficient matrix of the $g_k$ with respect to $\mt{basis}(S_\d)$
   \State Compute $P=\gcd(\mt{minors}(r,N))$
 \end{algorithmic}
 \end{algorithm}
-% \end{absolutelynopagebreak}
-
-\begin{implementation}
-We first need an implementation of Lemma \ref{lemma:basis-Id}.
-\label{code:lemma:basis-Id}
-\begin{verbatim}
-procPushGensHigher = (d,r,I) -> (
-  G := for g in I_* list (
-    if all(d-((degree g)_r), Z->Z>=0) then
-      basis((d-((degree g)_r))|{0},ring I)**g
-    else continue);
-  trim image fold(G,matrix {{0_(ring I)}},(a, b)->a|b)
-)
-\end{verbatim}
-\end{implementation}
-
-\begin{implementation}
-\label{code:algo:naive}
-The implementation of Algorithm \ref{algo:naive} is now straight-forward.
-We only note that the ambient ring $R$ is required as input for encapsulation purposes.
-\begin{verbatim}
-ComputeNRees = method ()
-ComputeNRees (Ideal, List, Ring) := Matrix => (J, d, R) -> (
-  x := symbol x;
-  I := reesIdeal(J, Variable=>x);
-  AI := ring I;
-  zm := 0*d;
-  g := map(R,AI,first entries super basis(zm|{1},R));
-  I = g(I);
-  r := toList(0..#(degree J_0)-1);
-  V := procPushGensHigher (d,r,I);
-  matrix entries ( (gens V) // basis(d|{0}, R) )
-)
-\end{verbatim}
-\end{implementation}
+\end{absolutelynopagebreak}
 
 \begin{paragraf}
 \label{par:flaws}
@@ -115,17 +83,10 @@ We discuss four of them.
 \begin{enumerate}
 \item
 \label{itm:flaws:GB}
-Line 3 of the algorithm refers to Lemma~\ref{lemma:basis-Id} but unless we were given
-an $R$-generating set for the Rees ideal,
-we have to compute it from scratch.
-This is at least as hard a computation as the computation of the implicit equation
-in a very concrete sense ---
+Computing an $R$-generating set for the Rees ideal is at least as hard as
+computing the implicit equation itself ---
 the Rees ideal contains the implicit equation as its only generator in bidegree $(0,\bullet)$.
 This follows from Proposition~\ref{prop:deg-GB} and shows up in Example~\ref{ex314}.
-
-On the other hand, if we had a way to efficiently compute a generating set for $I$,
-we would only need an algorithm for finding the unique generator in the aforementioned bidegree,
-thus producing an equally efficient solution to the implicitization problem.
 
 \item
 \label{itm:flaws:many-minors}
@@ -133,7 +94,7 @@ Line 5 computes the $\gcd$ of all maximal minors of $N$.
 While computing the $\gcd$ of polynomials is fast,
 the number of minors can be very large.
 This happens even for reasonably small examples.
-For instance, the smallest nonzero matrix $N$ for the example of Section \ref{sec:example1}
+For instance, the smallest nonzero matrix $N$ for $\d=(2,2,1)$ in Example~\ref{ex603}
 is of size $18\times50$.
 The number of maximal minors is
 \[
@@ -144,11 +105,14 @@ a single machine would require 572 years to compute them all.
 
 \item
 \label{itm:flaws:large-det}
-Continuing with the example of Section \ref{sec:example1},
-we note that each maximal minor is the determinant of a matrix of order $18$
-whose entries are quartic forms on 5 variables.
-The total degree of each minor is then $72$.
+Continuing with Example~\ref{ex603},
+we note that each maximal minor is a determinant of an $18\times18$-matrix
+of quartic forms on 5 variables.
 Computing large determinants symbolically is time-consuming.
+While we could not calculate the degree-$72$ determinant,
+we can try to scale the running time for the similar calculation
+of Example~\ref{}
+
 The calculation of the determinant of a $13\times13$-matrix of quartic forms
 over 5 variables took about an hour to finish.
 Scaling this, we can expect this calculation to take around
@@ -237,7 +201,7 @@ It follows that the $\gcd$ of the minors is in $P$.
 The sufficiency follows since $P$ is principal of the same degree as the $\gcd$.
 \end{proof}
 
-% \begin{absolutelynopagebreak}
+\begin{absolutelynopagebreak}
 \begin{algorithm}{\sc Proposed Algorithm}{\bf.}
 \label{algo:proposed}
 \begin{algorithmic}
@@ -253,9 +217,9 @@ The sufficiency follows since $P$ is principal of the same degree as the $\gcd$.
 \State{Report $P=\gcd(\minors(r, N'))$}
 \end{algorithmic}
 \end{algorithm}
-% \end{absolutelynopagebreak}
+\end{absolutelynopagebreak}
 
-% \begin{absolutelynopagebreak}
+\begin{absolutelynopagebreak}
 \begin{algorithm}{\sc ComputePartialSyzyzies}{\bf.}
 \label{algo:compute-Ni}
 \begin{algorithmic}
@@ -272,11 +236,51 @@ The sufficiency follows since $P$ is principal of the same degree as the $\gcd$.
 \State{Report $N_i$}
 \end{algorithmic}
 \end{algorithm}
-% \end{absolutelynopagebreak}
+\end{absolutelynopagebreak}
+
+
+
+\section{Macaulay2 Implementation}
+\label{sec:implementation}
+
+\begin{implementation}
+We first need an implementation of Lemma \ref{lemma:push-gens}.
+\label{code:lemma:push-gens}
+\begin{verbatim}
+procPushGensHigher = (d,r,I) -> (
+  G := for g in I_* list (
+    if all(d-((degree g)_r), Z->Z>=0) then
+      basis((d-((degree g)_r))|{0},ring I)**g
+    else continue);
+  trim image fold(G,matrix {{0_(ring I)}},(a, b)->a|b)
+)
+\end{verbatim}
+\end{implementation}
+
+\begin{implementation}
+\label{code:algo:naive}
+The implementation of Algorithm \ref{algo:naive} is now straight-forward.
+We only note that the ambient ring $R$ is required as input for encapsulation purposes.
+\begin{verbatim}
+ComputeNRees = method ()
+ComputeNRees (Ideal, List, Ring) := Matrix => (J, d, R) -> (
+  x := symbol x;
+  I := reesIdeal(J, Variable=>x);
+  AI := ring I;
+  zm := 0*d;
+  g := map(R,AI,first entries super basis(zm|{1},R));
+  I = g(I);
+  r := toList(0..#(degree J_0)-1);
+  V := procPushGensHigher (d,r,I);
+  matrix entries ( (gens V) // basis(d|{0}, R) )
+)
+\end{verbatim}
+\end{implementation}
 
 
 
 \section{Examples}
+\label{sec:long-examples}
 
 \begin{example}[$\mt{ex601}$]
 \label{ex601}
@@ -481,6 +485,14 @@ o13 : Matrix R   <--- R
 \end{verbatim}
 We have that $N_1=0$ and $N_2$ is square.
 Note the similarity to the situation of Corollary \ref{thm:rel-moving-quadrics}.
+\end{example}
+
+\begin{example}[604]
+\label{ex604}
+\end{example}
+
+\begin{example}[603]
+\label{ex603}
 \end{example}
 
 % \section{First Example}
