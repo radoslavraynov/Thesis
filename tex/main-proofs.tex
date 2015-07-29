@@ -15,68 +15,69 @@
 
 
 \begin{paragraf*}
-While the ultimate goad of this chapter is to prove the results of Chapter~\ref{ch:main-results},
-it is written in a way to help develop intuition about the interplay between matrices of syzygies and
-the geometry of $Y$, specifically, of course, its implicit equation.
+While the ultimate goal of this chapter is to prove the results of Chapter~\ref{ch:main-results},
+it is written in a way to help develop intuition about the interplay between
+representation matrices on one hand and the geometry of $Y$ on the other.
 
-For this reason we start with a few elementary resuls which are either new or else their proofs are new.
-For example, Lemma~\ref{lemma:detM-P} is known [Soderberg and Chen prove it ad-hoc for linear and quadratic forms;
-find a good reference]
-while Lemma~\ref{lemma:nonzero-detM} is new.
+For this reason we start with a few elementary results with a two-fold purpose.
+Firstly, they put together a some easy facts about our matrices $N$.
+Secondly, they highlight, when compared to other ad-hoc proofs, the advantage of our point of view.
+\end{paragraf*}
 
-We follow the notation of Chapter~\ref{ch:preliminaries} and adopt setup of Chapter~\ref{ch:main-results}.
+\begin{paragraf*}
+We follow the notation of Chapter~\ref{ch:preliminaries} and
+adopt the setup of Chapter~\ref{ch:main-results}.
+In particular, we work over a fix degree $\d$ with $S_\d\neq0$
+and do not yet require that $\phi$ be generically finite.
 \end{paragraf*}
 
 \begin{lemma}
 \label{lemma:detM-P}
-For any fixed $\d$, let $M$ be a square $r\times r$ matrix of syzygies.
+Let $M$ be a square $r\times r$ matrix of syzygies.
 Then
 \[
-\det(M)\in \la P\ra
+	\det(M)\in \la P\ra
 \]
 In particular, if $M$ is any (not necessarily square) matrix of syzygies, then
 \[
-\mt{minors}(r,M)\se\la P\ra
+	\mt{minors}(r,M)\se\la P\ra
 \]
 \end{lemma}
 
 \begin{proof}
-The second statement clearly follows from the first, setting an empty minor to 0.
+The second statement clearly follows from the first, setting an empty minor to zero.
 
-Let $\text{adj}(M)$ be adjugate matrix and $\mathbf b=\basis(S_\d)$ be the row vector
-of the fixed basis for $S_{\d}$.
+Let $\text{adj}(M)$ be adjugate matrix and set $\mathbf b=\basis(S_\d)$.
 Then
 \[
-(\mathbf b\cdot M)\cdot\text{adj}(M)=\mathbf b\cdot\det(M)\mathbf 1_r=\det(M)\mathbf b
+	(\mathbf b\cdot M)\cdot\text{adj}(M)=\mathbf b\cdot\det(M)\mathbf 1_r=\det(M)\mathbf b
 \]
-Since $\mathbf b\cdot M$ is a row vector of syzygies, the LHS vanishes identically in $S$ under
-the substituion $x_0=\phi_0(\mathbf s),\ldots,x_n=\phi_n(\mathbf s)$.
+Since $\mathbf b\cdot M$ is a row vector of syzygies,
+the LHS vanishes identically in $S$ under the substitution
+$x_0=\phi_0(\mathbf s),\ldots,x_n=\phi_n(\mathbf s)$.
 But then
 \[
-	\text{RHS}|_{x_0=\phi_0,\ldots,x_n=\phi_n}=\det(M)(\phi_0,\ldots,\phi_n)b=
+	\text{RHS}|_{x_0=\phi_0,\ldots,x_n=\phi_n}=\det(M)(\phi_0,\ldots,\phi_n)\mathbf b=
 	\begin{bmatrix}0& 0& \ldots& 0\end{bmatrix}
 \]
-over $S$, and since $\la \mathbf b\ra\se S$ is the irrelevant ideal of a toric variety,
-truncated appropriately, it contains a nonzerodivisor on $S$, so
-$\det(M)(\phi_0,\ldots,\phi_n)=0$.
-If follows that that $\det(M)$ is in the kernel $\la P\ra$ of $\phi^\#$,
-proving the first statement.
+over the domain $S$.
+It follows that $\det(M)(\phi_0,\ldots,\phi_n)=0$,
+so that $\det(M)$ is in the kernel $\la P\ra$ of $\phi^\#$, proving the first statement.
 \end{proof}
 
 \begin{lemma}
 \label{lemma:nonzero-detM}
-For any fixed $\d$, $N$ has at least as many columns as rows, i.e.
+Any representation matrix $N$ has at least as many columns as rows, i.e.
 \[
-\mu\geq r
+	\mu\geq r
 \]
-and its ideal of maximal minors is nontrivial.
+and its ideal of maximal minors is nonzero.
 \end{lemma}
 
 \begin{proof}
 For each standard basis column vector $e_k\in\CC^r$, $P(\mathbf x)e_k$ is a graded syzygy.
-Let $F$ be the $\mu\times r$ matrix of coefficients for getting the $P(\mathbf x)e_k$
-out of the generators of the syzygies over $S_\d$, i.e. the columns of $N$.
-Putting these together, we find
+Let $F$ be the $\mu\times r$ matrix of coefficients for getting $P(\mathbf x)e_k$
+out of the generators of the syzygies over $S_\d$, that is
 \[
 	N\cdot F=P(\mathbf x)\mathbf 1_r
 \]
@@ -88,162 +89,164 @@ also $\rank(N)=r$ and so not all maximal minors vanish.
 \end{proof}
 
 \begin{lemma}
-\label{lemma:cokerN}	    
-For any fixed $\d$, there is an isomorphism of graded $T$-modules
+\label{lemma:cokerN}
+There is an isomorphism of graded $T$-modules
 \[
-\coker N\cong B_{\d,\bullet}
+	\coker N\cong B_{\d,\bullet}
 \]
 In particular, if $\mathcal{C}_\nbul$ is any graded resolution of $\coker(N)$ over $T$,
 then $H_0\mathcal{C}_\nbul=B_{\d,\bullet}$.
 \end{lemma}
 
 \begin{proof}
-	This is obvious. We just note that the gradings are off by $\d$.
-	%
-	% Let $C_k$ be the columns of $N$ and $i_k$ be the degree of the entries of $C_k$,
-	% i.e. the degree of the homogeneous $C_k$ in the free $T$-module $T^r$.
-	% Let $\mathbf b$ be the $1\times\mu$ vector of the basis of $S_d$,
-	% regarded as a graded map $T^r\To R_{d,\bullet}$ by multiplying on the left,
-	% and let $\bar{\mathbf b}$ be the natural extension to $B_{d,\bullet}$.
-	% Note that $\mathbf b$ and so $\bar{\mathbf b}$ are surjective.
-	%
-	% To establish the claim we only need to prove that the sequence of graded maps
-	% \begin{align}
-	% 	\label{exact-seq-coker}
-	% 	\bigoplus_k T(-i_k)\xrightarrow{~\mathbf N~} T^r \xrightarrow{~\bar{\mathbf b}~} B_{d,\bullet}\To 0
-	% \end{align}
-	% is exact. In turn we only need to prove exactness at $T^r$.
-	%
-	% For any standard basis element $e_k$ of $\CC^r$ thought of as a basis element of the leftmost module above,
-	% \[
-	% 	(\mathbf b\cdot N\cdot e_k)(\mathbf\phi)=(\mathbf b\cdot C_k)(\mathbf\phi)=0
-	% \]
-	% by the construction of $N$. This shows that the image is in $I_{d,\bullet}$
-	% so the sequence is a complex.
-	%
-	% Let $G\in\ker \bar{\mathbf b}$ be homogeneous of degree $i$, i.e. $\mathbf b\cdot G(\mathbf\phi)=0$
-	% and the entries of $G$ are of degree $i$. Set $g=g(\mathbf s;\mathbf x)=\mathbf b\cdot G\in I_{(d,i)}$.
-	% Because $I_{d,\bullet}$ is finite over $T$, generated by $g_k=\mathbf b\cdot C_k$ by construction of $N$,
-	% there are forms $f_k$ in $T$
-	% of degree $i-i_k$ (setting $f_k=0$ for $i<i_k$) such that
-	% \[
-	% 	g=\textstyle\sum f_kg_k
-	% \]
-	% or equivalently,
-	% \[
-	% 	\mathbf b\cdot G=\textstyle\sum f_k(\mathbf b\cdot C_k)=\mathbf b\cdot(\textstyle\sum f_kC_k)
-	% \]
-	% in $R_{(d,i)}$. In particular, $G=\sum f_kC_k=N\cdot\begin{bmatrix}f_1\ldots f_\mu\end{bmatrix}\T$
-	% is in the image of $N$, proving exactness at $T^r$.
+This is obvious. The sequence
+\begin{align}
+	\label{eq:exact-seq-coker}
+	\bigoplus_k T(-i_k)\xrightarrow{~N~}T^r\xrightarrow{~{\mathbf b}~\cdot~}B_{\d,\bullet}\To 0
+\end{align}
+is exact by definition, proving the claim.
+% 
+% Let $C_k$ be the columns of $N$ and $i_k$ be the degree of the entries of $C_k$,
+% i.e. the degree of the homogeneous $C_k$ in the free $T$-module $T^r$.
+% Let $\mathbf b$ be the $1\times\mu$ vector of the basis of $S_d$,
+% regarded as a graded map $T^r\To R_{d,\bullet}$ by multiplying on the left,
+% and let $\bar{\mathbf b}$ be the natural extension to $B_{d,\bullet}$.
+% Note that $\mathbf b$ and so $\bar{\mathbf b}$ are surjective.
+%
+% To establish the claim we only need to prove that the sequence of graded maps
+% is exact. In turn we only need to prove exactness at $T^r$.
+%
+% For any standard basis element $e_k$ of $\CC^r$ thought of as a basis element of the leftmost module above,
+% \[
+% 	(\mathbf b\cdot N\cdot e_k)(\mathbf\phi)=(\mathbf b\cdot C_k)(\mathbf\phi)=0
+% \]
+% by the construction of $N$. This shows that the image is in $I_{d,\bullet}$
+% so the sequence is a complex.
+%
+% Let $G\in\ker \bar{\mathbf b}$ be homogeneous of degree $i$, i.e. $\mathbf b\cdot G(\mathbf\phi)=0$
+% and the entries of $G$ are of degree $i$. Set $g=g(\mathbf s;\mathbf x)=\mathbf b\cdot G\in I_{(d,i)}$.
+% Because $I_{d,\bullet}$ is finite over $T$, generated by $g_k=\mathbf b\cdot C_k$ by construction of $N$,
+% there are forms $f_k$ in $T$
+% of degree $i-i_k$ (setting $f_k=0$ for $i<i_k$) such that
+% \[
+% 	g=\textstyle\sum f_kg_k
+% \]
+% or equivalently,
+% \[
+% 	\mathbf b\cdot G=\textstyle\sum f_k(\mathbf b\cdot C_k)=\mathbf b\cdot(\textstyle\sum f_kC_k)
+% \]
+% in $R_{(d,i)}$. In particular, $G=\sum f_kC_k=N\cdot\begin{bmatrix}f_1\ldots f_\mu\end{bmatrix}\T$
+% is in the image of $N$, proving exactness at $T^r$.
 \end{proof}
-
-\begin{remarkhint}
-The proof is actually commented out. Once I wrote it down it seemed tautology.
-\end{remarkhint}
 
 \begin{lemma}
 \label{lemma:anncokerN}
-For any fixed $\d$,
+One has
 \[
-\Supp_T(B_{\d,\bullet})=V(P)
+	\ann_T (B_{\d,\bullet})=P
 \]
 \end{lemma}
 
 \begin{proof}
-By identifying $T=1\tensor T\se R$, we can think of $T$ as a subring of $R$. If $1\tensor Q(\mathbf x)\in I$ for
-any homogeneous $Q(\mathbf x)\in T$, then $Q(\mathbf \phi)=0$, so $Q(\mathbf x)\in\ker\phi^\#=P$. 
-Specifically,
+Identifying $T=1\tensor T=R_{0,\bullet}$, we can think of $T$ as a subring of $R$.
+Since $R$ is a graded domain, we have
+\[
+	\ann_T(B_{\d,\bullet})=T\cap I
+\]
+By the definition of $I$, any form $Q(\mathbf x)\in T$ with $Q(\mathbf x)\in I$ is the the kernel
+of the ring map~$\phi^\#$. It follows that
 \[
 	T\cap I=P
 \]
-as subsets of $R$.
-If $Q\notin V(P)$ then $Q^c\cap I\neq\emptyset$, so $B_Q=0$ as a $T$-module
-because some element of $P\se I$ is inverted. This shows that $(B_{\d,\bullet})_Q=0$.
+completing the proof.
+\end{proof}
 
-Conversely, let $N'$ be the localization of $N$ at $P$.
+\begin{remarkhint}
+The lemma above shows that $\Supp_T (B_{\d,\bullet})=V(P)$ and there is a cool way
+to see that the $T$-module localization $(B_{\d,\bullet})_P$ is nonzero.
+Let $N'$ be the localization of $N$ at $P$.
 Then 
 \[
 	(B_{\d,\bullet})_P=\coker(N)_P=\coker(N')
 \]
 Since $\Fitt_0\coker(N')=\mt{minors}(r,N')\se PT_P\neq T_P$ by Lemma~\ref{lemma:detM-P},
-the cokernel is nonzero, for example, by (\citet{Eis-book-95}, Proposition 20.6).
-\end{proof}
+the cokernel is nonzero, for example, by (\citet{Eis95}, Proposition 20.6).
 
-\begin{remarkhint}
 For a geometric argument, see the proof of Lemma \ref{lemma:lengthRees}.
 \end{remarkhint}
 
 \begin{proof}[\bf Proof of Proposition \ref{prop:BP}]
-The ideal $I$ is prime in $R$ as the kernel of a ring map into the domain $S[t]$.
-By Lemma \ref{lemma:anncokerN},
+Recall that $I$ is the kernel of the ring map $\beta$ into the domain $S[t]$,
+so $I$ is obviously prime.
+By Lemma~\ref{lemma:anncokerN},
 \[
-P=I\cap T\se R
+	P=T\cap I\se R
 \]
-so $B=R/I$ is naturally a $T/P$-algebra generated by the $\mathbf{s}$.
-The $T$- and $T/P$-module structure of $B$ conicide and the $T$-module localization
-at $P$ coincides with the localization of the ring $R/I$ at the multiplicative set $(T-P)$.
-In particular, the localization $B_P$ remains a domain and becomes a $K(T/P)$-algebra
-in a natural way.
-The remarks about its finite-type and the grading are obvious.
+so $B=R/I$ is naturally a finite-type $S$-graded $T/P$-algebra.
+The $T$-module localization of $B$ at $P$ is just
+the localization of the ring $R/I$ at the multiplicative set $(T-P)$.
+In particular, the localization $B_P$ remains a domain,
+now as a $K(T/P)$-algebra.
 This proves parts (a) and (b).
 
-Let $\mathfrak{n}$ be the irrelevant ideal of $S$
-and let $g=g(\mathbf s,\mathbf x)\in I:\mathfrak{n}^k\se R=S[\mathbf x]$ for some $k>0$.
-Then $\mathbf s^\alpha g\in I$ for all $|\alpha|=k$ and so
-\[
-(\mathbf s^\alpha g)(\mathbf\phi)=0
-\]
-in $S$. Since the latter is a domain, and $X$ is nonempty,
-not all the $\mathbf s^\alpha$ are zero and so $g(\mathbf\phi)=0$.
-It follows, by the definition of $I$, that $g\in I$.
-
-Noting that saturation commutes with localization finishes the proof of part (c).
-Part (d) follow immediately.
+Since $I$ is prime in $R$, $I$ is saturated with respect to the irrelevant ideal $\n\se S\se R$.
+Now (c) follows from the fact that saturation commutes with localization.
 \end{proof}
 
 \begin{proof}[\bf Proof of Theorem \ref{thm:rad-minors}]
-By Lemma \ref{lemma:anncokerN} and (\citet{Eis-book-95}, Proposition 20.7), we have
+By Lemma~\ref{lemma:cokerN}, Lemma~\ref{lemma:anncokerN} and
+(\citet{Eis95}, Proposition~20.7),
+we have
 \[
-\rad(\mt{minors}(r,N))=\rad(\Fitt_0(\coker N))=\rad(\ann (B_{\d,\bullet}))=P\qedhere
+	\rad(\mt{minors}(r,N))=\rad(\Fitt_0(\coker N))=\rad(\ann (B_{\d,\bullet}))=P\qedhere
 \]
 \end{proof}
 
+
+
+\begin{paragraf*}
+From now on, we assume that $\phi$ is generically finite, or equivalently,
+that $P$ is principal.
+\end{paragraf*}
+
 \begin{lemma}
 \label{lemma:divdetC}
-For any fixed $\d$, let $\mathcal{C}_\nbul$ be a finite graded free resolution of $\coker N$. One has
+Let $\mathcal{C}_\nbul$ be a finite graded free resolution of $\coker N$. One has
 \[
 	\thediv(\det(\mathcal{C}_\nbul))=\length_{T_P}(B_{\d,\bullet})_P\cdot[Y]
 \]
-as a Weil divisor on $\Proj(T)$.
+as a Weil divisor on $\PP^n$.
 \end{lemma}
 
 \begin{proof}
-By (\citet{GKZ-book-94}, A, Theorem 30), applied to the factorial $T$, a principal prime $Q=\la Q(\mathbf x)\ra$,
+By (\citet{GKZ94}, A, Theorem 30), applied to the factorial $T$, a principal prime $Q=\la Q(\mathbf x)\ra$,
 and the generically exact $\mathcal{C}_\nbul$,
 \[
-\ord_{Q(\mathbf x)}(\det(\mathcal{C}_\nbul))=\sum_i (-1)^i \mult_Q(H_i\mathcal{C}_\nbul)
+	\ord_{Q(\mathbf x)}(\det(\mathcal{C}_\nbul))=\sum_i (-1)^i \mult_Q(H_i\mathcal{C}_\nbul)
 \]
 Since $\mathcal{C}_\nbul$ is exact, all the higher homology vanishes, so
 \[
-\ord_{Q(\mathbf x)}(\det(\mathcal{C}_\nbul))=\mult_Q(H_0\mathcal{C}_\nbul)
+	\ord_{Q(\mathbf x)}(\det(\mathcal{C}_\nbul))=\mult_Q(H_0\mathcal{C}_\nbul)
 \]
-which is $0$ outside of $\ann(H_0\mathcal{C}_\nbul)$.
-By Lemma \ref{lemma:cokerN} and \ref{lemma:anncokerN} the latter is exactly $P$.
+The RHS above is zero outside of $\ann(H_0\mathcal{C}_\nbul)$,
+so by Lemma \ref{lemma:cokerN} and \ref{lemma:anncokerN},
+is nonzero only for $Q=P$.
 Taking the sum over all non-associate irreducible homogeneous polynomials,
 \begin{align*}
-\thediv(\det(\mathcal{C}_\nbul))&=\sum_{Q(\mathbf x)} \ord_{Q(\mathbf x)}(\det(\mathcal{C}_\nbul))\cdot[V(Q)]\\
-&=\sum_{Q(\mathbf x)} \mult_Q (H_0\mathcal{C}_\nbul)\cdot [V(Q)]\\
-&=\mult_P (H_0\mathcal{C}_\nbul)\cdot[Y]\\
-&=\length_{T_P}(B_{\d,\bullet})_P\cdot[Y]
+	\thediv(\det(\mathcal{C}_\nbul))&=\sum_{Q(\mathbf x)}
+		\ord_{Q(\mathbf x)}(\det(\mathcal{C}_\nbul))\cdot[V(Q)]\\
+	&=\sum_{Q(\mathbf x)} \mult_Q (H_0\mathcal{C}_\nbul)\cdot [V(Q)]\\
+	&=\mult_P (H_0\mathcal{C}_\nbul)\cdot[Y]\\
+	&=\length_{T_P}(B_{\d,\bullet})_P\cdot[Y]
 \end{align*}
 establishing the claim.
 \end{proof}
 
 \begin{lemma}
 \label{lemma:lengthBdimB}
-For any fixed $\d$,
+One has
 \[
-\length_{T_P}(B_{\d,\bullet})_P=\dim_{K(T/P)}(B_{\d,\bullet})_P
+	\length_{T_P}(B_{\d,\bullet})_P=\dim_{K(T/P)}(B_{\d,\bullet})_P
 \]
 \end{lemma}
 
@@ -251,19 +254,22 @@ For any fixed $\d$,
 Note that $P(\mathbf x)\in I$, so $P(\mathbf x)$ annihilates $B$ as a $T$-module.
 Setting $\m_P=PT_P\se T_P$,
 \begin{align*}
-\length_{T_P}(B_{\d,\bullet})_P&=
-\sum_{k}\dim_{T_P/\m_P} \m_P^{k}(B_{\d,\bullet})_P/\m_P^{k+1}(B_{\d,\bullet})_P\\
-&=\dim_{T_P/\m_P}(B_{\d,\bullet})_P
+	\length_{T_P}(B_{\d,\bullet})_P&=
+	\sum_{k}\dim_{T_P/\m_P} \m_P^{k}(B_{\d,\bullet})_P/\m_P^{k+1}(B_{\d,\bullet})_P\\
+	&=\dim_{T_P/\m_P}(B_{\d,\bullet})_P
 \end{align*}
 since $\m_P$ in turn annihilates $(B_{\d,\bullet})_P$.
-[A one-line argument is: the $T$- and $T/P$-module structure of $B$ are the same.]
 \end{proof}
+
+\begin{remarkhint}
+A one-line argument would be: the $T$- and $T/P$-module structure of $B$ are the same.
+\end{remarkhint}
 
 \begin{lemma}
 \label{lemma:lengthRees}
-Let $\d\in \reg(B_P)$ in the sense of \eqref{par:describe-d}. One has
+Let $\d\in \reg(B_P)$ in the sense of \eqref{par:reg-IP}. One has
 \[
-\dim_{K(T/P)} (B_{d,\bullet})_P=\deg\phi
+	\dim_{K(T/P)} (B_{d,\bullet})_P=\deg(\phi)
 \]
 \end{lemma}
 
@@ -275,75 +281,59 @@ This result requires neither $\codim(Y\se\PP^n)=1$ nor $\dim V(J)=0$.
 Let $\Gamma=\Biproj(B)$ be the graph of the rational map $\phi$, or equivalently
 the blow-up of $X$ along the basepoints $V(J)$. Let $E\se\Gamma$ be the exceptional
 locus.
-We point the reader to (\citet{Har-book-77}, II, Example 7.17.3) for the details,
+We point the reader to (\citet{Har77}, II, Example 7.17.3) for the details,
 summarized in the following commutative diagram
 
 \begin{tikzcd}[column sep=large]
 	\Biproj(B)=\Gamma \arrow[hookleftarrow]{r}\arrow[]{d}{\pi_1}\arrow[two heads, bend left=35]{rrd}[description]{\pi_2} &
 		\Gamma-E\arrow[]{d}{\cong}[swap]{\pi_1|_{\Gamma-E}}\arrow[two heads]{rd}[description]{\pi_2|_{\Gamma-E}} \\
-	X \arrow[hookleftarrow]{r}\arrow[bend right=17, two heads, dashed]{rr}[description]{\phi} &
+	X \arrow[hookleftarrow]{r}\arrow[bend right=17, dashed]{rr}[description]{\phi} &
 		X-V(J) \arrow[two heads]{r}{\phi|_{X-V{J}}} &
 		~ Y\se\PP^n
 \end{tikzcd}
 
-Since $\pi_2|_{\Gamma-E}=\phi|_{X-V(J)}\circ\pi_1|_{\Gamma-E}$ and $\pi_1|_{\Gamma-E}$ is an isomorphism,
+Since $\pi_2|_{\Gamma-E}=\phi|_{X-V(J)}\circ\pi_1|_{\Gamma-E}$ and
+$\pi_1|_{\Gamma-E}$ is an isomorphism,
 the morphism $\pi_2$ is generically finite onto its image and $\deg(\phi)=\deg(\pi_2)$.
 If $\gamma\in\PP^n$ is the generic point of $Y$, then the scheme-theoretic fiber
 \[
-\pi_2\inv(\gamma)=\Spec(\O_{\gamma,Y})\times_Y \Gamma
+	\pi_2\inv(\gamma)=\Spec(\O_{\gamma,Y})\times_Y \Gamma
 \]
 is a closed zero-dimensional subscheme of $\Gamma$ consisting of
 $\deg(\pi_2)$ points, counted with multiplicity.
 
-The morphism $\pi_2:\Biproj(B)\to\Proj T$ is induced by the graded map of $\CC$-algebras
+The morphism $\pi_2:\Biproj(B)\to\Proj(T)$ is induced by the graded map of $\CC$-algebras
 \[
-\pi_2^\sharp=(x_j\mapsto \overline{x_j\tensor1}):T\To{(T\tensor S)}/{I}=B
+	\pi_2^\sharp=(x_j\mapsto \overline{x_j\tensor1}):T\To{(T\tensor S)}/{I}=B
 \]
 and the fiber of $\gamma=[P]\in\Proj T$ corresponds to the set of bihomogeneous prime ideals of $B$
 which pull back to $P\se T$ via $\pi_2^\sharp$.
 By an easy reduction,
-% for example (\citet{Vakil-book-10}, Exercise 7.3.H, 7.3.K and 9.3.A),
-this set corresponds to the set of homogeneous in the $S$-grading prime ideals
-in the finite-type $K(T/P)$-algebra
+for example (\citet{Vakil10}, Exercise 7.3.H, 7.3.K and 9.3.A),
+this set corresponds to the set of $S$-grading homogeneous prime ideals of the $K(T/P)$-algebra
 \[
-K(T/P)\tensor_{T/P}B\cong B_P
+	K(T/P)\tensor_{T/P}B\cong B_P
 \]
 
 The identification above presents the fiber as a $\Proj(-)$ over a field,
-i.e.
+that is,
 \[
-\Proj_{K(T/P)} B_P\xrightarrow{~\sim~}\pi_2\inv(\gamma)\se\Biproj(B)
+	\Proj_{K(T/P)} B_P\xrightarrow{~\sim~}\pi_2\inv(\gamma)\se\Biproj(B)
 \]
 
 Since this is a finite projective scheme over the field $K(T/P)$,
-its degree is given by its constant Hilbert polynomial, i.e. by
+its degree is well-defined and given by
 \[
-\dim_{K(T/P)} (B_P)_\d=\dim_{K(T/P)} (B_{\d,\bullet})_P
+	\dim_{K(T/P)} (B_P)_\d=\dim_{K(T/P)} (B_{\d,\bullet})_P
 \]
-for all $\d$ in the regularity of the projective toric scheme above.
-
-The result follows since by Proposition \ref{prop:BP},
-$B_P$ is the Cox ring of the said scheme.
+for all $\d$ in $\reg(I_P)$.
 \end{proof}
 
-\begin{example}
-The construction of Lemma \ref{lemma:lengthRees} is already apparent in Example \ref{ex207}.
-Since $P\se I$ in $R$, the bihomogeneous primes in $R/I=B$
-which pull back to $P$ are those in
-\[
-(\CC[x_0,x_1,x_2]/\la x_0+x_1-x_2\ra)[s,t]/\la x_1s^2-x_0t^2\ra
-\]
-which intersect the coefficient ring trivially, so in turn, those in
-\[
-(\CC[x_0,x_1,x_2]\setminus\la x_0+x_1-x_2\ra)\inv(\CC[x_0,x_1,x_2]/\la x_0+x_1-x_2\ra)[s,t]/\la x_1s^2-x_0t^2\ra
-\]
-\end{example}
-
 \begin{proof}[\bf Proof of Theorem \ref{thm:gcd-minors}]
-Fix any such $\d$ and let $\mathcal{C}_\nbul$ be a minimal graded free resolution of $\coker N$.
-By (\citet{GKZ-book-94}, A, Theorem 34) which applies since $\mathcal{C}_\nbul$ is exact,
+Let $\mathcal{C}_\nbul$ be a minimal graded free resolution of $\coker N$.
+By (\citet{GKZ94}, A, Theorem 34) which applies since $\mathcal{C}_\nbul$ is exact,
 \[
-\det(\mathcal{C}_\nbul)=\gcd(\mt{minors}(r,N))
+	\det(\mathcal{C}_\nbul)=\gcd(\mt{minors}(r,N))
 \]
 up to a unit of $T$. But then by Lemma \ref{lemma:divdetC}, \ref{lemma:lengthBdimB} and \ref{lemma:lengthRees},
 \begin{align*}
@@ -382,32 +372,7 @@ as a $K(T/P)$-algebra instead.
 
 
 
-\begin{paragraf*}
-We recall the statement of Proposition \ref{prop:degviaGB} [change the number below].
-\end{paragraf*}
-
-\begin{proposition}
-Let $\CC[s_0,\ldots,s_m]$ be the fixed ambient polynomial ring of $S'$ as described in \ref{par:setup}.
-Define the ideal $I_B$ of $\CC[s_0,\ldots,s_m;x_0,\ldots,x_n]$ by the equality
-\[
-	B=\CC[\mathbf s;\mathbf x]/I_B
-\]
-Let $>'$ be any product order in which the $\mathbf s$ variables
-come before the $\mathbf x$ variables.
-Then a reduced Gr\"obner basis for $I_B$ with respect to $>'$ has the form
-\begin{align*}
-	&g_1(\mathbf s;\mathbf x)=p_1(\mathbf x){\mathbf s}^{\alpha_1}+\text{lower order terms}\\
-	&\qquad\cdots\\
-	&g_r(\mathbf s;\mathbf x)=p_r(\mathbf x){\mathbf s}^{\alpha_r}+\text{lower order terms}\\
-	&g_{r+1}(\mathbf s;\mathbf x)=P(\mathbf x)
-\end{align*}
-and
-\[
-	\deg(\phi)=\deg \big(\la{\mathbf s}^{\alpha_1},\ldots,{\mathbf s}^{\alpha_r}\ra\se\CC[\mathbf s]\big)
-\]
-\end{proposition}
-
-\begin{proof}
+\begin{proof}[Proof of Proposition~\ref{prop:deg-GB}]
 For any choice of $>'$, a reduced Gr\"oebner basis for $I_B$ will have the outlined general form
 except possibly for the term $g_{r+1}$. By Lemma \ref{SuppRees} and its proof, $I\cap T=P$, so also
 $I'\cap T=P$. This establishes $g_{r+1}$ and shows that $\alpha_k\neq0$.
@@ -446,87 +411,6 @@ and adding generators for the extension of $J$ to $K(T/P)[\mathbf s]$.
 % to get that the initial ideal is $\la {\mathbf s}^{\alpha_1},\ldots,{\mathbf s}^{\alpha_r}\ra$.
 % Recalling that $\deg(\pi_2)=\deg(\phi)$ establishes the claim.
 \end{proof}
-
-\begin{example}
-... Give a good example.
-\end{example}
-
-
-
-\begin{conjecture}
-\label{conj:nice-example}
-Let $X=\PPP$ and $J\se S=\CC[s,u;t,v]$ be given by 4 general $(2,2)$ forms in $\la s^2,st,t^2\ra$.
-Then $\phi$ is generically 1-1 with
-the unique basepoint $(0,1)\times(0,1)$ of degree $3$ and multiplicity $4$,
-and the image is singular along 3 non-degenerate concurent lines.
-\end{conjecture}
-
-\begin{lemma}
-Let $L_1,L_2,L_3$ be general...
-\end{lemma}
-
-\begin{lemma}[$\mt{ex10}$]
-\label{lucky-comp}
-Let $P(\mathbf x)$ be a form of degree $4$ on $\PP^3$ and set $Y=V(P(\mathbf x))$.
-Suppose that $\mathrm{Sing}(Y)$ contains 3 non-degenerate concurent lines.
-Then there is a square $4\times4$ matrix of linear forms $M$ such that $\det(M)=P(\mathbf x)$.
-\end{lemma}
-
-\begin{proof}
-After a linear change of coordinates on $\PP^3$ we can assume that the lines are the
-3 coordinate axes in the distinguished $\{x_3\neq0\}$, i.e. $V(x_0,x_1)$, $V(x_1,x_2)$ and $V(x_0,x_2)$.
-
-On the level of ideals, using Euler's identity, the assumption translates to
-\[
-\la P_{x_0}(\mathbf x),\ldots, P_{x_3}(\mathbf x) \ra\se\la x_0x_1,x_0x_2,x_1x_2\ra
-\]
-so writing out $P(\mathbf x)=\sum_{|\alpha|=4} a_\alpha {\mathbf x}^\alpha$
-and noting that each of the partials must be zero modulo $\la x_0x_1,x_0x_2,x_1x_2\ra$,
-we only need to solve a linear system in the indeterminante coefficients.
-We get
-\[
-P(\mathbf x)=
-a_0x_0^2x_1^2+a_1x_0^2x_2^2+a_3x_1^2x_2^2+a_3x_0^2x_1x_2+a_4x_0x_1^2x_2+a_5x_0x_1x_2^2+a_6x_0x_1x_2x_3
-\]
-which is the determinant of
-\[
-M=\begin{bmatrix}
-x_0&&&x_1\\
-&x_1&&x_2\\
-&&x_2&x_0\\
--a_2x_2&-a_1x_0&-a_0x_1&a_6x_3+a_3x_0+a_4x_2+a_5x_3
-\end{bmatrix}
-\]
-
-In fact, if $a_6\neq0$ we can do better.
-Setting $a_6=1$, a linear change of coordinates by the matrix
-\[
-\begin{bmatrix}
-1&&&-a_3\\
-&1&&-a_4\\
-&&1&-a_5\\
-&&&1
-\end{bmatrix}
-\]
-leaves the singular locus intact but simplifies the general form to
-\[
-P'(\mathbf x)=a_0x_0^2x_1^2+a_1x_0^2x_2^2+a_2x_1^2x_2^2+x_0x_1x_2x_3
-\]
-The matrix $M$ then becomes
-\[
-M'=\begin{bmatrix}
-x_0&&&x_1\\
-&x_1&&x_2\\
-&&x_2&x_0\\
--a_2x_2&-a_1x_0&-a_0x_1&x_3
-\end{bmatrix}
-\]
-each of whose coordinates is a scaled variable.
-\end{proof}
-
-[Say how this is related to taking $\d=(1,1)$, what other methods apply, about the matrix $N_1$
-can be taken as a submatrix of this matrix $M$ and how this changes if I precompose the map with
-a map $\PP^2\To\PPP$ instead.]
 
 
 

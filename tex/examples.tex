@@ -609,6 +609,18 @@ in the sense that only 3 out of its 4 columns are syzygies.
 The example with 3 syzygies from the B exam.
 \end{example}
 
+\begin{example}[318]
+Change to $\PP^1\times\PP^1$ source.
+\end{example}
+
+\begin{example}[319]
+\label{ex319}
+Let $X=\PPP$ and $J\se S=\CC[s,u;t,v]$ be given by 4 general $(2,2)$ forms in $\la s^2,st,t^2\ra$.
+Then $\phi$ is generically 1-1 with
+the unique basepoint $(0,1)\times(0,1)$ of degree $3$ and multiplicity $4$,
+and the image is singular along 3 non-degenerate concurrent lines.
+\end{example}
+
 \begin{example}[$\mt{ex314}$]
 \label{ex314}
 We apply Proposition \ref{prop:deg-GB} to compute the degree of the rational map
@@ -697,10 +709,20 @@ The results for other values of $\d$ are analogous.
 
 \begin{example}[316]
 \label{ex316}
-Structure of $B_P$
+The construction of Lemma \ref{lemma:lengthRees} is already apparent in Example \ref{ex207}.
+Since $P\se I$ in $R$, the bihomogeneous primes in $R/I=B$
+which pull back to $P$ are those in
+\[
+	(\CC[x_0,x_1,x_2]/\la x_0+x_1-x_2\ra)[s,t]/\la x_1s^2-x_0t^2\ra
+\]
+which intersect the coefficient ring trivially, so in turn, those in
+\[
+	(\CC[x_0,x_1,x_2]\setminus\la x_0+x_1-x_2\ra)\inv(\CC[x_0,x_1,x_2]/\la x_0+x_1-x_2\ra)[s,t]/\la x_1s^2-x_0t^2\ra
+\]
 \end{example}
 
 \begin{example}
+\label{ex317}
 It may seem at first that taking the smallest possible degree is always our best option,
 but Example~\ref{ex308} provides a good counterexample.
 The examples in Chapter~\ref{ch:fast-method}, which are computationally more complex,
@@ -710,6 +732,7 @@ so nonzero matrices tend to be larger in size and degree of their minors.
 It is the possibility to choose a good $\d$ that is one of the contributions of
 our results to the methods of moving hypersurfaces.
 \end{example}
+
 
 
 %% STRIP BEGIN
