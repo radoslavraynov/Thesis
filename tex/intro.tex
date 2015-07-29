@@ -13,15 +13,31 @@
 \begin{document}
 %% STRIP END
 
-The implicitization problem asks for finding the equations defining the image of a rational map
-into some projective space $\PP^n$.
-This is an old problem in algebraic geometry which was effectively solved in the 60s
-by Gr\"obner bases.
-However, this method has two intrinsic shortcomings.
-The first is its computational complexity.
-Even relatively small examples may require, using today's computational capacity,
-running time in the hundreds of years or more.
-The second problem is that geometrically it represents a black box.
+Implicitization is an old problem in algebraic geometry,
+which asks for the equations of the closed image in of a rational map
+given by sections sections of a line bundle on the source.
+A solution via elimination has been known since the 19th century.
+Today, elimination can generally be carried out through a Gr\"obner basis calculation.
+However, this entails has two drawbacks.
+First, such an approach is a black box with respect to geometry.
+Second, this method is computationally heavy and because unfeasible for even reasonably
+small examples.
+
+In the 1990s, with the advance of Computer Aided Design (CAD) software,
+the problem was brought back to life after a SIGRAPH paper by Soederber and Chen,
+[SIGRAPH Sederber and Chen].
+They suggested, or rather showed empirically, how to find the implicit equation 
+of the parametrization of curve in $\PP^2$, or of a surface in $\PP^3$.
+The first mathematical results in terms of representation matrices ---
+matrices which capture syzygies on the coordinates the rational map ---
+came around the early 2000s by as series of papers, most notably \citet{CGZ-00}.
+Starting with \citet{BJ-03}, another approach was suggested which departed from
+linear and commutative algebra and brought the picture to algebraic geometry.
+Since then many iterations and strengthenings of the those have been published.
+
+
+
+
 
 %% STRIP BEGIN
 

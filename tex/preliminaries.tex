@@ -374,7 +374,8 @@ Choosing bases \eqref{par:syzygies}, we can think of $\Phi^{(k)}$ as a matrix ov
 whose columns can be indexed by the monomials in $R_{\mathbf d,k}$.
 \end{paragraf}
 
-\begin{example}
+\begin{example}[$\mt{ex202}$]
+\label{ex202}
 Give a small example to clarify this.
 \end{example}
 
@@ -388,6 +389,28 @@ That is, for a fixed $\mathbf d$,
 \]
 is an isomorphism of vector spaces.
 \end{paragraf}
+
+\begin{lemma}
+\label{lemma:push-gens}
+Let $\mathbf M$ be a finite bigraded $R$-module generated some finite set $\{h_\ell:\ell\}$.
+Let $\d$ be any degree on $S$.
+Setting $({\mathbf a}_\ell,i_\ell)=\deg(h_\ell)$, one has
+\[
+	\displaystyle\sum_{\ell,~{\mathbf b}_\ell~:~{\mathbf a}_\ell+{\mathbf b}_\ell=\d}
+	S_{{\mathbf a}_\ell}\cdot h_\ell={\mathbf M}_{\d,\bullet}
+\]
+In particular,
+\[
+	\displaystyle\bigcup_{\ell}~\{\mathbf s_k\cdot h_\ell:\Span_\CC\{\mathbf s_k:k\}=
+	S_{{\mathbf b}_\ell}\}
+\]
+is a $T$-module generating set for $\mathbf M_\d$.
+\end{lemma}
+
+\begin{proof}
+Obvious.
+\end{proof}
+
 
 
 
