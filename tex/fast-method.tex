@@ -4,10 +4,6 @@
 \usepackage{times}
 \usepackage{natbib}
 
-\newcounter{chapter}
-\setcounter{chapter}{6}
-\numberwithin{first}{chapter}
-
 \begin{document}
 %% STRIP END
 
@@ -65,7 +61,7 @@ In its simplest form, it becomes
   \State Set $r=\dim_\CC(S_{\mathbf d})$
   \State Compute an $R$-generating set $\{h_l:l\}$ for the Rees ideal $I$
   \State Compute a $T$-generating set $\{g_k:k\}$ for $I_{\d,\bullet}$ from the $h_l$
-  	using Lemma \ref{lemma:push-gens}
+  	using \eqref{lemma:push-gens}
   \State Set $N$ to be the coefficient matrix of the $g_k$ with respect to $\mt{basis}(S_\d)$
   \State Compute $P=\gcd(\mt{minors}(r,N))$
 \end{algorithmic}
@@ -271,7 +267,7 @@ as a reference for the next section also.
 
 \begin{code}
 \label{code:lemma:push-gens}
-We start with Lemma~\ref{lemma:push-gens}.
+We start with the description of \eqref{lemma:push-gens}.
 \label{code:lemma:push-gens}
 \begin{verbatim}
 Lemma514 = (d,I) -> (
@@ -833,4 +829,8 @@ output here
 
 
 %% STRIP BEGIN
+%% BIBLIOGRAPHY
+\bibliographystyle{unsrtnat}
+\bibliography{../lib/refs}
+
 \end{document}
