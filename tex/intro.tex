@@ -7,8 +7,77 @@
 \begin{document}
 %% STRIP END
 
+The main goal of this thesis is to develop a framework for both
+efficiently computing the closed image of a rational map $\phi:X\To\PP^n$, and
+studying the relation between algebraic properties of the coordinates $\phi_j$ on one hand,
+and geometric properties of the image~$Y$, on the other.
+We consider the setup where $X$ is a smooth projective toric variety
+and are most interested in the case when $X$ of dimension $n-1$ and $\phi$ is generically finite.
+In this case,
+finding the image entails computing a single equation~$P(\mathbf x)$,
+called the implicit equation.
 
+This is a version of the implicitization problem which is classical in algebraic geometry.
+It has an effective solution through elimination using Gr\"obner bases, for instance,
+but those techniques have two drawbacks.
+First, they become unfeasible even for examples of modest complexity.
+Second, they represent a black box in terms of geometry---a tool which
+takes the~$\phi_j$ and returns~$P$,
+and whether the computation finishes before our Sun dies or not,
+no geometric feature can be used or inferred from the process.
+Motivated partially by the advance of computer aided design (CAD),
+interest in new approaches to the implicitization problem
+reappeared in the 1990s.
+One reference often cited as the initiating work is \cite{SC-95},
+a SIGGRAPH paper using moving curves and surfaces for implicitization.
+One of the first works building on these idea from the standing point
+of commutative algebra and algebra geometry is \citet{CGZ-00}.
 
+Our approach follows the theme of moving surfaces but sets to remove the intrinsic
+ad-hoc constructions it requires.
+In this sense,
+we draw inspiration by the method of the approximation complex, initiated by \citet{BJ-03}.
+Our main results are a blend of the results in the two papers.
+
+Let $S$ be the Cox ring of~$X$ graded by $\Pic(X)$,
+and $J=\la\phi_0,\ldots,\phi_n\ra\se S$ be the ideal of the coordinates.
+Then the Rees ideal $I$ of $J$ can be thought of
+an algebraic object through the Rees algebra, but also
+a geometric object through the graph of $\phi$.
+We construct, for any degree~$\d$ on $S$,
+a matrix~$N$ representing a generating set for the polynomial relations on the $\phi_j$
+with coefficients from $S_\d$ only.
+This is just bigraded piece of the Rees ideal.
+The matrix $N$ generalizes the types of representation matrices
+studied by the aforementioned methods.
+One of the our main results in an analogue to the results for approximation complex.
+We show that if $N$ is of size $r\times\mu$, then $\text{rank}(N)=r$ and
+\[
+	\gcd(\text{minors}(r,N))=P^{\deg(\phi)}
+\]
+Relaxing the requirement that $X$ be of dimension $n-1$, we find that
+\[
+	\rad(\text{minors}(r,N))=P
+\]
+
+Results of form:
+if conditions (1)--(k) hold, then there exists a square matrix $M$ such that $\det(M)=P$,
+which are the main theme of the moving surfaces method,
+are now equivalent to saying the degree-$(\d,\bullet)$
+ideal of the coordinates $J$ has $r$ relations over $S_d$
+as described above.
+This suggest a template for proofs allowing one to focus on the various conditions only.
+
+Moreover, the matrix $N$ can be computed incrementally
+using only tools from linear algebra,
+allowing calculation in situations previously out of reach.
+
+--- to the extent that some of the cases seem to work just because
+two numbers turn out to be the same.
+
+The method of the approximation complex, on the other hand, is more robust.
+
+\newpage
 Implicitization is an old problem in algebraic geometry,
 which asks for the equations of the closed image in of a rational map
 given by sections sections of a line bundle on the source.
@@ -58,7 +127,9 @@ given by 4 general bi-quartics and having a preset base locus of total multiplic
 The degree of that image was 26 and the calculation didn't seem was going to finish.
 This 
 
-In
+\newpage
+
+The approach we take follows the method of moving surfaces in that we 
 
 %% STRIP BEGIN
 %% BIBLIOGRAPHY
