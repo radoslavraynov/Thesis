@@ -15,30 +15,38 @@ Section~\ref{sec:algorithms} describes two algorithms for implicitization.
 The first one is simple and robust, and is used for studying the matrices $N$
 when Gr\"obner basis calculations can be carried out efficiently.
 The second one is more involved and is used when direct computations are unfeasible.
-In those cases its lead is significant.
+In those cases, the second algorithm's lead is significant.
 Section~\ref{sec:long-examples} provides details about the algorithms
 and support to the claim in the form of a few worked examples.
 \end{paragraf*}
 
 \begin{paragraf*}
-Both, as means to illustrate that our algorithms are effective in the sense of
-computational algebraic geometry,
+Both, as means to illustrate that our algorithms are effective, say,
+in the sense of computational algebraic geometry,
 and as a setup for the examples to follow,
-Section~\ref{sec:implementation} includes Macaulay2 code implementing
-the algorithms of Section~\ref{sec:algorithms}.
+in Section~\ref{sec:implementation} we implement those algorithms in
+the Macaulay2 system.
 \end{paragraf*}
 
 \begin{paragraf*}
-The complete code is available at
+The code is available at
 \begin{center}
 	\url{http://www.math.cornell.edu/~rzlatev/phd-thesis}
 \end{center}
 \end{paragraf*}
 
 \begin{paragraf*}
-We continue to follow the notation of Chapter \ref{ch:preliminaries}
-and the setup of Chapter \ref{ch:main-results}.
-However, to avoid distraction, we assume throughout the chapter that $\phi$ is generically 1-1.
+We continue to follow the notation of Chapter~\ref{ch:preliminaries}
+and the setup of \eqref{par:setup}.
+However, to avoid distraction,
+we assume throughout the chapter that $\phi$ is generically 1-1.
+\end{paragraf*}
+
+\begin{paragraf*}
+In the final section, we workout a few examples.
+Not only do those examples highlight the performance of the algorithms,
+they show how implicitization is no longer a black box but geometrically
+expired and driven.
 \end{paragraf*}
 
 
@@ -56,14 +64,15 @@ In its simplest form, it becomes
 \begin{algorithm} {\sc Naive Algorithm\bf.}
 \label{algo:naive}
 \begin{algorithmic}
-  \State {\bf input:} the ideal $J$ and a degree $\d$ on $S$
-  \State {\bf output:} the matrix $N$ and the implicit equation $P$
+  \State {\bf input:} $J$, $\d$
+  \State {\bf output:} $N$, $P$
   \State Set $r=\dim_\CC(S_{\mathbf d})$
-  \State Compute an $R$-generating set $\{h_l:l\}$ for the Rees ideal $I$
-  \State Compute a $T$-generating set $\{g_k:k\}$ for $I_{\d,\bullet}$ from the $h_l$
+  \State Compute an $R$-generating set $\{h_\ell:\ell\}$ for the Rees ideal $I$
+  \State Compute a $T$-generating set $\{g_k:k\}$ for $I_{\d,\bullet}$ from the $h_\ell$
   	using \eqref{lemma:push-gens}
   \State Set $N$ to be the coefficient matrix of the $g_k$ with respect to $\mt{basis}(S_\d)$
   \State Compute $P=\gcd(\mt{minors}(r,N))$
+  \State Return $N$, $P$
 \end{algorithmic}
 \end{algorithm}
 % \end{absolutelynopagebreak}
@@ -72,24 +81,24 @@ In its simplest form, it becomes
 \label{par:flaws}
 The conciseness and robustness of Algorithm \ref{algo:naive} made it our preferred tool
 for testing the theory.
-In fact, all concrete calculations presented so far,
+In fact, all calculations presented so far,
 including all examples of Chapter \ref{ch:examples},
 were carried out using this algorithm.
 
 At the same time, its simplicity allows us to spot some of its drawbacks.
-We discuss four major ones.
+We distinguish four major ones.
 \begin{enumerate}
 \item
 \label{itm:flaws:GB}
 Computing an $R$-generating set for the Rees ideal is at least as hard as
 computing the implicit equation itself --- we have $I_{0,\bullet}=P$.
-This follows from Proposition~\ref{prop:deg-GB} and shows up in Example~\ref{ex314}.
+This follows from Proposition~\ref{prop:deg-GB} and
+shows up in Examples~\ref{ex202} and \ref{ex314}.
 
 \item
 \label{itm:flaws:many-minors}
 While computing the $\gcd$ of two polynomials is fast,
-on the last line we compute all minors,
-and their number can be very large.
+computing all minors could be difficult since their number can be very large.
 This happens even for reasonably small examples.
 For instance, the smallest nonzero matrix $N$ for $\d=(2,2,1)$ in Example~\ref{ex603}
 is of size $18\times50$.
@@ -106,12 +115,12 @@ Continuing with Example~\ref{ex603},
 we note that each maximal minor is a determinant of an $18\times18$-matrix
 of quartic forms in 5 variables.
 Computing large determinants symbolically is time-consuming.
-Indeed, we did not manage to compute any nonzero minor.
+We did not manage to compute any nonzero minor.
 
 Example~\ref{ex602} involves a somewhat similar calculation ---
 the determinant of a $12\times12$-matrix of quadratic forms in 5 variables
 took about an hour to compute.
-Scaling up, we can speculate that our $18\times18$ determinant would take somewhere
+Extrapolating, we can speculate that our $18\times18$ determinant would take somewhere
 in the order of
 \[
 	13\times14\times15\times16\times17\times18=13'366'080
@@ -167,7 +176,7 @@ the $\gcd$ correctly.
 These two simple observations produce an immense speed up on average.
 The advantage of \itmref{itm:N'}{par:proposed} over computing an $R$-generating set for the
 Rees ideal is that it uses only linear algebraic routines.
-The advantage of computing only a sufficiently many, rather than all, of the minors is clear.
+The advantage of computing only sufficiently many, rather than all, of the minors is obvious.
 \end{paragraf*}
 
 \begin{paragraf}
@@ -185,29 +194,31 @@ If $N'$ satisfies the condition
 then $\gcd(\minors(r,N'))=P$.
 
 This is true for any collection of matrices of syzygies $M_k$, as in \eqref{lemma:detM-P}.
-Indeed, $P(\mathbf x)$ divides each $\det(M_k)$, so $P(x)$ divides the $\gcd$,
-but both have the same degree by assumption.
+Indeed, $P(\mathbf x)$ divides each $\det(M_k)$, so $P(\mathbf x)$ divides their $\gcd$,
+but both forms have the same degree by assumption.
 
 In particular, this shows that if $\deg(\det(M))<\deg(P)$, then $M$ must be singular.
 \end{paragraf}
 
 \begin{paragraf}
 Let $M_1,M_2$ be matrices of syzygies, as in \eqref{lemma:detM-P},
-and let $Y_1,Y_2$ be the hypersurfaces in $\PP^n$ they define.
+and let $Y_1,Y_2\se\PP^n$ be the hypersurfaces they define.
 Let $L$ be a general line in $\PP^n$.
 If $M_1,M_2$ satisfy the condition
 \begin{align}
 	\label{C:minors}
 	\tag{C2}
-	L\cap Y_1\cap Y_2\se Y
+	L\cap Y_1\cap Y_2\se L\cap Y
 \end{align}
 then $\gcd(\det(M_1),\det(M_2))=P$.
 
-This condition can be used for testing \itmref{itm:gcd}{par:proposed}.
-The claim follows from the generality of $L$ and because
+The condition can be used for testing \itmref{itm:gcd}{par:proposed}.
+To prove the claim, note that we always have
 \[
-	Y_1\cap Y_2=V(\gcd(\det(M_1),\det(M_2)))
+	Y_1\cap Y_2\supset V(\gcd(\det(M_1),\det(M_2)))\supset Y
 \]
+which together with \eqref{C:minors} gives $L\cap Y_1\cap Y_2=L\cap Y$,
+which is true exactly when $Y_1\cap Y_2$ does not contain any other hypersurfaces besides $Y$.
 
 Indeed, if the $\gcd$ is a proper multiple of $P$, then the intersection of
 $Y_1$ and $Y_2$ contains another hypersurface, whose intersection with the general $L$
@@ -221,10 +232,11 @@ Summarizing the discussion so far, we propose
 \begin{algorithm}{\sc Proposed Algorithm}{\bf.}
 \label{algo:proposed}
 \begin{algorithmic}
-\State{{\bf input:} $J$, $\d$, $p$}
+\State{{\bf input:} $J$, $\d$, $p=\deg(P)$}
 \State{{\bf output:} a list of matrices $M_k$ such that $\gcd(\{M_k:k\})=P$}
-\State{Set $r=h^0(S_\mathbf d)$}
+\State{Set $r=\dim_\CC(S_\d)$}
 \State{Set $N'=r\times0$ matrix over $T$}
+\State{}
 \While{\ref{C:OK-matrix} is not satisfied for $N'$}
 	\State{Given $N_1,\ldots,N_{i-1}$, use Algorithm \ref{algo:compute-Ni} to compute $N_i$}
 	% \Comment{Call Recursion again}
@@ -237,8 +249,8 @@ Summarizing the discussion so far, we propose
 \begin{algorithm}{\sc Compute Partial Syzygies}{\bf.}
 \label{algo:compute-Ni}
 \begin{algorithmic}
-\State{{\bf input:} a list of matrices of sygygy-generators $N_1,\ldots,N_{i-1}$}
-\State{{\bf output:} the syzygy-generators matrix $N_i$}
+\State{{\bf input:} a list of the already computed $N_1,\ldots,N_{i-1}$}
+\State{{\bf output:} $N_i$}
 \For{$0<j<i$}
 %	\State{Let $\mt{basis}(T)$ be the basis for $T_{i-j}$ as a row vector}
 	\State{Set $N_{ji}=\mt{basis}(T_{i-j})\tensor N_{j}$}
@@ -247,7 +259,7 @@ Summarizing the discussion so far, we propose
 \State{Set $K_i=\ker(\Phi^{(i)})$}
 \State{Let $K_i'$ be such that $\Span(K_i)=\Span(K_i')\oplus(\sum_j\Span(K_{ji}))$}
 \State{Let $N_i$ be such that $\mt{basis}(R_{\mathbf d,i})\cdot K_i'=\mt{basis}(S_{\mathbf d})\cdot N_i$}
-\State{Report $N_i$}
+\State{Return $N_i$}
 \end{algorithmic}
 \end{algorithm}
 
@@ -256,21 +268,12 @@ Summarizing the discussion so far, we propose
 \section{Implementation in Macaulay2}
 \label{sec:implementation}
 
-\begin{paragraf*}
-We devote this section to implementing Algorithms~\ref{algo:naive} and~\ref{algo:proposed}
-in the Macaulay2 system for research in algebraic geometry and commutative algebra,
-\citet{M2}.
-
-While not difficult, some care had to be exercised, so we present them here to serve
-as a reference for the next section also.
-\end{paragraf*}
-
-\begin{code}
+\begin{paragraf}
 \label{code:lemma:push-gens}
-We start with the description of \eqref{lemma:push-gens}.
+We start with a realization for \eqref{lemma:push-gens}.
 \label{code:lemma:push-gens}
 \begin{verbatim}
-Lemma514 = (d,I) -> (
+PushGens = (d,I) -> (
   r := toList(0..(#d-1));
   G := for g in I_* list (
     if all(d-((degree g)_r), Z->Z>=0)
@@ -279,12 +282,12 @@ Lemma514 = (d,I) -> (
   trim image fold(G,matrix {{0_(ring I)}},(a, b)->a|b)
   )
 \end{verbatim}
-\end{code}
+\end{paragraf}
 
-\begin{code}
+\begin{paragraf}
 \label{code:algo:naive}
 Using \eqref{code:lemma:push-gens},
-Algorithm \ref{algo:naive} becomes straight-forward to implement.
+Algorithm \ref{algo:naive} is straight-forward to implement.
 We require~$R$ for encapsulation.
 \begin{verbatim}
 ComputeNRees = method ()
@@ -295,19 +298,20 @@ ComputeNRees (Ideal, List, Ring) := Matrix => (J, d, R) -> (
   zm := 0*d;
   g := map(R,AI,first entries super basis(zm|{1},R));
   I = g(I);
-  V := Lemma514 (d,I);
+  V := PushGens (d,I);
   matrix entries ( (gens V) // basis(d|{0}, R) )
   )
 \end{verbatim}
-\end{code}
+\end{paragraf}
 
-\begin{code}
+\begin{paragraf}
 \label{code:algo:compute-Ni}
 Algorithm~\ref{algo:compute-Ni} is the one we make most use of in Section~\ref{sec:long-examples}.
 Its fourth argument is the list of already computed matrices $N_1,\ldots,N_{i-1}$.
 If this list's size is not $i-1$,
 then we just compute all linearly independent syzygies of degree~$i$ --- $\basis(I_{\d,i})$.
-The ideal $J$ is supplied in the form of a matrix $F=\phi^{(1)}$ (see \ref{par:strands}) over $R$.
+The ideal $J$ is supplied in the form of the matrix
+$F=\phi^{(1)}\tensor R$ (see \ref{par:strands}).
 \begin{verbatim}
 ComputeNi = method ()
 ComputeNi (Matrix, ZZ, List, List) := Matrix => (F, i, d, lst) -> (
@@ -333,14 +337,15 @@ ComputeNi (Matrix, ZZ, List, List) := Matrix => (F, i, d, lst) -> (
   gens trim image (Nii%Nji)
   )
 \end{verbatim}
-\end{code}
+\end{paragraf}
 
-\begin{code}
+\begin{paragraf}
 \label{code:algo:proposed}
-This is the first part of the proposed Algorithm~\ref{algo:proposed}.
+This only implement the first part of the proposed Algorithm~\ref{algo:proposed}.
 We omit the minors speed-up simply because of \itmref{itm:flaws:large-det}{par:flaws}.
 Further, after general change of coordinates, two minors ought to suffice,
 and we can compute them manually when necessary.
+See Examples~\ref{ex603} and \ref{ex604} for details.
 \begin{verbatim}
 ComputeNConj = method ()
 ComputeNConj (Matrix, ZZ, List) := Matrix => (F, p, d) -> (
@@ -366,7 +371,7 @@ ComputeNConj (Matrix, ZZ, List) := Matrix => (F, p, d) -> (
   N
   )
 \end{verbatim}
-\end{code}
+\end{paragraf}
 
 
 

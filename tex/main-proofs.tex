@@ -14,15 +14,15 @@ While the ultimate goal of this chapter is to prove the results of Chapter~\ref{
 it is written in a way to help develop intuition about the interplay between
 representation matrices on one hand and the geometry of $Y$ on the other.
 
-For this reason we start with a few elementary results with a two-fold purpose.
+For this reason we start with a few elementary results with two-fold purpose.
 Firstly, they put together a some easy facts about our matrices $N$.
 Secondly, they highlight, when compared to other ad-hoc proofs, the advantage of our point of view.
 \end{paragraf*}
 
 \begin{paragraf*}
 We follow the notation of Chapter~\ref{ch:preliminaries} and
-adopt the setup of Chapter~\ref{ch:main-results}.
-In particular, we work over a fix degree $\d$ with $S_\d\neq0$
+adopt the setup of \eqref{par:again}.
+In particular, we work over a fix degree $\d$ with $S_\d\neq0$,
 and do not yet require that $\phi$ be generically finite.
 \end{paragraf*}
 
@@ -31,11 +31,11 @@ and do not yet require that $\phi$ be generically finite.
 Let $M$ be a square $r\times r$ matrix of syzygies.
 Then
 \[
-	\det(M)\in \la P\ra
+	\det(M)\in P
 \]
 In particular, if $M$ is any (not necessarily square) matrix of syzygies, then
 \[
-	\mt{minors}(r,M)\se\la P\ra
+	\mt{minors}(r,M)\se P
 \]
 \end{lemma}
 
@@ -57,7 +57,7 @@ But then
 \]
 over the domain $S$.
 It follows that $\det(M)(\phi_0,\ldots,\phi_n)=0$,
-so that $\det(M)$ is in the kernel $\la P\ra$ of $\phi^\#$, proving the first statement.
+so that $\det(M)$ is in the kernel $P$ of $\phi^\#$, proving the first statement.
 \end{proof}
 
 \begin{lemma}
@@ -171,21 +171,20 @@ For a geometric argument, see the proof of Lemma \ref{lemma:lengthRees}.
 \end{remarkhint}
 
 \begin{proof}[\bf Proof of Proposition \ref{prop:BP}]
-Recall that $I$ is the kernel of the ring map $\beta$ into the domain $S[t]$,
-so $I$ is obviously prime.
+Since $I$ is the kernel of the ring map into a domain, $I$ is prime.
 By Lemma~\ref{lemma:anncokerN},
 \[
 	P=T\cap I\se R
 \]
 so $B=R/I$ is naturally a finite-type $S$-graded $T/P$-algebra.
 The $T$-module localization of $B$ at $P$ is just
-the localization of the ring $R/I$ at the multiplicative set $(T-P)$.
+the localization of the ring $R/I$ at the multiplicative set of homogeneous elements in $(T-P)$.
 In particular, the localization $B_P$ remains a domain,
 now as a $K(T/P)$-algebra.
 This proves parts (a) and (b).
 
 Since $I$ is prime in $R$, $I$ is saturated with respect to the irrelevant ideal $\n\se S\se R$.
-Now (c) follows from the fact that saturation commutes with localization.
+Now (c) follows because saturation commutes with localization.
 \end{proof}
 
 \begin{proof}[\bf Proof of Theorem \ref{thm:rad-minors}]
@@ -210,7 +209,7 @@ Let $\mathcal{C}_\nbul$ be a finite graded free resolution of $\coker N$. One ha
 \[
 	\thediv(\det(\mathcal{C}_\nbul))=\length_{T_P}(B_{\d,\bullet})_P\cdot[Y]
 \]
-as a Weil divisor on $\PP^n$.
+as Weil divisors on $\PP^n$.
 \end{lemma}
 
 \begin{proof}
@@ -223,10 +222,11 @@ Since $\mathcal{C}_\nbul$ is exact, all the higher homology vanishes, so
 \[
 	\ord_{Q(\mathbf x)}(\det(\mathcal{C}_\nbul))=\mult_Q(H_0\mathcal{C}_\nbul)
 \]
-The RHS above is zero outside of $\ann(H_0\mathcal{C}_\nbul)$,
+The RHS above is zero outside $\ann(H_0\mathcal{C}_\nbul)$,
 so by Lemma \ref{lemma:cokerN} and \ref{lemma:anncokerN},
-is nonzero only for $Q=P$.
-Taking the sum over all non-associate irreducible homogeneous polynomials,
+the RHS is nonzero only for $Q=P$.
+Summing over all non-associate irreducible homogeneous polynomials,
+we get
 \begin{align*}
 	\thediv(\det(\mathcal{C}_\nbul))&=\sum_{Q(\mathbf x)}
 		\ord_{Q(\mathbf x)}(\det(\mathcal{C}_\nbul))\cdot[V(Q)]\\
@@ -262,7 +262,7 @@ A one-line argument would be: the $T$- and $T/P$-module structure of $B$ are the
 
 \begin{lemma}
 \label{lemma:lengthRees}
-Let $\d\in \reg(B_P)$ in the sense of \eqref{par:reg-IP}. One has
+Let $\d\in \reg(I_P)$ in the sense of \eqref{par:reg-IP}. One has
 \[
 	\dim_{K(T/P)} (B_{d,\bullet})_P=\deg(\phi)
 \]
@@ -301,11 +301,12 @@ The morphism $\pi_2:\Biproj(B)\to\Proj(T)$ is induced by the graded map of $\CC$
 \[
 	\pi_2^\sharp=(x_j\mapsto \overline{x_j\tensor1}):T\To{(T\tensor S)}/{I}=B
 \]
-and the fiber of $\gamma=[P]\in\Proj T$ corresponds to the set of bihomogeneous prime ideals of $B$
+and the fiber of $\gamma=[P]\in\Proj (T)$ corresponds to the set of
+bihomogeneous prime ideals of $B$
 which pull back to $P\se T$ via $\pi_2^\sharp$.
 By an easy reduction,
-for example (\citet{Vakil10}, Exercise 7.3.H, 7.3.K and 9.3.A),
-this set corresponds to the set of $S$-grading homogeneous prime ideals of the $K(T/P)$-algebra
+for example (\citet{Vak10}, Exercise 7.3.H, 7.3.K and 9.3.A),
+this set corresponds to the set of $S$-grading-homogeneous prime ideals of the $K(T/P)$-algebra
 \[
 	K(T/P)\tensor_{T/P}B\cong B_P
 \]
@@ -321,7 +322,7 @@ its degree is well-defined and given by
 \[
 	\dim_{K(T/P)} (B_P)_\d=\dim_{K(T/P)} (B_{\d,\bullet})_P
 \]
-for all $\d$ in $\reg(I_P)$.
+for all $\d\in\reg(I_P)$.
 \end{proof}
 
 \begin{proof}[\bf Proof of Theorem \ref{thm:gcd-minors}]
@@ -335,12 +336,12 @@ up to a unit of $T$. But then by Lemma \ref{lemma:divdetC}, \ref{lemma:lengthBdi
 \thediv(\gcd(\mt{minors}(r,N)))&=\thediv(\det(\mathcal{C}_\nbul))\\
 &=\length_{T_P} (B_{d,\bullet})_P\cdot[Y]\\
 &=\dim_{K(T/P)} (B_{d,\bullet})_P\cdot[Y]\\
-&=\deg\phi\cdot[Y]
+&=\deg(\phi)\cdot[Y]
 \end{align*}
 
 Because this is just an equality of Weil divisors,
 \[
-\gcd(\mt{minors}(r,N))=P^{\deg\phi}\qedhere
+\gcd(\mt{minors}(r,N))=P^{\deg(\phi)}\qedhere
 \]
 \end{proof}
 
@@ -349,62 +350,34 @@ This follows directly from Theorem \ref{thm:gcd-minors}.
 \end{proof}
 
 \begin{proof}[\bf Proof of Corollary \ref{cor:approx-complex}]
-Recall that the baselocus of $\phi$ is at worst locally complete intersection if and only if
-the natural morphism of schemes
-\[
-	\Biproj(\Rees_S(J))\To\Biproj(\Sym_S(J))
-\]
-is an isomorphism.
-
-We can now follow the proof of Theorem \ref{thm:gcd-minors} verbatim replacing
-$N$ by $N_1$ and $B$ by $\Sym_S(J)$. Note that in this case $\d$ must be taken
-from the regularity of
-\[
-	(T-P)\inv(\Sym_S(J)/P\Sym_S(J))
-\]
-as a $K(T/P)$-algebra instead.
 \end{proof}
 
 
 
-\begin{proof}[Proof of Proposition~\ref{prop:deg-GB}]
+\begin{proof}[\bf Proof of Proposition~\ref{prop:deg-GB}]
 For any choice of $>'$, a reduced Gr\"oebner basis for $I_B$ will have the outlined general form
-except possibly for the term $g_{r+1}$. By Lemma \ref{SuppRees} and its proof, $I\cap T=P$, so also
-$I'\cap T=P$. This establishes $g_{r+1}$ and shows that $\alpha_k\neq0$.
+except possibly for the term $g_{r+1}$.
+Since $I\cap T=P$ by Lemma~\ref{lemma:anncokerN},
+a Gr\"obner basis must include $P(\mathbf x)$ as its unique generator involving just the $x_j$.
+This proves the first part.
 
-By reduceness, $P(\mathbf x)\nmid p_k(\mathbf x)$, so the initial ideal of the preimage $I'_B$ of $I_P$
-in $K(T/P)[\mathbf s]$---formed after factoring
-$P$ and inverting $(T\setminus P)$---is generated by the $\mathbf s^{\alpha_k}$.
+Define the ideal $\mathbf I$ by the identity
+\[
+	B_P=\frac{(\CC[\mathbf x]-P)\inv\CC[\mathbf s;\mathbf x]}{I'_B}
+\]
+By reduce-ness, $P(\mathbf x)\nmid p_k(\mathbf x)$,
+so $I'_B$ can be obtained from the generating set for $I_B$ by removing $P(\mathbf x)$.
 
-By Lemma \ref{lemma:lengthRees}, $\deg(\phi)$ is given by the constant Hilbert polynomial of $B_P$,
-so we only need to show that the latter coincides with the degree of $I'_B$.
-But this is clear since $I'_B$ can be formed by taking any generators of $I_P$
-and adding generators for the extension of $J$ to $K(T/P)[\mathbf s]$.
-%
-% Recall the notation from Lemma \ref{lengthRees}.
-% Let $U\se Y$ be the open dense set of closed points whose fibers have cardinality $\deg(\pi_2)$.
-% Since the Gr\"obner basis is
-% reduced and $P(\mathbf x)$ is irreducible, $P(\mathbf x)\nmid p_k(\mathbf x)~\forall k$.
-% It follows that $Y\not\se V(p_1\cdots p_r)$ so we can find a closed point
-% \[
-% 	\mathbf a\in U-(Y\cap V(p_1\cdots p_r))\se Y
-% \]
-%
-% The fiber $\pi_2\inv(\mathbf a)$, as a subscheme of the ambient $\PP^m_{\mathbf s}\times\PP^n_{\mathbf x}$,
-% is definied by the ideal
-% \[
-% 	\la g_1(\mathbf s;\mathbf a),\ldots,g_r(\mathbf s;\mathbf a),0,x_0-a_0,\ldots,x_n-a_n\ra
-% \]
-% which in turn corresponds to the subscheme of $\PP^m_{\mathbf s}$ defined by the homogeneous ideal
-% \[
-% 	\la g_1(\mathbf s;\mathbf a),\ldots,g_r(\mathbf s;\mathbf a)\ra
-% \]
-%
-% By assumption this defines a finite subscheme whose cardinality is $\deg(\pi_2)$.
-% As such, $\deg(\pi_2)$ is just the degree of the ideal. Since the initial ideal has the same degree and
-% since $\mathbf a\notin V(p_1\cdots p_r)$, we can rescale the $g_k$ by the $p_k({\mathbf a})\in\CC^\times$
-% to get that the initial ideal is $\la {\mathbf s}^{\alpha_1},\ldots,{\mathbf s}^{\alpha_r}\ra$.
-% Recalling that $\deg(\pi_2)=\deg(\phi)$ establishes the claim.
+By the proof of Lemma~\ref{lemma:lengthRees},
+we know that $\Proj_{K(T/P)} B_P$ corresponds to
+the scheme-theoretic preimage of the generic point of $Y$,
+and in turn, this gives
+\[
+	\deg(\phi)=H^0(\Proj_{K(T/P)} B_P,\O)=\deg(I'_B)
+\]
+where $\O$ denotes the structure sheaf of $\Proj_{K(T/P)} B_P$,
+and the degree on the far-right is the degree in $K(T/P)\CC[\mathbf s]$.
+The result now follows because the initial ideal of $I'_B$ has the same degree.
 \end{proof}
 
 
