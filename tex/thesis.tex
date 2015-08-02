@@ -37,23 +37,21 @@ Let $X$ be a smooth projective toric variety of dimension~$n-1$
 and let $\phi:X\To\PP^n$ be a generically finite rational map.
 The closed image~$Y$ can be defined by a single equation $P(\mathbf x)$,
 called the implicit equation.
-The implicitization problem asks for techniques for computing the implicit equation.
+The implicitization problem asks for techniques for finding the implicit equation.
 
 This is an old problem in algebraic geometry, and can be solved effectively
 through elimination using Gr\"obner bases.
-However, this solution represents a black box in terms of the geometry on $X$ and $Y$,
+However, this solution represents
+a black box in terms of the geometry on the base locus $Z\se X$ and $Y$,
 and is unfeasible even for reasonably small examples.
 
 In this thesis, we use ideas from the two most popular non-Gr\"obner basis approaches,
 the method of the approximation complex and the method of moving surfaces,
 to construct a family of matrices $N$, one for each element in $\Pic(X)$,
-the $\gcd$ of whose maximal minors give a power of the implicit equation.
+capturing determinantal representations for $P(\mathbf x)$
 
-Unlike other methods, our approach is immune to base points and works well if
-various assumptions as relaxed.
-Furthermore, its ideas 
-
-We design and implement a fast algorithm for computation in previously intractable situations.
+We design and implement an efficient algorithm for computing the representation matrices
+and the implicit equation which allow us to calculate in previously intractable situations.
 \end{abstract}
 
 \begin{biosketch}
