@@ -42,16 +42,15 @@ The implicitization problem asks for techniques for finding the implicit equatio
 This is an old problem in algebraic geometry, and can be solved effectively
 through elimination using Gr\"obner bases.
 However, this solution represents
-a black box in terms of the geometry on the base locus $Z\se X$ and $Y$,
+a black box in relation to the geometry on the base locus and the closed image,
 and is unfeasible even for reasonably small examples.
 
 In this thesis, we use ideas from the two most popular non-Gr\"obner basis approaches,
 the method of the approximation complex and the method of moving surfaces,
 to construct a family of matrices $N$, one for each element in $\Pic(X)$,
-capturing determinantal representations for $P(\mathbf x)$
-
-We design and implement an efficient algorithm for computing the representation matrices
-and the implicit equation which allow us to calculate in previously intractable situations.
+capturing determinantal representations for $P(\mathbf x)$.
+An algorithm for this calculation is described and implemented in the Macaulay2 system.
+Example calculations in previous intractable situations are presented.
 \end{abstract}
 
 \begin{biosketch}

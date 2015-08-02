@@ -303,9 +303,16 @@ we always have $\mu-1$ linear columns and a single quadratic one.
 
 \begin{example}[$\mt{ex306}$]
 \label{ex306}
-Let $X=\PP^2$ and $J=\la s^3,t^2u,s^2t+u^3,stu\ra$.
-The map is birational with a single c.i. basepoint of degree 2.
-and $\det(N)={x}_{0}^{3} {x}_{1}^{4}-{x}_{0}^{2} {x}_{1}^{3} {x}_{2} {x}_{3}+{x}_{3}^{7}$,
+Let $X=\PP^2$ and $J=\la s^{3},t^{2} u,s^{2} t+u^{3},s t u\ra$.
+This is the situation of Example~\ref{ex202}.
+We have 
+\[
+	P(\mathbf x)={x}_{0}^{3} {x}_{1}^{4}-{x}_{0}^{2} {x}_{1}^{3} {x}_{2} {x}_{3}+{x}_{3}^{7}
+\]
+
+For $\d=1$, we find that $N$ is square of order $3$ with $h=(1,1,0,1)$.
+For $\d=2$, we get a square $6\times6$ matrix with $h=(5,1)$,
+and for $\d\geq3$, we get a non-square matrix of linear forms only.
 \end{example}
 
 \begin{example}[$\mt{ex307}$]
@@ -465,7 +472,7 @@ but in that case $M=(N_1~|~N_2)$ which we wanted to avoid.
 
 \begin{example}[$\mt{ex310}$]
 \label{ex310}
-This example has been present elsewhere in the literature and is know to break all the available methods.
+The following example has been presented elsewhere in the literature as a difficult one to handle.
 Let $X=\PP^2$ and take
 \begin{align*}
 	J=\la &-s^{2} t^{3}+3 s^{2} t^{2} u+s t^{3} u-4 s t^{2} u^{2}-s t
@@ -477,27 +484,34 @@ Let $X=\PP^2$ and take
 		  &-s^{2}
 	      t^{3}+3 s^{2} t^{2} u-s t^{3} u-3 s t u^{3}+3 t u^{4}-u^{5}
 \end{align*}
-so $\phi$ is generically 1-1 with 3 basepoints of total degree $17$
-and multiplicity 20. More precisely, the basepoints are the ci point $(1,1,1)$ of multiplicity $4$,
-the aci point $(0,1,0)$ of degree 4 and multiplicity 5, and
-the aci point $(1,0,0)$ of degree 9 and multiplicity 11.
+so $\phi$ is generically 1-1
+with 3 base locus of total degree $17$ and multiplicity 20.
+More precisely, the basepoints are the c.i. point $(1,1,1)$ of multiplicity $4$,
+the a.c.i. point $(0,1,0)$ of degree 4 and multiplicity 5, and
+the a.c.i. point $(1,0,0)$ of degree 9 and multiplicity 11.
 
-Irrelevant of any of the hideous basepoints, we get
-\[
-	N=\bgroup\begin{bmatrix}{x}_{0}+{x}_{1}&
-      0&
-      {x}_{1}^{2}-{x}_{3}^{2}\\
+Unlike other examples in this section,
+already in degree $\d=1$,
+we find only linear and quadratic syzygies.
+In this sense the example is rather simple.
+We find
+\begin{align*}
+	N=\Bigg[&\bgroup\begin{matrix}{x}_{0}+{x}_{1}&
+      0&\ldots\\
       -{x}_{0}-{x}_{2}&
-      3 {x}_{0} {x}_{1}-{x}_{1}^{2}+4 {x}_{1} {x}_{2}+3 {x}_{0} {x}_{3}-3 {x}_{1} {x}_{3}+4 {x}_{2} {x}_{3}-2 {x}_{3}^{2}&
-      {x}_{0}^{2}+7 {x}_{0} {x}_{1}-3 {x}_{1}^{2}+{x}_{0} {x}_{2}+10 {x}_{1} {x}_{2}+6 {x}_{0} {x}_{3}-9 {x}_{1} {x}_{3}+9 {x}_{2} {x}_{3}-6 {x}_{3}^{2}\\
+      3 {x}_{0} {x}_{1}-{x}_{1}^{2}+4 {x}_{1} {x}_{2}+3 {x}_{0} {x}_{3}-3 {x}_{1} {x}_{3}+4 {x}_{2} {x}_{3}-2 {x}_{3}^{2}&\ldots\\
       -{x}_{2}+{x}_{3}&
-      {x}_{0}^{2}-{x}_{0} {x}_{1}-{x}_{1}^{2}-3 {x}_{0} {x}_{3}-3 {x}_{1} {x}_{3}-{x}_{3}^{2}&
-      -5 {x}_{0} {x}_{1}-2 {x}_{1}^{2}-3 {x}_{0} {x}_{2}-6 {x}_{1} {x}_{2}-8 {x}_{0} {x}_{3}-5 {x}_{1} {x}_{3}-3 {x}_{2} {x}_{3}\\
-      \end{bmatrix}\egroup
-\]
+      {x}_{0}^{2}-{x}_{0} {x}_{1}-{x}_{1}^{2}-3 {x}_{0} {x}_{3}-3 {x}_{1} {x}_{3}-{x}_{3}^{2}&\ldots
+      \end{matrix}\egroup\\
+	  &\bgroup\begin{matrix}
+	  \ldots&{x}_{1}^{2}-{x}_{3}^{2}\\
+	  \ldots&{x}_{0}^{2}+7 {x}_{0} {x}_{1}-3 {x}_{1}^{2}+{x}_{0} {x}_{2}+10 {x}_{1} {x}_{2}+6 {x}_{0} {x}_{3}-9 {x}_{1} {x}_{3}+9 {x}_{2} {x}_{3}-6 {x}_{3}^{2}\\
+	  \ldots&-5 {x}_{0} {x}_{1}-2 {x}_{1}^{2}-3 {x}_{0} {x}_{2}-6 {x}_{1} {x}_{2}-8 {x}_{0} {x}_{3}-5 {x}_{1} {x}_{3}-3 {x}_{2} {x}_{3}
+	  \end{matrix}\egroup\Bigg]
+\end{align*}
 and
 \[
-	\det(N)=P(\mathbf x) \demo
+	\det(N)=P(\mathbf x)
 \]
 \end{example}
 
@@ -596,24 +610,58 @@ x_0&&&x_1\\
 whose entries are scaled variables.
 \end{example}
 
-\begin{example}[313]
+\begin{example}[$\mt{ex313}$]
 \label{ex313}
-It turns out, however, that this $M$ is not a matrix of syzygies,
-in the sense that only 3 out of its 4 columns are syzygies.
+In the situation of Example~\ref{ex201}, we had
+\[
+	N=\begin{bmatrix}0&
+	       {x}_{1}&
+	       0&
+	       0&
+	       {x}_{0} {x}_{2}-{x}_{3}^{2}\\
+	       {x}_{2}&
+	       {-{x}_{3}}&
+	       {-{x}_{1}}&
+	       {-{x}_{3}}&
+	       {-{x}_{3}^{2}}\\
+	       {-{x}_{3}}&
+	       {-101 {x}_{1}}&
+	       0&
+	       {x}_{0}-101 {x}_{1}&
+	       -10201 {x}_{1} {x}_{2}-202 {x}_{3}^{2}\\
+	       -101 {x}_{2}-{x}_{3}&
+	       0&
+	       {x}_{0}&
+	       0&
+	       20402 {x}_{2} {x}_{3}-202 {x}_{3}^{2}\\
+	       \end{bmatrix}
+\]
+where $N=N_1|N_2$ and $\det(N_1)=x_1P(\mathbf x)$.
+Let $M$ be the submatrix corresponding to rows $\{2,3,4\}$ and columns $\{1,2,3\}$.
+Then $\det(M)=P(\mathbf x)$ but $M$ is not technically a representation matrix~---
+its rows cannot be indexed by the monomials of $S_\d$.
 
-The example with 3 syzygies from the B exam.
+The situation of the previous example,~\ref{ex312}, is very similar.
+While we were lucky and found a determinantal representation for $P(\mathbf x)$,
+it does not come in the form of matrix of syzygies.
+There is only $3$ linear syzygies, corresponding to there of the columns of $M$,
+but the last one is not.
 \end{example}
 
-\begin{example}[318]
-Change to $\PP^1\times\PP^1$ source.
+\begin{example}[$\mt{ex318}$]
+\label{ex318}
+Change to $\PP^1\times\PP^1$ source. This is not what you had before --- the map
+must be of degree 1. Compute it.
 \end{example}
 
-\begin{example}[319]
+\begin{example}[$\mt{ex319}$]
 \label{ex319}
 Let $X=\PPP$ and $J\se S=\CC[s,u;t,v]$ be given by 4 general $(2,2)$ forms in $\la s^2,st,t^2\ra$.
 Then $\phi$ is generically 1-1 with
-the unique basepoint $(0,1)\times(0,1)$ of degree $3$ and multiplicity $4$,
-and the image is singular along 3 non-degenerate concurrent lines.
+the unique basepoint $(0,1)\times(0,1)$ of degree $3$ and multiplicity $4$.
+After a linear change of coordinates on the target,
+we can assume that the $\phi_j$ are of the form outlined in Example~\ref{ex302},
+so the representation of Example~\ref{ex312} applies.
 \end{example}
 
 \begin{example}[$\mt{ex314}$]
@@ -716,7 +764,7 @@ which intersect the coefficient ring trivially, so in turn, those in
 \]
 \end{example}
 
-\begin{example}
+\begin{example}[317]
 \label{ex317}
 It may seem at first that taking the smallest possible degree is always our best option,
 but Example~\ref{ex308} provides a good counterexample.
@@ -724,7 +772,8 @@ The examples in Chapter~\ref{ch:fast-method}, which are computationally more com
 often have the first few $N_i$ being zero, for low $\d$,
 so nonzero matrices tend to be larger in size and degree of their minors.
 
-It is the possibility to choose a good $\d$ that is one of the contributions of
+It is precisely this flexibility to choose a good $\d$,
+that is one of the contributions of
 our results to the methods of moving hypersurfaces.
 \end{example}
 

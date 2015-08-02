@@ -31,13 +31,31 @@ of working out the definitions of the previous three sections.
 \label{sec:notation}
 
 \begin{paragraf}
-\label{par:toric-variety}
-Recall the definition of a projective toric variety.
-\end{paragraf}
-
-\begin{paragraf}
 \label{par:cox-ring}
-Define the Cox ring of $X$ as in \citet{Cox-93}.
+Let $X$ be a non-degenerate toric variety of dimension $n-1$.
+We shall not entertain our readers in defining what a toric variety is,
+but rather point them to \citet{CLSh11}.
+
+Throughout the thesis,
+we work exclusively with the Cox ring $S$ of $X$, \citet{Cox-93}.
+Let $\Delta$ be the fan of $X$ and
+$\Delta(1)=\{\rho_1,\ldots,\rho_m\}\se\Delta$ be the set of 1-dimensional cones.
+We take
+\[
+	S=\CC[s_1,\ldots,s_m]
+\]
+with the grading induce by
+\[
+	0\To\ZZ^{n-1}\cong\mathbf M\To\ZZ^m\To\Pic(X)\To0
+\]
+A monomial $\mathbf s^\alpha$ corresponds to the divisor $\sum_k \alpha_k[\rho_k]$.
+While this suffice to define the grading on $S$,
+we need to define an analogue to the irrelevant ideal for $\PP^n$,
+in order to recover $X$.
+We define
+\[
+	\n=\la \prod_{\rho_k^\perp}s_k\not\in\sigma~:~\sigma\in\Delta\ra
+\]
 \end{paragraf}
 
 \begin{paragraf}
