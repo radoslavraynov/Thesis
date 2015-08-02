@@ -201,6 +201,7 @@ In particular, this shows that if $\deg(\det(M))<\deg(P)$, then $M$ must be sing
 \end{paragraf}
 
 \begin{paragraf}
+\label{par:intersect-general-line}
 Let $M_1,M_2$ be matrices of syzygies, as in \eqref{lemma:detM-P},
 and let $Y_1,Y_2\se\PP^n$ be the hypersurfaces they define.
 Let $L$ be a general line in $\PP^n$.
@@ -394,23 +395,20 @@ running Macaulay2 version 1.8.
 
 \begin{example}[$\mt{ex601}$]
 \label{ex601}
-Let $\phi$ be given by 5 generic $(2,1,1)$-forms on
-\[
-	X=\PP^1_{s_0,s_1}\times\PP^1_{t_0,t_1}\times\PP^1_{u_0,u_1}
-\]
+Let $\phi:(\PP^1)^3\To\PP^4$ be given by 5 generic $(2,1,1)$-forms.
 The base locus is empty,
-so by \eqref{eq:self-intersection} and \eqref{eq:degree-formula},
+so by \eqref{eq:formula-prod-P1} and \eqref{eq:degree-formula},
 the degree of the image is $12$.
 
 Consider $\d=(1,1,1)$.
-Our method computes the partial matrix $N'$ in a little more than a second.
-The standard Gr\"obner basis computation takes more than 6 minutes.
+Our method computes a candidate matrix $N'$ in a little more than 0.1s.
+The matrix $N'$ is square and we have $\det(N')=P$.
+Computing the determinant of the $8\times8$-matrix $N$ takes 3s.
+The standard Gr\"obner basis computation takes 131s.
+
+The details follow.
 \begin{verbatim}
-i1 : loadPackage "ImplicitizationAlgos"
-
-o1 = ImplicitizationAlgos
-
-o1 : Package
+i1 : loadPackage "ImplicitizationAlgos";
 
 i2 : KK=ZZ/32009;
 
@@ -438,99 +436,105 @@ o8 : Matrix R  <--- R
 
 i9 : d={1,1,1};
 
-i10 : N1=ComputeNi(F,1,d,{});
+i10 : time N1=ComputeNi(F,1,d,{});
+     -- used 0.0119639 seconds
 
               8       4
 o10 : Matrix R  <--- R
 
 i11 : time N2=ComputeNi(F,2,d,{N1});
-     -- used 0.155756 seconds
+     -- used 0.0920771 seconds
 
               8       4
 o11 : Matrix R  <--- R
 \end{verbatim}
-At this point, the size of $N'=(~N_1~|~N_2~)$ is $12\times12$,
-and \eqref{C:OK-matrix} kicks in.
-We will see in Chapter~\ref{ch:koszul-bpf} that in this setting $N$ is square,
-so $N=N'$ already.
-
+The partial matrix $N'=N_1|N_2$ is square.
+The degree of its determinant is $12=4\cdot1+4\cdot2$, so this is our candidate matrix.
+We check at the end that $\det(N')=P(\mathbf x)$.
 \begin{verbatim}
 i12 : time ComputeNi(F,2,d,{});
-     -- used 0.155017 seconds
+     -- used 0.0867573 seconds
 
               8       24
 o12 : Matrix R  <--- R
 
 i13 : time N3=ComputeNi(F,3,d,{N1,N2});
-     -- used 1.94713 seconds
+     -- used 0.846328 seconds
 
               8
 o13 : Matrix R  <--- 0
 
 i14 : time ComputeNi(F,3,d,{});
-     -- used 2.00069 seconds
+     -- used 0.903612 seconds
 
               8       80
 o14 : Matrix R  <--- R
+
+i15 : time ComputeNi(F,4,d,{});
+     -- used 6.38165 seconds
+
+              8       200
+o15 : Matrix R  <--- R
 \end{verbatim}
-While not relevant to our computation, the last 3 commands give us more information
-about the syzygies over $(1,1,1)$.
-There are 24 linearly independent quadratic syzygies,
-4 of which arise from quadratic $R$-generators, so 20 must be coming from linear generators.
-Since there are only 4 linear generators, all the quadratic syzygies they give rise to
-remain linearly independent to among themselves and the new.
+Note that even though $N'$ is square and giving the implicit equation right off the bat,
+we cannot be sure that $N=N_1|N_2$.
+Lines 12--15 support this claim.
+% First note that line 14 and 15 don't actually compute $N_i$ but rather $I_{\d,i}$.
+For instance, because the columns of $N_1$ and $N_2$ form a nonsingular matrix,
+the degree-$3$ syzygies they give rise to are going to be linearly independent.
+There are exactly $80=4\cdot\binom{4+2}{2}+4\cdot\binom{4+1}{1}$ of them, so $N_3=0$.
+The same argument shows that $N_4=0$.
 
 \begin{verbatim}
-i15 : N'=sub(N1|N2,T);
+i16 : N=sub(N1|N2,T);
 
               8       8
-o15 : Matrix T  <--- T
+o16 : Matrix T  <--- T
 
-i16 : time N''=ComputeNConj(F,12,d);
-     -- used 0.301989 seconds
-
-              8       8
-o16 : Matrix R  <--- R
-
-i17 : N''=sub(N'',T);
+i17 : time N'=ComputeNConj(F,12,d);
+     -- used 0.138608 seconds
 
               8       8
-o17 : Matrix T  <--- T
+o17 : Matrix R  <--- R
 
-i18 : image N'==image N''
+i18 : N'=sub(N',T);
 
-o18 = true
+              8       8
+o18 : Matrix T  <--- T
+
+i19 : image N==image N'
+
+o19 = true
+
+i20 : time P'=ideal det N;
+     -- used 3.0447 seconds
+
+o20 : Ideal of T
 \end{verbatim}
-Finally, we compute the the implicit equation in two ways --- using $N'$ and
-using a standard Gr\"obner basis calculation.
-
+Line 20 shows that $\det(N')=P(\mathbf x)$.
 \begin{verbatim}
-i19 : time P'=ideal det N';
-     -- used 6.53631 seconds
+i21 : time P=ker map(S,T,J_*);
+     -- used 131.05 seconds
 
-o19 : Ideal of T
+o21 : Ideal of T
 
-i20 : time P=ker map(S,T,J_*);
-     -- used 367.429 seconds
+i22 : P==P'
 
-i21 : P==P'
-
-o21 = true
+o22 = true
 \end{verbatim}
+The standard method to compute the implicit equation takes more than 40 times longer.
 \end{example}
 
 \begin{example}[$\mt{ex602}$]
 \label{ex602}
 We compute the implicit equation of five general $(2,2,1)$-forms over $(\PP^1)^3$.
 The base locus is empty, so the degree of the equation is $24$.
-We find in the form of a determinant of an $18\times18$-matrix of quadratic forms.
-
+It takes our method less than a second to find it in the form of
+a determinant of an $18\times18$-matrix of quadratic forms.
+It take a little less than an hour to compute the actual equation.
+The standard Gr\"obner basis calculation did not finish in 24 hours.
 \begin{verbatim}
-i1 : loadPackage "ImplicitizationAlgos"
-
-o1 = ImplicitizationAlgos
-
-o1 : Package
+i1 : loadPackage "ImplicitizationAlgos";
 
 i2 : KK=ZZ/32009;
 
@@ -557,52 +561,75 @@ i8 : F=sub(gens J,R);
 o8 : Matrix R  <--- R
 
 i9 : d={2,1,1};
-\end{verbatim}
-We pick $\d=(2,1,1)$.
 
-\begin{verbatim}
 i10 : time N1=ComputeNi(F,1,d,{});
-     -- used 0.024571 seconds
+     -- used 0.017498 seconds
 
               12
 o10 : Matrix R   <--- 0
 
 i11 : time N2=ComputeNi(F,2,d,{});
-     -- used 0.607232 seconds
+     -- used 0.298143 seconds
 
               12       12
 o11 : Matrix R   <--- R
 
-i12 : time N3=ComputeNi(F,3,d,{N2});
-     -- used 10.7996 seconds
+i12 : time N3=ComputeNi(F,3,d,{N1,N2});
+     -- used 4.01669 seconds
 
-              12       60
-o12 : Matrix R   <--- R
+              12
+o12 : Matrix R   <--- 0
 
 i13 : time N'=ComputeNConj(F,24,d);
-     -- used 1.49427 seconds
+     -- used 0.762765 seconds
 
               12       12
 o13 : Matrix R   <--- R
+
+i14 : N'==N2
+
+o14 = true
+
+i15 : rank N2
+
+o15 = 12
 \end{verbatim}
-We have that $N_1=0$ and $N_2$ is square.
+Since we know that $N'=N_2$ is square,
+its determinant is a form of degree $12\cdot2=24$,
+so $\det(N')=P(\mathbf x)$.
+Note that we do not have to compute the determinant to make sure that $N'$ is nonsingular.
+We can compute the rank by substituting random numbers for the $x_j$
+and computing over a finite field.
+\begin{verbatim}
+i17 : N=sub(N2,T);
+
+              12       12
+o17 : Matrix T   <--- T
+
+i18 : time P'=det N;
+     -- used 3310.29 seconds
+\end{verbatim}
+While we actually can compute the determinant, so also the implicit equation itself,
+we could have answered questions like "Is this point on the image" using $N'$ only.
 \end{example}
 
 \begin{example}[$\mt{ex604}$]
 \label{ex604}
-Consider a map given by four general $(4,4)$-form in the ideal $\la s^3,s^2t,t^2\ra$.
+Consider a map given by four general bi-quartics in the ideal $\la s^3,s^2t,t^2\ra$.
 Then the base locus is the point $(0,0,1)$ of degree $5$ and multiplicity $6$.
 The degree of the image is $26$.
-Our method finds it in less than $15$ minutes,
-while it a representation of it in less than $1$ minute.
-It highlights the interplay between the algebra and geometry.
-The standard method took 6 hours.
+Our method finds it in explicit form in about $6$ minutes,
+while it takes us less than a minute to find two square matrices $M_1,M_2$
+for which
+\[
+	\gcd(\det(M_1),\det(M_2))=P(\mathbf x)
+\]
+
+This highlights the interplay between the algebra and geometry~--- 
+one of our initial goals.
+The standard method takes more than 6 hours.
 \begin{verbatim}
-i1 : loadPackage "ImplicitizationAlgos"
-
-o1 = ImplicitizationAlgos
-
-o1 : Package
+i1 : loadPackage "ImplicitizationAlgos";
 
 i2 : KK=ZZ/32009;
 
@@ -625,15 +652,19 @@ o7 : Ideal of S
 
 i8 : decompose J
 
-o8 = {ideal (t, s), ideal (t, v), ideal (s, u)}
+o8 = {ideal (s, t), ideal (s, u), ideal (v, t)}
 
 o8 : List
 
 i9 : multiplicity Z
 
 o9 = 6
-
-i10 : R=KK[s,u,t,v,x_0..x_3,Degrees=>{2:{1,0,0},2:{0,1,0},4:{0,0,1}}];
+\end{verbatim}
+The base locus is supported on a single point, so the Macaulay2 command
+computes the correct quantity.
+\begin{verbatim}
+i10 : R=KK[s,u,t,v,x_0..x_3,
+           Degrees=>{2:{1,0,0},2:{0,1,0},4:{0,0,1}}];
 
 i11 : F=sub(gens J,R);
 
@@ -643,31 +674,30 @@ o11 : Matrix R  <--- R
 i12 : d={2,2};
 
 i13 : time N1=ComputeNi(F,1,d,{});
-     -- used 0.013867 seconds
+     -- used 0.00821136 seconds
 
               9
 o13 : Matrix R  <--- 0
 
 i14 : time N2=ComputeNi(F,2,d,{N1});
-     -- used 0.161786 seconds
+     -- used 0.0901831 seconds
 
               9
 o14 : Matrix R  <--- 0
-
-i15 : d={3,3}
-
-o15 = {3, 3}
-
-o15 : List
+\end{verbatim}
+The degree $\d=(2,2)$ doesn't look promising.
+We choose $\d=(3,3)$ for no specific reason.
+\begin{verbatim}
+i15 : d={3,3};
 
 i16 : time N1=ComputeNi(F,1,d,{});
-     -- used 0.019749 seconds
+     -- used 0.0208163 seconds
 
               16       5
 o16 : Matrix R   <--- R
 
 i17 : time N2=ComputeNi(F,2,d,{N1});
-     -- used 0.418369 seconds
+     -- used 0.221774 seconds
 
               16       12
 o17 : Matrix R   <--- R
@@ -678,14 +708,18 @@ i18 : N=N1|N2;
 o18 : Matrix R   <--- R
 
 i19 : time rank N
-     -- used 0.003566 seconds
+     -- used 0.009011 seconds
 
 o19 = 16
-
+\end{verbatim}
+This is our candidate matrix $N'$ --- it has more columns than rows and any
+nonzero minor would have degree $27$ or $28$.
+Having $N'$ be of full rank is not enough by itself.
+\begin{verbatim}
 i20 : c1=sort join({0,1,2,3,4}, RandPerm(5,16,11));
 
 i21 : time rank N_c1
-     -- used 0.002332 seconds
+     -- used 0.00241363 seconds
 
 o21 = 16
 
@@ -696,22 +730,48 @@ i23 : c1==c2
 o23 = false
 
 i24 : time rank N_c2
-     -- used 0.002814 seconds
+     -- used 0.00881294 seconds
 
 o24 = 16
+\end{verbatim}
+At this point we found two distinct length-$12$ sets of columns, $c_1,c_2$,
+such that the square matrices $M_1,M_2$ they give rise to are nonsingular.
+We can show that these satisfy the equality described above.
+However, we can actually compute this.
+\begin{verbatim}
+i25 : time D1=det N_c1;
+     -- used 164.479 seconds
+
+i26 : time D2=det N_c2;
+     -- used 162.898 seconds
+
+i27 : time P=gcd(D1,D2);
+     -- used 0.0646495 seconds
 \end{verbatim}
 \end{example}
 
 \begin{example}[$\mt{ex603}$]
 \label{ex603}
-We bump-up Example~\ref{ex602} and compute the implicit equation five general
-$(2,2,2)$-forms on $(\PP^1)^3$. The base locus again empty, so the degree of $P$ is 48.
+We enhance Example~\ref{ex602} and compute the implicit equation of five general
+$(2,2,2)$-forms on $(\PP^1)^3$.
+The base locus is again empty, so the degree of the image is $48$.
+
+In this setup there is no hope of computing any determinant explicitly,
+let alone computing $P(\mathbf x)$ using Gr\"obner bases directly.
+We can, however, repeat what we did in Example~\ref{ex604}.
+We work over $\d=(2,2,1)$ and find two square matrices $M_1,M_2$ of order $18$
+such that
+\[
+	\gcd(\det(M_1),\det(M_2))=P(\mathbf x)
+\]
+While testing if the matrices are nonsingular is easy,
+checking whether their determinants do not have any other prime common factor
+is much harder.
+We follow the discussion in~\eqref{par:intersect-general-line} and find
+that the common intersection locus of two hypersurfaces with a general line
+has multiplicity $48$.
 \begin{verbatim}
-i1 : loadPackage "ImplicitizationAlgos"
-
-o1 = ImplicitizationAlgos
-
-o1 : Package
+i1 : loadPackage "ImplicitizationAlgos";
 
 i2 : KK=ZZ/32009;
 
@@ -728,7 +788,8 @@ i6 : J=ideal(B*random(S^27,S^5));
 
 o6 : Ideal of S
 
-i7 : R=KK[s_0,s_1,t_0,t_1,u_0,u_1,x_0..x_4,Degrees=>{2:{1,0,0,0},2:{0,1,0,0},2:{0,0,1,0},5:{0,0,0,1}}];
+i7 : R=KK[s_0,s_1,t_0,t_1,u_0,u_1,x_0..x_4,
+         Degrees=>{2:{1,0,0,0},2:{0,1,0,0},2:{0,0,1,0},5:{0,0,0,1}}];
 
 i8 : F=sub(gens J,R);
 
@@ -747,34 +808,26 @@ i11 : N2=ComputeNi(F,2,d,{});
               8
 o11 : Matrix R  <--- 0
 
-i12 : N8=ComputeNi(F,8,d,{});
+i12 : N3=ComputeNi(F,2,d,{});
 
               8
 o12 : Matrix R  <--- 0
-   -- time 16585.329 seconds
 \end{verbatim}
-This is going nowhere.
-Consider $\d=(2,2,1)$ instead.
+This is only half the story.
+One might expect to find that $N_6$ is square, so that $\deg(\det(N_6))=48$.
+In fact $N_i=0$ for up to $i=8$.
+We work over $\d=(2,2,1)$.
 \begin{verbatim}
-i13 : d = {2,2,1}
+i13 : d = {2,2,1};
 
-o13 = {2, 2, 1}
-
-o13 : List
-\end{verbatim}
-Fast forward --- $N_1, N_2, N_3$ are all zero.
-\begin{verbatim}
 i14 : time N4=ComputeNi(F,4,d,{});
-     -- used 353.727 seconds
+     -- used 151.652 seconds
 
               18       50
 o14 : Matrix R   <--- R
-\end{verbatim}
-We now pick two sets of column-index sets $c_1$ and $c_2$ such that
-\eqref{C:matrix} and \eqref{C:minors} are satisfied.
-\begin{verbatim}
+
 i15 : time rank N4
-     -- used 5.92405 seconds
+     -- used 2.2373 seconds
 
 o15 = 18
 
@@ -803,7 +856,9 @@ o21 = 18
 i22 : sort c1==sort c2
 
 o22 = false
-
+\end{verbatim}
+The two matrices corresponding the selected (distinct) sets of columns are nonsingular.
+\begin{verbatim}
 i23 : M1=sub(M1,T);
 
               18       18
@@ -813,22 +868,54 @@ i24 : M2=sub(M2,T);
 
               18       18
 o24 : Matrix T   <--- T
+
+i25 : L=ideal random(T^{1,1,1},T^1);
+
+o25 : Ideal of T
 \end{verbatim}
-At this point, we have checked \eqref{C:matrix} but still need to check \eqref{C:minors}
-since the degree of the minors is $72$,
-while the degree of the image is only $48$,
-allowing for the intersection of $V(\det(M_1))$ and $V(\det(M_2))$
-to be larger than just $Y$.
-
-If that is the case,
-\[
-	P=\gcd(\det(M_1),\det(M_2))
-\]
-
-We test the condition below.
+Here $L$ or rather $V(L)$ is the generic line.
 \begin{verbatim}
-output here
+i26 : TL=T/L;
+
+i27 : super basis(1,TL)
+
+o27 = | x_3 x_4 |
+
+               1        2
+o27 : Matrix TL  <--- TL
+
+i28 : U=KK[y_0,y_1];
+
+i29 : g=map(U,TL,{0,0,0,y_0,y_1});
+
+o29 : RingMap U <--- TL
+
+i30 : M1'=g(sub(M1,TL));
+
+              18       18
+o30 : Matrix U   <--- U
+
+i31 : M2'=g(sub(M2,TL));
+
+              18       18
+o31 : Matrix U   <--- U
 \end{verbatim}
+This last bit is for computational purposes only.
+Since we are on a $\PP^1$, we should use this and work over 2 variables only.
+\begin{verbatim}
+i32 : time D1=det(M1');
+     -- used 0.317001 seconds
+
+i33 : time D2=det(M2');
+     -- used 0.334676 seconds
+
+i34 : degree gcd(D1,D2)
+
+o34 = {48}
+
+o34 : List
+\end{verbatim}
+The degree of the common intersection is $48$! We are done.
 \end{example}
 
 
