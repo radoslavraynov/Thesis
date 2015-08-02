@@ -482,84 +482,74 @@ to show how not to compute them.
 \section{Examples}
 \label{sec:def-examples}
 
-\begin{example}[$\mt{ex203}$]
-\label{ex203}
-Let $X=\PP^1_{s,u}\times\PP^1_{t,v}$ be the product of two projective lines and let $S=\CC[s,u;t,v]$
-be its Cox ring---a homogeneous coordinate ring graded by $\Pic(X)$ such that $\deg(s)=\deg(u)=(1,0)$
-and $\deg(t)=\deg(v)=(0,1)$.
-We write $X=\Proj(S)$ for the construction in the toric setting.
-
-Let $\mathscr{L}=\O_X(2,2)$ be the line bundle on $X$ given by twisting the structure sheaf by
-$\mathbf p=(2,2)$, either as an element in $\Pic(X)=\ZZ^2$ or as a degree on $S$.
-Since $h^0(\mathscr{L})=9$, we can choose  linearly independent over $\CC$
-global section $\phi_0,\ldots,\phi_3$ of $\mathscr{L}$ to get a rational map
+\begin{example}[$\mt{ex201}$]
+\label{ex201}
+Let $X=\PP^1_{s,u}\times\PP^1_{t,v}$ be the product of two projective lines,
+and let $S=\CC[s,u;t,v]$ be its Cox ring --- a bihomogeneous ring graded by $\Pic(X)$
+such that $\deg(s)=\deg(u)=(1,0)$ and $\deg(t)=\deg(v)=(0,1)$.
+The irrelevant ideal $\n$ is the product of the irrelevant ideals of the components,
 \[
-	\phi=(\phi_0,\ldots,\phi_3):X\To\PP^3=\Proj(T)
+	\n=\la s,u\ra\cap\la t,v\ra=\la st,sv,ut,uv\ra
 \]
-where $T=\CC[x_0,\ldots,x_3]$.
+We write $X=\Proj(S,\n)$ or simply $X=\Proj(S)$ for the construction in the toric setting.
 
-Since the sections are just $(2,2)$-forms, we can form the graded ideal
-\[
-	J=\la \phi_0,\ldots,\phi_3\ra\se S
-\]
-
-and since we are only be interested of maps whose image is of full dimension,
-we can assume that the base locus of $\phi$, $Z=V(J)$, is zero-dimensional.
-In particular, $\phi$ is a morphism of schemes away from $Z=V(J)$ as a set,
-but we remember the scheme structure on $Z$,
-the saturation of $J$ with respect to the irrelevant ideal $\m\se S$ of $X$.
-
-For an explicit example, we take
+Consider the rational map $\phi:X\To\PP^3$ given by
 \[
 	\phi=(s^{2} v^{2},s u v^{2},u^{2} t^{2}+u^{2} t v,s u t v-101 u^{2}t v)
 \]
-in which case
+In this case, the coordinates $\phi_0,\ldots,\phi_3$ are global sections
+of the line bundle $\O_X(2,2)$, and are linearly independent over the base field $\CC$.
+Note that
 \[
-	J=\la s^{2} v^{2},s u v^{2},u^{2} t^{2}+u^{2} t v,s u t v-101 u^{2}t v\ra
+	h^0(\O_X(2,2),X)=\dim_\CC(S_{(2,2)})=9
 \]
-is saturated and $Z$ is zero-dimensional supported on the closed points
+
+The ideal of the coordinates,
+\[
+	J=\la s^{2} v^{2},s u v^{2},u^{2} t^{2}+u^{2} t v,s u t v-101 u^{2}t v\ra\se S
+\]
+defines the base locus, $Z=V(J)$.
+In this case, $Z$ is supported on the points
 \[
 	q_1=(0,1)\times(0,1) \text{ and } q_2=(1,0)\times(1,0)
 \]
+so the base locus is zero-dimensional and the map is generically finite.
 
-The base locus $Z$ looks quantatively different at $q_1$ and $q_2$, i.e.
-in the former case it its defining ideal looks like $\la s,t\ra$ in $\AA^2_{s,t}$
-while in the latter case like $\la u^2,uv,v^2\ra$.
-This is formalized in in the following way.
-Let $\mathscr{J}$ be the ideal sheaf defining $Z$,
-then the geometric multiplicities are given by the length of the artinean locals,
+The points are qualitatively different.
+Near $q_1$ the scheme $Z$ looks like $V(s,t)$ in $\AA^2_{s,t}$,
+while near $q_2$, $Z$ looks like $V(u^2,uv,v^2)$ in $\AA^2_{u,v}$.
+This allows us to compute their degrees and multiplicities.
+Let $\O_{q_i,Z}$ denote the stalk at $q_i$ on $Z\se X$ ($i=1,2$),
+and let $\widetilde J$ denote the ideal sheaf arising form $J$.
+The the degrees are
 \[
 	d_{q_1}=\length(\O_{q_1,Z})=1 \text{ and } d_{q_2}=\length(\O_{q_2,Z})=3
 \]
-while the algebraic multiplicities are given by the Samuel multiplicities
-of the ideals of finite colength $\mathscr{J}_{q_1}$ and $\mathscr{J}_{q_2}$,
+while the multiplicities are
 \[
-	e_{q_1}=e(\mathscr{J}_{q_1},\O_{q_1,X})=1 \text{ and } e_{q_2}=e(\mathscr{J}_{q_2},\O_{q_2,X})=4
+	e_{q_1}=e(\widetilde{J}_{q_1},\O_{q_1,X})=1 \text{ and } e_{q_2}=e(\widetilde{J}_{q_2},\O_{q_2,X})=4
 \]
-which in turn reflects the fact that $q_1$ is a complete intersection (c.i.) point of $Z$
-while $q_2$ is~not.
+where $e(\mathbf I,\mathbf R)$,
+for a Noetherian local $\mathbf R$ and an ideal of definition $\mathbf I$,
+denotes the Hilbert-Samuel multiplicity.
 
-The closed image $Y\se\PP^3$ of $\phi$ is given by a single {\em implicit} equation
+Note further that $d_{q_1}=e_{q_1}$ reflects the fact that $q_1$ is a complete intersection
+(c.i.) point,
+while $d_{q_2}<e_{q_2}$ so $q_2$ is not.
+It is, however, an almost complete intersection (a.c.i.) point,
+since it is of codimension-$2$ and is (stalk-, affine-)locally defined by $3$ equations.
+
+The closed image $Y\se\PP^3$ of $\phi$ is given by a single equation,
 \[
 	P(\mathbf x)={x}_{0}^{2} {x}_{2}-202 {x}_{0} {x}_{1} {x}_{2}+10201
   {x}_{1}^{2} {x}_{2}-{x}_{0} {x}_{1} {x}_{3}+101 {x}_{1}^{2} {x}_{3}-{x}_{0}
   {x}_{3}^{2}
 \]
-and we use $P$ to also denote its principal prime ideal codimension-$1$ ideal in $T=\CC[\mathbf x]$.
+The equation $P(\mathbf x)$, called the implicit equation, show up in the Rees ideal.
 
-The Rees algebra $B=\Rees_S(J)$ is the quotient of $R=S[\mathbf x]$ by the ideal $I\se R$
-of syzygies on the $\phi_j$,
-% \[
-% 	I=\text{the kernel of the morphism of $S$-algebras }(x_j\mapsto \phi_j\cdot t :R\to S[t])
-% \]
-and for any fixed degree $\mathbf d$,
-the graded piece $I_{\mathbf d,\bullet}$ is a finite sub-$T$-module of $T^r$ where
-\[
-	r=\dim_\CC(S_{\mathbf d})=h^0(\O_X(\mathbf d))
-\]
-
-As such $I_{\mathbf d,\bullet}=\image(N)$ for an $r\times\mu$ graded matrix $N$, where $\mu$
-is the size of a minimal homogeneous generating set. Specifically, in our example
+Let $B=\Rees_S(J)$ be realized as the quotient ring of $R=S[\mathbf x]$
+by the aforementioned Rees ideal $I$.
+In our case,
 \[
 	I=\Bigg\la
 	\begin{cases}
@@ -572,7 +562,23 @@ is the size of a minimal homogeneous generating set. Specifically, in our exampl
 	t {x}_{0} {x}_{1}-101 t {x}_{1}^{2}-v {x}_{0}{x}_{3},\\P(x_0,x_1,x_2,x_3)
 	\end{cases}\Bigg\ra
 \]
-and for $\mathbf d=(1,1)$ we get $r=4$, $\mu=5$ and 
+and $P(\mathbf x)$ can be seen as the unique linear generator in bidegree $((0,0),3)$.
+In fact, it is the unique $\CC[\mathbf x]$-generator of $I_{(0,0),\bullet}$.
+
+Generalizing slightly, let $\d=(1,1)$ be a degree on $S$.
+Then $I_{\d,\bullet}$ is minimally generated by 5 elements as a $\CC[\mathbf x]$-module.
+Let those be $g_1(\mathbf s;\mathbf x),\ldots,g_5(\mathbf s;\mathbf x)$.
+Writing
+\[
+	\basis(S_\d)=\begin{bmatrix}st& sv& ut& uv\end{bmatrix}
+\]
+to be a row vector over $R$ consisting of a linear basis for $S_\d$,
+we can define the matrix $N$ over $\CC[\mathbf x]$ by the identity
+\[
+	\basis(S_\d)\cdot N=\begin{bmatrix}g_1&\ldots&g_5\end{bmatrix}
+\]
+In this case, $N$ is a $4\times5$-matrix each of whose columns contains forms of the same degree.
+Specifically,
 \[
 	N=\begin{bmatrix}0&
 	       {x}_{1}&
@@ -597,36 +603,292 @@ and for $\mathbf d=(1,1)$ we get $r=4$, $\mu=5$ and
 	       \end{bmatrix}
 \]
 
-Each column $C$ of $N$ is a syzygy on the $\phi_j$ of some degree $i$ on the $x_j$
-and degree $\mathbf d=(1,1)$ in the sense that
-\[
-	\begin{bmatrix}s t&
-	       s v&
-	       u t&
-	       u v\\
-	       \end{bmatrix}
-		   \cdot C(\mathbf x)
-\]
-is a homogeneous degree $(\mathbf d,i)$-element of $I$, i.e.
-\[
-	\begin{bmatrix}s t&
-	       s v&
-	       u t&
-	       u v\\
-	       \end{bmatrix}
-		   \cdot C(\mathbf\phi)=0
-\]
-identically in $S$.
-
-Finally, we note that $\phi$ is of degree $1$, $\mathbf d\in\reg(J)$ and we have the equality of ideals
-\[
-	P^{\deg(\phi)}=\gcd(\mt{minors}(4,N))\demo
-\]
+In this sense, $N$ is a representation matrix as well as a matrix of syzygies.
+It represents a generating set for the graded syzygies of the $\phi_j$ with coefficients
+in $S_{(1,1)}$.
 \end{example}
 
-\begin{example}[$\mt{ex204}$]
-\label{ex204}
-Use Example~\ref{ex30}
+\begin{example}[$\mt{ex202}$]
+\label{ex202}
+Let $X=\PP^2$. Its Cox ring is just its standard homogeneous coordinate ring, $\CC[s,t,u]$,
+and the irrelevant ideal $\n=\la s,t,u\ra$.
+
+Let $J\se S$ be a graded ideal generated by $4$ linearly independent forms of the same degree $\e$.
+For concreteness we can take
+\[
+	J=\la s^3,t^2u,s^2t+u^3,stu\ra
+\]
+so that its generators are all $3$-forms.
+We can think of $J$ as defining a rational map to $\PP^3$,
+\[
+	\phi=(s^3,t^2u,s^2t+u^3,stu):X\To\PP^3
+\]
+
+Then $\phi$ is a morphism on the open set away from $Z=V(J)$.
+Note that $J$ is not saturated, so there is a better representative for the base locus scheme,
+i.e.
+\[
+\sat(J)=J:\n^\infty=\la s^2,u\ra
+\]
+From this we know that $Z$ is supported on $q=(0,0,1)$ only,
+and that $q$ is a complete intersection point, so its degree and multiplicity coincide,
+\[
+	\e_q=d_q=\length(\O_q/\widetilde{J}_q)=2
+\]
+
+Let $P$ be the principal ideal generated by the implicit equation for $\phi$.
+By the formulas in Section~\ref{sec:mult}, we have
+\[
+	\deg(\phi)\deg(P)=3^2-e_q=7
+\]
+Since the coordinates $\phi_j$ are not linearly dependent,
+and they never will be in this thesis,
+$\deg(P)\neq1$, so $\deg(\phi)=1$ and the map is generically 1-1.
+We then have that the implicit equation is a septic.
+Indeed,
+\[
+	P(\mathbf x)={x}_{0}^{3} {x}_{1}^{4}-{x}_{0}^{2} {x}_{1}^{3} {x}_{2} {x}_{3}+{x}_{3}^{7}
+\]
+
+Besides a rational map, or a ring map in the form of $\phi^\#$,
+$\phi$ can be made into a map of free $S$-modules.
+For example, we have that
+\[
+	\phi^{(1)}=\begin{bmatrix}\phi_0&\ldots&\phi_3\end{bmatrix}:S^4\To S^1(3)
+\]
+is a graded map of $S$-modules.
+
+We can linearize this map in this map in the following way.
+Take a degree on $S$, for concreteness, take $\d=1$.
+We take a the strand of the map $\phi^{(1)}$ in degree $\d=1$.
+To this end, note that the basis on the LHS can be indexed by the monomials in $R_{1,1}$,
+for example, by putting
+\[
+	\begin{bmatrix}0\\s\\0\\0\end{bmatrix}=sx_1
+\]
+and the basis on the RHS can be indexed by the monomials in $S_4$.
+Multiplying out $\phi^{(1)}$ with an element $S^4$ is then equivalent to evaluation $x_j=\phi_j$.
+Reading off the coefficients we get for the linearization
+\[
+	\Phi^{(1)}=
+	\bgroup\makeatletter\c@MaxMatrixCols=12\makeatother\begin{bmatrix}1&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0\\
+      0&
+      0&
+      1&
+      0&
+      1&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0\\
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      1&
+      0&
+      0&
+      0\\
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      1&
+      0&
+      0&
+      0&
+      0&
+      0\\
+      0&
+      0&
+      0&
+      1&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      1&
+      0\\
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0\\
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0\\
+      0&
+      1&
+      0&
+      0&
+      0&
+      0&
+      0&
+      1&
+      0&
+      0&
+      0&
+      0\\
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      1\\
+      0&
+      0&
+      1&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0\\
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0\\
+      0&
+      0&
+      0&
+      0&
+      0&
+      1&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0\\
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      1&
+      0&
+      0\\
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      1&
+      0&
+      0&
+      0&
+      0&
+      0\\
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      0&
+      1&
+      0\\
+      \end{bmatrix}\egroup
+\]
+
+We end this example noting that $\ker(\Phi^{(1)})$ is isomorphic to $I_{1,1}$.
+In our situation this is easy to check.
+The kernel is spanned by
+\[
+	\mathbf v=\bgroup\makeatletter\c@MaxMatrixCols=12\makeatother\begin{bmatrix}0&
+	      {-1}&
+	      0&
+	      0&
+	      0&
+	      0&
+	      0&
+	      1&
+	      0&
+	      0&
+	      0&
+	      0\\
+	      \end{bmatrix}\egroup\T
+\]
+which corresponds to $I_{1,1}=\Span_\CC(sx_1-tx_3)$
+after multiplication with the indexing set for the columns,
+\[
+	\basis(R_{1,1})=\bgroup\makeatletter\c@MaxMatrixCols=12\makeatother\begin{bmatrix}s {x}_{0}&
+      s {x}_{1}&
+      s {x}_{2}&
+      s {x}_{3}&
+      t {x}_{0}&
+      t {x}_{1}&
+      t {x}_{2}&
+      t {x}_{3}&
+      u {x}_{0}&
+      u {x}_{1}&
+      u {x}_{2}&
+      u {x}_{3}\\
+      \end{bmatrix}\egroup
+\]
 \end{example}
 
 

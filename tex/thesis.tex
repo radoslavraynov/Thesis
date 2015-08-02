@@ -33,13 +33,35 @@
 
 \pagenumbering{Alph}
 \begin{abstract}
+Let $X$ be a smooth projective toric variety of dimension~$n-1$
+and let $\phi:X\To\PP^n$ be a generically finite rational map.
+The closed image~$Y$ can be defined by a single equation $P(\mathbf x)$,
+called the implicit equation.
+The implicitization problem asks for techniques for computing the implicit equation.
+
+This is an old problem in algebraic geometry, and can be solved effectively
+through elimination using Gr\"obner bases.
+However, this solution represents a black box in terms of the geometry on $X$ and $Y$,
+and is unfeasible even for reasonably small examples.
+
+In this thesis, we use ideas from the two most popular non-Gr\"obner basis approaches,
+the method of the approximation complex and the method of moving surfaces,
+to construct a family of matrices $N$, one for each element in $\Pic(X)$,
+the $\gcd$ of whose maximal minors give a power of the implicit equation.
+
+Unlike other methods, our approach is immune to base points and works well if
+various assumptions as relaxed.
+Furthermore, its ideas 
+
+We design and implement a fast algorithm for computation in previously intractable situations.
 \end{abstract}
 
 \begin{biosketch}
-Radoslav was born in the city of Burgas on the Black Sea cost.
-He attended the High School of Mathematics and the Sciences in his hometown, graduating in May~2005,
-and later Jacobs University in Bremen, earning a Bachelor of Science degree in June~2008.
-He has been a graduate student at the Department of Mathematics at Cornell since August~2010.
+Radoslav was born in Burgas, on the Bulgarian Black Sea cost.
+He attended the High School of Mathematics and the Sciences in his hometown, graduating in May~2005.
+He then studied mathematics and computer science at Jacobs University Bremen,
+earning a Bachelor of Science degree in June~2008.
+He joined the Department of Mathematics at Cornell in August~2010.
 \end{biosketch}
 
 \begin{dedication}
@@ -49,12 +71,12 @@ To my parents.
 \begin{acknowledgements}
 I want to thank my advisor, Mike Stillman ---
 for his guidance, his patience, and his encouragement.
-I also want to thank Irena Peeva, Allen Knutson, Ed Swartz and John Hubbard
-for the many lectures and engaging discussions I grew mathematically from,
-and Hal Schenck at UIUC for introducing me to the problem
+I also want to thank
+Irena Peeva for her support and recommendations, and
+Allen Knutson and Ed Swartz for valuable comments on the thesis.
+Lastly, I want to thank
+Hal Schenck at UIUC  for introducing me to the problem
 at the Syzygies in Berlin summer school in 2013.
-Lastly, I want to thank Michael Stoll at Uni Bayreuth --- 
-for giving me my mathematical interests and style.
 \end{acknowledgements}
 
 \contentspage
