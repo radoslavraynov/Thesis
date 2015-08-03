@@ -17,7 +17,7 @@ when Gr\"obner basis calculations can be carried out efficiently.
 The second one is more involved and is used when direct computations are unfeasible.
 In those cases, the second algorithm's lead is significant.
 Section~\ref{sec:long-examples} provides details about the algorithms
-and support to the claim in the form of a few worked examples.
+and support to the latter claim in the form of a few worked examples.
 \end{paragraf*}
 
 \begin{paragraf*}
@@ -40,13 +40,6 @@ We continue to follow the notation of Chapter~\ref{ch:preliminaries}
 and the setup of \eqref{par:setup}.
 However, to avoid distraction,
 we assume throughout the chapter that $\phi$ is generically 1-1.
-\end{paragraf*}
-
-\begin{paragraf*}
-In the final section, we workout a few examples.
-Not only do those examples highlight the performance of the algorithms,
-they show how implicitization is no longer a black box but geometrically
-expired and driven.
 \end{paragraf*}
 
 
@@ -106,7 +99,7 @@ The number of maximal minors is
 \[
 	\binom{50}{18}=18'053'528'883'775
 \]
-so even if it took the unrealistic $0.001$ seconds to compute each minor,
+so even if it takes the unrealistic $0.001$ seconds to compute each minor,
 a single machine would require 572 years to compute them all.
 
 \item
@@ -185,24 +178,26 @@ Let
 	N'=N'_i=(~N_1~|~\cdots~|~N_i~)
 \]
 be the partial matrix of syzygies up to degree $i$.
-If $N'$ satisfies the condition
+Recall that $h_i$ denotes the number of columns in $N_i$
+and set $p=\deg(P)$.
+Consider the following condition
 \begin{align}
 	\label{C:matrix}
 	\tag{C1}
-	\deg(\gcd(\minors(r,N')))=\deg(P)
+	\begin{cases}
+		\quad\sum h_ii=p &\text{if}~\sum h_i=r\\
+		\quad\sum h_ii\geq p&\text{if}~\sum h_i>r
+	\end{cases}
 \end{align}
-then $\gcd(\minors(r,N'))=P$.
-
-This is true for any collection of matrices of syzygies $M_k$, as in \eqref{lemma:detM-P}.
-Indeed, $P(\mathbf x)$ divides each $\det(M_k)$, so $P(\mathbf x)$ divides their $\gcd$,
-but both forms have the same degree by assumption.
-
-In particular, this shows that if $\deg(\det(M))<\deg(P)$, then $M$ must be singular.
+This is a necessary condition for $N'$ to be used instead of $N$,
+since if $\deg(\det(M))<\deg(P)$, then $M$ must be singular.
+It is almost certainly not a sufficient condition to conclude that $N'=N$,
+but often this is the case.
 \end{paragraf}
 
 \begin{paragraf}
 \label{par:intersect-general-line}
-Let $M_1,M_2$ be matrices of syzygies, as in \eqref{lemma:detM-P},
+Let $M_1,M_2$ be nonsingular matrices of syzygies, as in \eqref{lemma:detM-P},
 and let $Y_1,Y_2\se\PP^n$ be the hypersurfaces they define.
 Let $L$ be a general line in $\PP^n$.
 If $M_1,M_2$ satisfy the condition
@@ -220,10 +215,13 @@ To prove the claim, note that we always have
 \]
 which together with \eqref{C:minors} gives $L\cap Y_1\cap Y_2=L\cap Y$,
 which is true exactly when $Y_1\cap Y_2$ does not contain any other hypersurfaces besides $Y$.
-
 Indeed, if the $\gcd$ is a proper multiple of $P$, then the intersection of
 $Y_1$ and $Y_2$ contains another hypersurface, whose intersection with the general $L$
 is not going to be on $Y$.
+
+Furthermore, the condition itself can be tested by computing the multiplicity
+of $Y_1\cap Y_2\cap L$ and comparing it to the multiplicity of $Y\cap L$.
+If the two are equal, then the condition is satisfied.
 \end{paragraf}
 
 \begin{paragraf*}
@@ -238,12 +236,20 @@ Summarizing the discussion so far, we propose
 \State{Set $r=\dim_\CC(S_\d)$}
 \State{Set $N'=r\times0$ matrix over $T$}
 \State{}
-\While{\ref{C:OK-matrix} is not satisfied for $N'$}
+\While{\eqref{C:matrix} is not satisfied for $N'$}
 	\State{Given $N_1,\ldots,N_{i-1}$, use Algorithm \ref{algo:compute-Ni} to compute $N_i$}
 	% \Comment{Call Recursion again}
 	\State{Set $N'=N'~|~N_i$}
 \EndWhile
-\State{Report $P=\gcd(\minors(r, N'))$}
+\State{Set $M_1,M_2$ to be the zero $r\times r$ matrix}
+\State{Let $\mathcal{C}$ be some stopping criterion}
+\State{Let $i$ be the index of the last computed matrix and let $\ell=r-h_1-\ldots-h_{i-1}$}
+\While{$\mathcal{C}$ is not satisfied and $M_1,M_2$ is do not satisfy \eqref{C:minors}}
+	\State{Let $c_1,c_2$ be a random sets of $\ell$ columns of $N_i$}
+	\State{Set $M_1=N_1|\cdots|N_{i-1}|(N_{i})_{c_1}$}
+	\State{Set $M_2=N_1|\cdots|N_{i-1}|(N_{i})_{c_2}$}
+\EndWhile
+\State{Return $P=\gcd(\det(M_1),\det(M_2))$}
 \end{algorithmic}
 \end{algorithm}
 
@@ -342,10 +348,10 @@ ComputeNi (Matrix, ZZ, List, List) := Matrix => (F, i, d, lst) -> (
 
 \begin{paragraf}
 \label{code:algo:proposed}
-This only implement the first part of the proposed Algorithm~\ref{algo:proposed}.
-We omit the minors speed-up simply because of \itmref{itm:flaws:large-det}{par:flaws}.
-Further, after general change of coordinates, two minors ought to suffice,
-and we can compute them manually when necessary.
+We now implement the first part of the proposed Algorithm~\ref{algo:proposed}.
+We omit the second part simply because of \itmref{itm:flaws:large-det}{par:flaws}.
+Besides, after a general change of coordinates,
+any two nonzero minors are likely to suffice and we can compute them manually when necessary.
 See Examples~\ref{ex603} and \ref{ex604} for details.
 \begin{verbatim}
 ComputeNConj = method ()
@@ -685,8 +691,8 @@ i14 : time N2=ComputeNi(F,2,d,{N1});
               9
 o14 : Matrix R  <--- 0
 \end{verbatim}
-The degree $\d=(2,2)$ doesn't look promising.
-We choose $\d=(3,3)$ for no specific reason.
+The degree $\d=(2,2)$ does not look promising.
+Take $\d=(3,3)$ instead.
 \begin{verbatim}
 i15 : d={3,3};
 
@@ -737,7 +743,7 @@ o24 = 16
 At this point we found two distinct length-$12$ sets of columns, $c_1,c_2$,
 such that the square matrices $M_1,M_2$ they give rise to are nonsingular.
 We can show that these satisfy the equality described above.
-However, we can actually compute this.
+However, we can actually compute the implicit equation in this case.
 \begin{verbatim}
 i25 : time D1=det N_c1;
      -- used 164.479 seconds
@@ -747,6 +753,10 @@ i26 : time D2=det N_c2;
 
 i27 : time P=gcd(D1,D2);
      -- used 0.0646495 seconds
+
+i28 : deg P
+
+o28 : 26
 \end{verbatim}
 \end{example}
 
@@ -768,7 +778,7 @@ While testing if the matrices are nonsingular is easy,
 checking whether their determinants do not have any other prime common factor
 is much harder.
 We follow the discussion in~\eqref{par:intersect-general-line} and find
-that the common intersection locus of two hypersurfaces with a general line
+that the common intersection locus of the two hypersurfaces with a general line
 has multiplicity $48$.
 \begin{verbatim}
 i1 : loadPackage "ImplicitizationAlgos";
@@ -813,10 +823,12 @@ i12 : N3=ComputeNi(F,2,d,{});
               8
 o12 : Matrix R  <--- 0
 \end{verbatim}
-This is only half the story.
+We sneak in a remark here.
 One might expect to find that $N_6$ is square, so that $\deg(\det(N_6))=48$.
-In fact $N_i=0$ for up to $i=8$.
-We work over $\d=(2,2,1)$.
+In fact $N_i=0$ for up to at least $i=8$.
+In general, smaller $\d$ tend to produce the few matrices $N_i$ zero.
+This follows from the sort of Koszul-ness of small syzygies.
+Take $\d=(2,2,1)$ instead.
 \begin{verbatim}
 i13 : d = {2,2,1};
 
@@ -857,7 +869,7 @@ i22 : sort c1==sort c2
 
 o22 = false
 \end{verbatim}
-The two matrices corresponding the selected (distinct) sets of columns are nonsingular.
+The two matrices are nonsingular.
 \begin{verbatim}
 i23 : M1=sub(M1,T);
 
@@ -901,7 +913,7 @@ i31 : M2'=g(sub(M2,TL));
 o31 : Matrix U   <--- U
 \end{verbatim}
 This last bit is for computational purposes only.
-Since we are on a $\PP^1$, we should use this and work over 2 variables only.
+Since we are on a $\PP^1$, we should make use of this and work over 2 variables only.
 \begin{verbatim}
 i32 : time D1=det(M1');
      -- used 0.317001 seconds
@@ -915,7 +927,7 @@ o34 = {48}
 
 o34 : List
 \end{verbatim}
-The degree of the common intersection is $48$! We are done.
+The multiplicity of the common intersection is $48$! We are done.
 \end{example}
 
 

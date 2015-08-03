@@ -82,7 +82,7 @@ when the $\phi_j$ are considered as variables.
 \label{sec:moving-quadrics}
 
 \begin{paragraf*}
-In this section we present a proof of Corollary~\ref{cor:moving-quadrics}.
+In this section we present a proof of Theorem~\ref{cor:moving-quadrics}.
 To this end, we assume throughout the section that $X=\PPP$,
 $\phi$ is basepoint-free given by forms of degree $\e=(p,q)$
 and that $\d=(p-1,q-1)$ is fixed.
@@ -221,7 +221,7 @@ By Lemma \ref{lemma:Psi-nonsing} again, this syzygy must be zero,
 so every syzygy of degree $k$ is a $T$-combination of quadratic syzygyes.
 \end{proof}
 
-\begin{proof}[\bf Proof of Corollary~\ref{cor:moving-quadrics}]
+\begin{proof}[\bf Proof of Theorem~\ref{cor:moving-quadrics}]
 Note that Proposition~\ref{prop:koszul-syzygies} applies in this case.
 (This is in fact the original proof.)
 Since there are no syzygies in degree $1$ and all syzygies in degree $k>2$ are
@@ -238,154 +238,143 @@ The result now follows from Theorem~\ref{thm:gcd-minors}.
 \section{Basepoint-Free Maps over $X=\PP^2$}
 \label{sec:moving-planes-quadrics}
 
-\begin{lemma}
-	\label{lemma:rel-moving-planes-quadrics-min-dims}
-	For every $k>0$, the number of linearly independent degree-$k$ syzygies over $S_{d}$,
-	$d=p-1$, is at least
-	\[
-		\frac{k(k+1)p}{12}(kp-p+k+5)
-	\]
-\end{lemma}
-
-\begin{proof}
-	As before, we consider the $S$-linear map
-	\[
-		\begin{bmatrix}\phi_0^k& \phi_0^{k-1}\phi_1& \cdots& \phi_3^k\end{bmatrix}:
-		S^{\binom{k+3}{3}}\To S^1
-	\]
-	and construct its $\CC$-linearization,
-	exactly as we did for $\Phi^{(k)}$ in Section \ref{sec:rel-moving-quadrics}.
-	It is a map of complex vector spaces
-	\[
-		S_{p-1}^{\binom{k+3}{3}}\To S_{(k+1)p-1}^1
-	\]
-	so a matrix of size $\binom{kp+p+1}{2}\times\binom{k+3}{3}\binom{p+1}{2}$.
-	Since there are at least as many columns as rows,
-	the dimension of the kernel is at least
-	\[
-		\binom{k+3}{3}\binom{p+1}{2}-\binom{kp+p+1}{2}=\frac{k(k+1)p}{12}(k+5+kp-p)
-	\]
-	establishing the claim.
-\end{proof}
+\begin{paragraf*}
+In this section we present a proof of Theorem~\ref{cor:moving-planes-quadrics}.
+To this end, we assume throughout the section that $X=\PP^2$,
+$\phi$ is basepoint-free given by forms of degree $\e=p$
+and that $\d=p-1$ is fixed.
+Further, we assume that there are exactly $p$ linear syzygies.
+\end{paragraf*}
 
 \begin{remark}
-	\label{rem:rel-moving-planes-quadrics-num-syz}
-	By Lemma \ref{lemma:rel-moving-planes-quadrics-min-dims} there are
-	at least $p$ linear syzygies and at least $p(p+7)/2$ quadratic syzygies.
+After change of coordinates,
+we may assume that $\phi_0,\phi_1,\phi_2$ form a regular sequence in $S$.
 \end{remark}
 
-\begin{paragraph*}
-	The main result of this section states that the matrices which our method constructs
-	are the same, up to formatting, as those constructed by the method of \citet{00-CGZ-JSC}.
-\end{paragraph*}
-
-\begin{theorem}
-	\label{thm:rel-moving-planes-quadrics}
-	Let $X=\PP^2$, $\phi$ be basepoint-free whose entries are of degree $p$,
-	and suppose there are exactly $p$ linear syzyges for $d=p-1$, i.e. the minimal possible number.
-	Then $N=N_1|N_2$, $N$ is square and $\phi$ is birational. In particular,
-	\[
-		\det(N)=\det(N_1|N_2)=P(\mathbf x)
-	\]
-\end{theorem}
-
 \begin{lemma}
-	\label{lemma:rel-moving-planes-quadrics-main}
-	Suppose that there are exactly $p$ linearly independent linear syzygies, i.e. the minimal possible number.
-	Then the $4p$ quadratic syzygies of the form $L_i(\mathbf s,\mathbf x)x_j$ for the $p$ linear syzygies $L_i$
-	are linearly independent. The number of linearly independent quadratic syzygies not emerging in this way
-	is $\binom{p}{2}$. The vector subspace of $S_{p-1}$ spanned by the coefficient of $x_3^2$ among all
-	quadratic syzygies is all of $S_{p-1}$.
+\label{lemma:rel-moving-planes-quadrics-min-dims}
+For every $k>0$, the number of linearly independent degree-$k$ syzygies over $S_{p-1}$,
+is at least
+\[
+	\frac{k(k+1)p}{12}(kp-p+k+5)
+\]
 \end{lemma}
 
 \begin{proof}
-	Since $\phi_0,\phi_1,\phi_2$ form a regular sequence in degree $p$,
-	a nonzero linear syzygy over $S_{p-1}$ must involve $x_3$ nontrivially.
-	Let $V_1$ be the linear subspace of $S_{p-1}$ spanned by the
-	coefficient of $x_3$ among all linear syzygies, i.e.
-	\[
-		V_1=\Span\{a_3:a_0x_1+\ldots+a_3x_3 \text{ is a linear syzygy}\}
-	\]
-	(and note that the {\em span} keyword isn't necessary).
-	Since there are exactly $p$ of those, by the observation just made, $\dim_\CC V_1=p$.
-	
-	Any linear syzygy $L(\mathbf s, \mathbf x)$ gives rise to a quadratic syzygy of the form
-	$L(\mathbf s, \mathbf x)x_j$ for each $j$.
-	Let $g(\mathbf s,\mathbf x)$ be a quadratic syzygies not arising in this way.
-	We know that $g$ must involve $x_3^2$ nontrivially,
-	for else, it is of the form
-	\[
-		\sum_{j=0,1,2} (B_{j,0}x_0+B_{j,1}x_1+B_{j,2}x_2+B_{j,3}x_3) x_j
-	\]
-	and since $\phi_0,\phi_1,\phi_2$ form a regular sequence in degree $p$,
-	by the Koszul theorem (e.g. \ref{prop:key-koszul}),
-	we have
-	\[
-		B_{j,0}x_0+B_{j,1}x_1+B_{j,2}x_2+B_{j,3}x_3=C_{j,0}x_0+C_{j,1}x_1+C_{j,2}x_2
-	\]
-	In particular,
-	\[
-		L_j(\mathbf s,\mathbf x)=B_{j,0}x_0+B_{j,1}x_1+B_{j,2}x_2+B_{j,3}x_3-C_{j,0}x_0-C_{j,1}x_1-C_{j,2}x_2
-	\]
-	is a linear syzygies on the $\phi_j$.
-	But then $g-\sum_j L_jx_j$ is a quadratic syzygy only involving $x_0,x_1,x_2$,
-	and so must be $0$, contradicting the assumption that $g$ was not $T$-generated by linear syzygies.
-	
-	Let $V_2$ be the linear subspace of $S_{p-1}$ spanned by the coefficient of $x_3^2$ for quadratic
-	sygyzygies $g$ as in the previous paragraph. The same argument shows that we cannot have $V_1\cap V_2\neq0$.
-	
-	We finish the proof by an easy dimension count.
-	The discussion so far gives us that the number of {\em new} quadratic syzygies is at most
-	$\dim_\CC V_2\leq\binom{p+1}{2}-p$,
-	so even if all the $4p$ quadratic syzygies generated by the linear syzygies
-	and the new quadratic syzygies are linearly independent altogether,
-	we get at most $4p+\binom{p+1}{2}-p=p(p+7)/2$-many of them.
-	On the other hand,
-	the number of linearly independent quadratic syzygies must be at least $p(p+7)/2$
-	by Remark \ref{rem:rel-moving-planes-quadrics-num-syz}.
-	
-	It follows that there are $\binom{p+1}{2}-p=\binom{p}{2}$ {\em new} quadratic syzygies,
-	which along with the $4p$ pushed linear syzygies are linearly independent altogether.
-	Also, the linear span of the $S_{p-1}$ coefficient of $x_3^2$ among the quadratic syzygies
-	is $V_1\oplus V_2=S_{p-1}$.
+Consider
+\[
+	\Phi^{(k)}:S_{p-1}^{\binom{k+3}{3}}\To S_{(k+1)p-1}^1
+\]
+whose size is $\binom{kp+p+1}{2}\times\binom{k+3}{3}\binom{p+1}{2}$.
+Since there are at least as many columns as rows,
+the dimension of the kernel is at least
+\[
+	\binom{k+3}{3}\binom{p+1}{2}-\binom{kp+p+1}{2}=\frac{k(k+1)p}{12}(k+5+kp-p)
+\]
+establishing the claim.
 \end{proof}
 
+\begin{paragraf}
+\label{rem:rel-moving-planes-quadrics-num-syz}
+By Lemma~\ref{lemma:rel-moving-planes-quadrics-min-dims},
+we know that $\dim_\CC(I_{p-1,1})\geq p$ and
+$\dim_\CC(I_{p-1,2})\geq p(p+7)/2$.
+\end{paragraf}
+
 \begin{lemma}
-	\label{lemma:rel-moving-planes-quadrics-second}
-	Let $g(\mathbf s, \mathbf x)$ be a syzygy of degree $k>2$.
-	Then $g$ is a $T$-combination of linear and quadratic syzygies.
+\label{lemma:rel-moving-planes-quadrics-main}
+Suppose that there are exactly $p$ linearly independent linear syzygies $L_i(\mathbf s,\mathbf x)$,
+i.e. the minimal possible number.
+Then the $4p$ quadratic syzygies of the form $L_i(\mathbf s,\mathbf x)x_j$
+are linearly independent.
+The number of linearly independent quadratic syzygies not emerging in this way is $\binom{p}{2}$.
+The coefficient of $x_3^2$ in the quadratic syzygies span $S_{p-1}$.
+is all of $S_{p-1}$.
 \end{lemma}
 
 \begin{proof}
-	The proof uses the same arguments as in the proof of Lemma \ref{lemma:rel-moving-planes-quadrics-main}.
-	Since the $S_{p-1}$-coefficients of $x_3^2$ among the quadratic syzygies span $S_{p-1}$,
-	we can find among them
-	\[
-		g_\nu(\mathbf s,\mathbf x)=(\text{terms involving $x_3$ at most linearly})+{\mathbf s}^\nu x_3^2
-	\]
-	for all $|\nu|=p-1$. We can then rewrite
-	\[
-		g(\mathbf s,\mathbf x)=(\text{terms involving $x_3$ at most linearly})+(\sum_\nu {\mathbf s}^\nu\cdot h_\nu(\mathbf x))x_3^2
-	\]
-	where $h_v(\mathbf x)$ is a degree-$(k-2)$ homogeneous polynomial. But now
-	\[
-		g-\sum_\nu h_\nu g_\nu=\sum_{|\beta|=k-1} (A_{\beta,0}x_0+A_{\beta,1}x_1+A_{\beta,2}x_2+A_{\beta,3}x_3) x_0^{\beta_0}x_1^{\beta_1}x_2^{\beta_2}
-	\]
-	where $A_{\beta,\beta}$ is a $(p-1)$-form in $S$.
-	Lemma \ref{prop:key-koszul} and the same argument as in the proof of Lemma \ref{lemma:rel-moving-planes-quadrics-main}
-	show that the above must be $T$-generated by linear syzygies.
-	The result now follows.
+Since $\phi_0,\phi_1,\phi_2$ form a regular sequence in degree $p$,
+a nonzero linear syzygy over $S_{p-1}$ must involve $x_3$ nontrivially.
+Let $V_1$ be the linear subspace of $S_{p-1}$ spanned by the
+coefficient of $x_3$ in the linear syzygies, i.e.
+\[
+	V_1=\Span_\CC\{a_3:a_0x_1+\ldots+a_3x_3 \text{ is a linear syzygy}\}
+\]
+(and note that the {\em span} keyword isn't necessary).
+Since there are exactly $p$ of those, by the observation just made, $\dim_\CC V_1=p$.
+
+Any linear syzygy $L(\mathbf s, \mathbf x)$ gives rise to a quadratic syzygy of the form
+$L(\mathbf s, \mathbf x)x_j$ for each $j$.
+Let $g(\mathbf s,\mathbf x)$ be a quadratic syzygies not arising in this way.
+We know that $g$ must involve $x_3^2$ nontrivially,
+for else, it is of the form
+\[
+	\sum_{j=0,1,2} (B_{j,0}x_0+B_{j,1}x_1+B_{j,2}x_2+B_{j,3}x_3) x_j
+\]
+and since $\phi_0,\phi_1,\phi_2$ form a regular sequence in degree $p$,
+we have
+\[
+	B_{j,0}x_0+B_{j,1}x_1+B_{j,2}x_2+B_{j,3}x_3=C_{j,0}x_0+C_{j,1}x_1+C_{j,2}x_2
+\]
+In particular,
+\[
+	L_j(\mathbf s,\mathbf x)=B_{j,0}x_0+B_{j,1}x_1+B_{j,2}x_2+B_{j,3}x_3-C_{j,0}x_0-C_{j,1}x_1-C_{j,2}x_2
+\]
+is a linear syzygies on the $\phi_j$.
+But then $g-\sum_j L_jx_j$ is a quadratic syzygy only involving $x_0,x_1,x_2$,
+and so must be $0$, contradicting the assumption that $g$ was not $T$-generated by linear syzygies.
+
+Let $V_2$ be the linear subspace of $S_{p-1}$ spanned by the coefficient of $x_3^2$ for quadratic
+sygyzygies $g$ as in the previous paragraph. The same argument shows that we cannot have $V_1\cap V_2\neq0$.
+
+We finish the proof by an easy dimension count.
+The discussion so far gives us that the number of {\em new} quadratic syzygies is at most
+$\dim_\CC V_2\leq\binom{p+1}{2}-p$,
+so even if all the $4p$ quadratic syzygies generated by the linear syzygies
+and the new quadratic syzygies are linearly independent altogether,
+we get at most $4p+\binom{p+1}{2}-p=p(p+7)/2$-many of them.
+On the other hand,
+the number of linearly independent quadratic syzygies must be at least $p(p+7)/2$
+by \eqref{rem:rel-moving-planes-quadrics-num-syz}.
+
+It follows that there are $\binom{p+1}{2}-p=\binom{p}{2}$ {\em new} quadratic syzygies,
+which along with the $4p$ pushed linear syzygies are linearly independent altogether.
+Also, the linear span of the $S_{p-1}$ coefficient of $x_3^2$ among the quadratic syzygies
+is $V_1\oplus V_2=S_{p-1}$.
 \end{proof}
 
-\begin{proof}[\bf Proof of Theorem \ref{thm:rel-moving-planes-quadrics}]
-	By Lemma \ref{lemma:rel-moving-planes-quadrics-second} we know that $N=N_1|N_2$
-	and since there are $p$ linear and $\binom{p}{2}$ quadratic syzygies
-	by Lemma \ref{lemma:rel-moving-planes-quadrics-main}, $N$ is square.
-	By Theorem \ref{thm:gcd-minors},
-	\[
-		\det(N)=\det(N_1|N_2)=P^{\deg\phi}
-	\]
-	and comparing the degrees on both sides, we see that $\deg(\phi)=1$.
+\begin{lemma}
+\label{lemma:rel-moving-planes-quadrics-second}
+Let $g(\mathbf s, \mathbf x)$ be a syzygy of degree $k>2$.
+Then $g$ is a $T$-combination of linear and quadratic syzygies.
+\end{lemma}
+
+\begin{proof}
+The proof uses the same arguments as in the proof of Lemma \ref{lemma:rel-moving-planes-quadrics-main}.
+Since the $S_{p-1}$-coefficients of $x_3^2$ among the quadratic syzygies span $S_{p-1}$,
+we can find among them
+\[
+	g_\nu(\mathbf s,\mathbf x)=(\text{terms involving $x_3$ at most linearly})+{\mathbf s}^\nu x_3^2
+\]
+for all $|\nu|=p-1$. We can then rewrite
+\[
+	g(\mathbf s,\mathbf x)=(\text{terms involving $x_3$ at most linearly})+(\sum_\nu {\mathbf s}^\nu\cdot h_\nu(\mathbf x))x_3^2
+\]
+where $h_v(\mathbf x)$ is a degree-$(k-2)$ homogeneous polynomial. But now
+\[
+	g-\sum_\nu h_\nu g_\nu=\sum_{|\beta|=k-1} (A_{\beta,0}x_0+A_{\beta,1}x_1+A_{\beta,2}x_2+A_{\beta,3}x_3) x_0^{\beta_0}x_1^{\beta_1}x_2^{\beta_2}
+\]
+where $A_{j,\beta}$ is a $(p-1)$-form in $S$.
+Lemma \ref{prop:key-koszul} and the same argument as in the proof of Lemma \ref{lemma:rel-moving-planes-quadrics-main}
+show that the above must be $T$-generated by linear syzygies.
+The result now follows.
+\end{proof}
+
+\begin{proof}[\bf Proof of Theorem~\ref{cor:moving-planes-quadrics}]
+By Lemma \ref{lemma:rel-moving-planes-quadrics-second} we know that $N=N_1|N_2$
+and since there are $p$ linear and $\binom{p}{2}$ quadratic syzygies
+by Lemma \ref{lemma:rel-moving-planes-quadrics-main}, $N$ is square.
+The result now follow by Theorem \ref{thm:gcd-minors}.
 \end{proof}
 
 

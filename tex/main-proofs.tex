@@ -171,14 +171,14 @@ For a geometric argument, see the proof of Lemma \ref{lemma:lengthRees}.
 \end{remarkhint}
 
 \begin{proof}[\bf Proof of Proposition \ref{prop:BP}]
-Since $I$ is the kernel of the ring map into a domain, $I$ is prime.
+Since $I$ is the kernel of a ring map into a domain, $I$ is prime.
 By Lemma~\ref{lemma:anncokerN},
 \[
 	P=T\cap I\se R
 \]
 so $B=R/I$ is naturally a finite-type $S$-graded $T/P$-algebra.
 The $T$-module localization of $B$ at $P$ is just
-the localization of the ring $R/I$ at the multiplicative set of homogeneous elements in $(T-P)$.
+the localization of the ring $R/I$ at the multiplicative set $(T-P)$.
 In particular, the localization $B_P$ remains a domain,
 now as a $K(T/P)$-algebra.
 This proves parts (a) and (b).
@@ -349,9 +349,6 @@ Because this is just an equality of Weil divisors,
 This follows directly from Theorem \ref{thm:gcd-minors}.
 \end{proof}
 
-\begin{proof}[\bf Proof of Corollary \ref{cor:approx-complex}]
-\end{proof}
-
 
 
 \begin{proof}[\bf Proof of Proposition~\ref{prop:deg-GB}]
@@ -361,7 +358,7 @@ Since $I\cap T=P$ by Lemma~\ref{lemma:anncokerN},
 a Gr\"obner basis must include $P(\mathbf x)$ as its unique generator involving just the $x_j$.
 This proves the first part.
 
-Define the ideal $\mathbf I$ by the identity
+Define the ideal $I'_B$ by the identity
 \[
 	B_P=\frac{(\CC[\mathbf x]-P)\inv\CC[\mathbf s;\mathbf x]}{I'_B}
 \]
@@ -377,7 +374,7 @@ and in turn, this gives
 \]
 where $\O$ denotes the structure sheaf of $\Proj_{K(T/P)} B_P$,
 and the degree on the far-right is the degree in $K(T/P)\CC[\mathbf s]$.
-The result now follows because the initial ideal of $I'_B$ has the same degree.
+The result now follows because the initial ideal of $I'_B$ has the same degree as $I'_B$.
 \end{proof}
 
 

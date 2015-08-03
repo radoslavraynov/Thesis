@@ -14,7 +14,7 @@ This chapter is the heart of the thesis.
 It consists of examples highlighting the results of Chapter~\ref{ch:main-results}
 and motivating the results of Chapters \ref{ch:fast-method} and \ref{ch:koszul-bpf}.
 
-We recall that the Macaulay2 code for the examples is available at
+All of the calculations are available as Macaulay2 code at
 \begin{center}
 \url{http://www.math.cornell.edu/~rzlatev/phd-thesis/}
 \end{center}
@@ -342,7 +342,7 @@ and
 	\minors(2,N)=\la {x}_{2}^{2}-{x}_{1} {x}_{3},{x}_{1} {x}_{2}-{x}_{0}
       {x}_{3},{x}_{1}^{2}-{x}_{0} {x}_{2}\ra
 \]
-which is the usual equation for $C$ in $\PP^3$. Setting $\d=2$, we get
+which are the usual equations for $C$ in $\PP^3$. Setting $\d=2$, we get
 \[
 	N=
 	\bgroup\begin{bmatrix}0&
@@ -485,7 +485,7 @@ Let $X=\PP^2$ and take
 	      t^{3}+3 s^{2} t^{2} u-s t^{3} u-3 s t u^{3}+3 t u^{4}-u^{5}
 \end{align*}
 so $\phi$ is generically 1-1
-with 3 base locus of total degree $17$ and multiplicity 20.
+with base locus of total degree $17$ and multiplicity 20.
 More precisely, the basepoints are the c.i. point $(1,1,1)$ of multiplicity $4$,
 the a.c.i. point $(0,1,0)$ of degree 4 and multiplicity 5, and
 the a.c.i. point $(1,0,0)$ of degree 9 and multiplicity 11.
@@ -531,6 +531,11 @@ Because we are in projective space, this can be checked directly in Macaulay2.
 However, since $Z$ is supported on multiple points,
 we cannot compute the total multiplicity in the same way.
 Indeed, running $\mt{multiplicity}(J)$ gives $45$, not the correct $20$.
+
+This is because the multiplicity is computed as the degree of the normal cone
+over the closed subscheme,
+but this is a well-behaved projective variety over a field only in case
+the support is a single point.
 
 Let $Q_k$ be the prime ideals corresponding to the points $q_k$, and set
 \[
@@ -643,16 +648,16 @@ its rows cannot be indexed by the monomials of $S_\d$.
 
 The situation of the previous example,~\ref{ex312}, is very similar.
 While we were lucky and found a determinantal representation for $P(\mathbf x)$,
-it does not come in the form of matrix of syzygies.
+it does not come in the form of a matrix of syzygies.
 There is only $3$ linear syzygies, corresponding to there of the columns of $M$,
 but the last one is not.
 \end{example}
 
-\begin{example}[$\mt{ex318}$]
-\label{ex318}
-Change to $\PP^1\times\PP^1$ source. This is not what you had before --- the map
-must be of degree 1. Compute it.
-\end{example}
+% \begin{example}[$\mt{ex318}$]
+% \label{ex318}
+% Change to $\PP^1\times\PP^1$ source. This is not what you had before --- the map
+% must be of degree 1. Compute it.
+% \end{example}
 
 \begin{example}[$\mt{ex319}$]
 \label{ex319}
@@ -689,7 +694,7 @@ Dropping the implicit equation, we get
 	      {x}_{2} t+({x}_{0}^{2} {x}_{1}+{x}_{1} {x}_{2}^{2}-{x}_{0} {x}_{2} {x}_{3})
 	      u,\\{x}_{0} s-{x}_{2} u,\\{x}_{1} {x}_{2} s+{x}_{0} {x}_{2} t+({x}_{0}
 	      {x}_{1}-{x}_{2} {x}_{3}) u,\\{x}_{0} t^{2}+{x}_{2} s u-{x}_{3} t u+{x}_{0}
-	      u^{2},\\{x}_{2} s^{2}-{x}_{3} s t+{x}_{2} t^{2}+{x}_{2} u^{2},{x}_{1}
+	      u^{2},\\{x}_{2} s^{2}-{x}_{3} s t+{x}_{2} t^{2}+{x}_{2} u^{2},\\{x}_{1}
 	      s^{2}-{x}_{3} s u+{x}_{2} t u+{x}_{1} u^{2}
 	\end{cases}
 \]
@@ -750,21 +755,21 @@ and the only inclusion we have is
 The results for other values of $\d$ are analogous.
 \end{example}
 
-\begin{example}[316]
-\label{ex316}
-The construction of Lemma \ref{lemma:lengthRees} is already apparent in Example \ref{ex207}.
-Since $P\se I$ in $R$, the bihomogeneous primes in $R/I=B$
-which pull back to $P$ are those in
-\[
-	(\CC[x_0,x_1,x_2]/\la x_0+x_1-x_2\ra)[s,t]/\la x_1s^2-x_0t^2\ra
-\]
-which intersect the coefficient ring trivially, so in turn, those in
-\[
-	(\CC[x_0,x_1,x_2]\setminus\la x_0+x_1-x_2\ra)\inv(\CC[x_0,x_1,x_2]/\la x_0+x_1-x_2\ra)[s,t]/\la x_1s^2-x_0t^2\ra
-\]
-\end{example}
+% \begin{example}[316]
+% \label{ex316}
+% The construction of Lemma \ref{lemma:lengthRees} is already apparent in Example \ref{ex207}.
+% Since $P\se I$ in $R$, the bihomogeneous primes in $R/I=B$
+% which pull back to $P$ are those in
+% \[
+% 	(\CC[x_0,x_1,x_2]/\la x_0+x_1-x_2\ra)[s,t]/\la x_1s^2-x_0t^2\ra
+% \]
+% which intersect the coefficient ring trivially, so in turn, those in
+% \[
+% 	(\CC[x_0,x_1,x_2]\setminus\la x_0+x_1-x_2\ra)\inv(\CC[x_0,x_1,x_2]/\la x_0+x_1-x_2\ra)[s,t]/\la x_1s^2-x_0t^2\ra
+% \]
+% \end{example}
 
-\begin{example}[317]
+\begin{example}
 \label{ex317}
 It may seem at first that taking the smallest possible degree is always our best option,
 but Example~\ref{ex308} provides a good counterexample.

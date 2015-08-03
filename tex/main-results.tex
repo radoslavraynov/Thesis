@@ -101,7 +101,7 @@ denoted by $\reg(I_P)$.
 
 Recall that $\reg(I_P)$ is a finitely generated additively-closed subset
 of the semigroup of degrees on $S$, and that
-for any $\d\in\reg(I_P)$, we have $\la(I_P)_\d\ra=I$.
+for any $\d\in\reg(I_P)$, we have $\la(I_P)_\d\ra=I_P$.
 This parallels the usual Castelnuovo-Mumford regularity for $\PP^n$
 and is the content of Theorem 1.3 in the referenced paper.
 \end{paragraf}
@@ -130,7 +130,7 @@ Example~\ref{ex307}, for instance, shows that the radical is necessary.
 
 \begin{paragraf*}
 Our next result is the main theorem of this thesis, unifying two currently
-popular non-Gr\"{o}bner bases approaches to implicitization and setting the stage for both
+popular non-Gr\"{o}bner basis approaches to implicitization and setting the stage for both
 the ad-hoc template proofs in Chapter~\ref{ch:koszul-bpf} and
 the fast implicitization method described in Chapter~\ref{ch:fast-method}.
 \end{paragraf*}
@@ -143,8 +143,7 @@ One has
 \[
 	\gcd(\mt{minors}(r, N))=P^{\deg\phi}
 \]
-In particular, if there is a degree $\mathbf d$ in the regularity for which $\mu=r$,
-then $N$ is square and, up to a unit,
+In particular, if $\mu=r$, then $N$ is square and, up to a unit,
 \[
 	\det(N)=P(\mathbf x)^{\deg\phi}
 \]
@@ -191,18 +190,18 @@ In the case of complete intersection base locus, the proof of Theorem~\ref{thm:g
 gives a special case of the above.
 \end{paragraf*}
 
-\begin{corollary}[\citet{BCD-03}]
-\label{cor:approx-complex}
-In the setup of Theorem~\ref{thm:gcd-minors}, let $\d$ be {\em large enough} in $\reg(I_P)$.
-Let $\Biproj(B)$ and $\Biproj(\Sym(J))$ be naturally isomorphic in the sense of~\eqref{eq:R-Sym-B}.
-One has
-\[
-	\gcd(\mt{minors}(r, N_1))=P^{\deg\phi}
-\]
-
-In particular, the result holds if the base locus is empty or
-zero-dimensional and locally a complete intersection.
-\end{corollary}
+% \begin{corollary}[\citet{BCD-03}]
+% \label{cor:approx-complex}
+% In the setup of Theorem~\ref{thm:gcd-minors}, let $\d$ be {\em large enough} in $\reg(I_P)$.
+% Let $\Biproj(B)$ and $\Biproj(\Sym(J))$ be naturally isomorphic in the sense of~\eqref{eq:R-Sym-B}.
+% One has
+% \[
+% 	\gcd(\mt{minors}(r, N_1))=P^{\deg\phi}
+% \]
+%
+% In particular, the result holds if the base locus is empty or
+% zero-dimensional and locally a complete intersection.
+% \end{corollary}
 
 \begin{paragraf*}
 It is known that if $M$ is a square matrix over $T$ of size $r$,
@@ -234,35 +233,36 @@ More importantly, they show that our methods directly generalize the methods of
 moving planes and quadrics in the setting in which they are most useful.
 \end{paragraf*}
 
-\begin{corollary}
+\begin{theorem}
 \label{cor:moving-planes-quadrics}
 Let $X=\PP^2$, $\phi$ be basepoint-free,
 and suppose that there are exactly $p=\e$ linear syzygies over degree $\d=p-1$,
 that is, the minimal possible number.
-One has that $N=(N_1~|~N_2)$, $N$ is square and $\phi$ is birational.
+One has that $N$ is square and $N=(N_1~|~N_2)$.
 In particular,
 \[
-	\det(N)=\det(N_1~|~N_2)=P(\mathbf x)
+	\det(N)=\det(N_1~|~N_2)=P(\mathbf x)^{\deg(\phi)}
 \]
-\end{corollary}
+\end{theorem}
 
-\begin{corollary}
+\begin{theorem}
 \label{cor:moving-quadrics}
 Let $X=\PP^1\times\PP^1$, $\phi$ be basepoint-free with coordinates in degree $\mathbf e=(p,q)$,
 and suppose there are no linear syzygies over degree $\d=(p-1,q-1)$.
-Then one has that $N_2$ is square, $N=N_2$ and $\phi$ is birational. In particular,
+Then one has that $N_2$ is square and $N=N_2$ and $\phi$.
+In particular,
 \[
-	\det(N)=\det(N_2)=P(\mathbf x)
+	\det(N)=\det(N_2)=P(\mathbf x)^{\deg(\phi)}
 \]
-\end{corollary}
+\end{theorem}
 
 \begin{paragraf*}
 Both of these theorems are examples of a template proof described in Chapter~\ref{ch:koszul-bpf}.
 While applying it in general requires elaborate choses of the degree $\d$ and
 regularity computations, for example \citet{AHW-05},
-in the case of Theorems \ref{thm:rel-moving-planes-quadrics} and \ref{thm:rel-moving-quadrics},
+in the case of Theorems \ref{cor:moving-planes-quadrics} and \ref{cor:moving-quadrics},
 we only use a type of Koszul-ness on the syzygies of low degree.
-This is the content of Section~\ref{sec:bpf-low-koszul}.
+This is the content of Section~\ref{template-proof}.
 \end{paragraf*}
 
 
