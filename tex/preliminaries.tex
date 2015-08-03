@@ -12,17 +12,18 @@
 \begin{paragraf*}
 The goal of this chapter is to set up the notation and recall some basic facts
 which we shall need later on.
-The first section defines the main objects of interest and establishes some
+Section \ref{sec:notation} defines the main objects of interest and establishes some
 standard notation and terminology.
-Section 2 is a short and elementary treatment on strands of maps of free modules
-in the way we shall need them.
-Section 3 is solely devoted to the notion of multiplicity.
+Section \ref{sec:strands} is a short and elementary treatment on strands of maps of free modules
+in the way we need them.
+Section \ref{sec:mult} is devoted to the notion of multiplicity.
 It comes in many flavors and some care is needed when dealing with it.
 \end{paragraf*}
 
 \begin{paragraf*}
-Section~\ref{sec:def-examples}, we present two examples with the sole purpose
-of working out the definitions of the previous three sections.
+In Section~\ref{sec:def-examples},
+we present two examples with the only purpose of working out
+the definitions of the first three sections.
 \end{paragraf*}
 
 
@@ -62,7 +63,7 @@ We define
 From now on we use the notation $\Proj(S,\mathfrak n)$ for the construction of a projective toric variety from
 its Cox ring. In the cases where the irrelevant ideal $\mathfrak n$ is the usual one,
 for example for products of projective spaces, or is not relevant to the discussion,
-we shall simply write $\Proj(S)$.
+we simply write $\Proj(S)$.
 This is within reason because the construction coincides with the usual construction
 in case $S$ is standardly graded.
 \end{paragraf}
@@ -79,9 +80,8 @@ furnishing an embedding of $X$ into projective space, i.e. $X=\Proj(S')$ with
 for some homogeneous prime $\mathfrak{p}$ of height $m-n+1$.
 Let $T=\CC[\mathbf x]$ be the homogeneous coordinate ring of $\PP^n$.
 
-Let $\L$ be a line bundle on $X$ such that $h^0(\L)> n$.
-Because $X$ is toric,
-there is a degree $\mathbf e$ on $S$ such that $\L\cong\O_X(\mathbf e)$.
+Let $\L=\O_X(\e)$ be a line bundle on $X$ such that $h^0(\L)> n$.
+Note that $\e$ is a degree on $S$.
 
 Under the identification above, suppose that
 \[
@@ -97,23 +97,24 @@ We denote by $J$ the ideal of the coordinates $\phi_j$,
 	J=\la\phi_0,\ldots,\phi_n\ra\se S
 \]
 
-We assume from now on that the closed image of $\phi$, which we denote by $Y$,
-is of dimension $n-1$.
+Let $Y$ denote the closed image of $\phi$.
 Since $X$ is reduced and irreducible, so is $Y$ and, in particular,
-$Y=V(P)$ for some principal homogeneous prime ideal $P\se T$,
+$Y=V(P)$ for some homogeneous prime ideal $P\se T$,
 \[
 	Y=\image(\phi)=V(P)
 \]
 
-If we want to refer to a generator of $P$, necessarily up to a unit in $T$,
+If $\dim(Y)=n-1$, then $P$ is principal.
+In that case,
+if we want to refer to a generator of $P$, necessarily up to a unit in $T$,
 we shall dereference the ideal by writing $P(\mathbf x)$.
 
-We sometimes refer to $S$ as the ring of \underbar{s}ource and
-to $T$ as the ring of the \underbar{t}arget.
+We sometimes refer to $S$ as the coordinate ring of \underbar{s}ource and
+to $T$ as the coordinate ring of the \underbar{t}arget.
 \end{paragraf}
 
 \begin{paragraf}
-Throughout this thesis, the term {\em image of a rational map}, as used in \eqref{par:setup},
+Throughout this thesis, the term {\em image} of a rational map, as used in \eqref{par:setup},
 means the scheme-theoretic image, also called the closed image. Formally,
 \[
 	Y = V(\ker\phi^\#),\quad \phi^\#:\O_{\PP^n}\To\phi_\ast\O_X
@@ -149,7 +150,7 @@ that is,
 For the sake of brevity, we denote the Rees algebra by $B$.
 
 While $\Rees_S(J)$ captures all polynomial relations on the $\phi_j$,
-the symmetric algebra $\Sym_S(J)$ captures only the linear ones.
+the symmetric algebra $\Sym_S(J)$ captures only the linearly-generated ones.
 Specifically, we have
 \[
 	\Sym_S(J)=R/\la \textstyle\sum_j a(\mathbf s)x_j
@@ -207,9 +208,6 @@ Suppose that the base locus of the rational map $\phi$, $V(J)$, is zero-dimensio
 The first embedding in \eqref{eq:R-Sym-B} is an isomorphism if and only if
 $V(J)$ is a locally complete intersection scheme.
 For a proof in our setting, see (\citet{BJ-03}, Proposition 4.14).
-
-Loosely speaking, this follows because either condition is equivalent to $J$ being of linear type.
-For future reference, this does not mean that $N=N_1$.
 \end{paragraf}
 
 \begin{paragraf}
@@ -235,43 +233,29 @@ is finite and a $T$-module generating set for $\mathbf M_\d$.
 \end{paragraf}
 
 \begin{paragraf}
-\label{par:moving-planes-notation}
-For a fixed degree $\mathbf d$ on the source,
-the elements of $I_{\mathbf d,i}$ are degree-$i$ syzygies of the $\phi_j$ with (module-)coefficients
-in $S_{\mathbf d}$.
-For specific degrees $\mathbf d$ and $i=1,2$, these have been called moving planes and quadrics,
-respectively [references].
-We shall only use this notation in Chapter \ref{ch:koszul-bpf} when we present a sort of a "template proof"
-and use prove two results relating our work to what is already known in the case of
-basepoint-free maps over $\PPP$ and $\PP^2$,
-as well as a couple of new results along those lines.
-\end{paragraf}
-
-\begin{paragraf}
 \label{par:basis}
-Throughout this thesis we work with a fixed monomial order on $S$ (or rather $S'$).
+Throughout this thesis we work with a fixed monomial order on $S$ and $T$.
 For example, this could be the graded lexicographic order but the specific choice
-is immaterial. With this convention, the statement
-\begin{itemize}
-\item[]
-\text{let $\mathbf b$ be a row-vector corresponding to the basis of $S_{\mathbf d}$}
-\end{itemize}
-would mean a row vector having having as its coordinates the monomials of $S$,
-listed in the selected order.
+is not important.
+With this agreement,
+the statement:
+let $\mathbf b$ be a row-vector corresponding to the basis of $S_{\mathbf d}$,
+means a row vector having having as its coordinates the monomials of $S$,
+listed in the order.
 
-In this sense, and fixing some basis on $T$ too, we shall write
+In this sense, we write
 \[
 \mt{basis}(S_{\mathbf d}),\quad\mt{basis}(T_i),\quad\mt{basis}(R_{\mathbf d,i})
 \]
-for the row vectors consisting of monomial bases in the chosen order for the $\CC$-vector spaces
+for the row vectors consisting of monomial bases in the selected order for the $\CC$-vector spaces
 $S_{\mathbf d}, T_i$  and $R_{\mathbf d,i}$, respectively.
 \end{paragraf}
 
 \begin{paragraf}
 \label{par:syzygies}
 Let $r=\dim_\CC(S_{\mathbf d})$ and
-let $\mathbf b=\mt{basis}(S_{\mathbf d})$ be the row-$r$-vector of the monomial basis of $S$ in degree $\mathbf d$.
-We shall mostly use $r$ instead of $\dim_\CC(S_{\mathbf d})$ when $\mathbf d$ has been fixed.
+let $\mathbf b=\mt{basis}(S_{\mathbf d})$.
+We mostly use $r$ instead of $\dim_\CC(S_{\mathbf d})$ when $\mathbf d$ is fixed.
 
 Given a form $g(\mathbf x)=g(\mathbf s;\mathbf x)\in I_{\mathbf d,i}$,
 that is, a syzygy of degree $i$ over $S_{\mathbf d}$,
@@ -285,7 +269,7 @@ g(\mathbf x)=\mathbf b\cdot C=
 where $C$ is an $r\times1$ column vector with entries in $T_i$,
 and $C'$ is a $\binom{n+i}{n}\times1$ column vector with entries in $S_{\mathbf d}$.
 
-We shall use the term syzygy both for the column vector $C$ and the form $g$ in the
+We use the term syzygy both for the column vector $C$ and the form $g$ in the
 Rees ideal.
 \end{paragraf}
 
@@ -293,18 +277,20 @@ Rees ideal.
 \label{par:N-matrix}
 We now come to the most important bit of notation.
 Let us fix a degree $\mathbf d$ on the source.
-As already apperent from \eqref{par:syzygies},
-identifying the generators of $I_{\mathbf d}$ with column-$r$-vectors,
-$I_{\mathbf d}$ becomes a sub-$T$-module of the free graded $T^r$.
+As already apparent from \eqref{par:syzygies},
+identifying the generators of $I_{\d,\bullet}$ with column-$r$-vectors,
+$I_{\d,\bullet}$ becomes a sub-$T$-module of the free graded $T^r$.
 
-Let $N$ be the matrix built from those column-generators.
-Setting $\mu=\mu(I_{\mathbf d,\bullet})$ to be the number of columns,
-$N$ becomes an $r\times\mu$-matrix over $T$
-and more importantly, a graded $T$-linear map
+Let $C_1,\ldots,C_\mu$ be a minimal generating set for $I_{\d,\bullet}$.
+We take $N$ to be the matrix with columns $C_1,\ldots,C_\mu$.
+Equivalently, let $N$ be the the representation matrix for a minimal
+generating set of $I_{\d,\bullet}$ with respect to $\basis(S_\d)$.
+
+The matrix $N$ a graded $T$-linear map
 \[
 N:\bigoplus_{k} T(-i_k)\To T^r
 \]
-whose image is just $I_{\mathbf d,i}$.
+whose image is just $I_{\d,i}$.
 
 By grouping the columns corresponding to the same degree $i$ into submatrices $N_i$,
 for each valid $i$ we get a single matrix whose columns are the degree $i$-syzygies over $S_{\mathbf d}$.
@@ -319,7 +305,7 @@ In any case, the $N_i$ fit together to give $N$,
 In Chapter 7 we describe the close connection of $N_1$ and $N_2$ to the matrices used in
 the moving planes and quadrics results.
 
-Finally, whenever useful, we write $h_i$ for $\dim_\CC \Span (N_i)=\dim_\CC(I_{\mathbf d,i})$
+Finally, whenever useful, we write $h_i$ for the number columns in $N_i$
 and $h$ for the tuple $(h_1,\ldots,h_\delta)$.
 \end{paragraf}
 
@@ -370,11 +356,11 @@ Define $\phi^{(k)}$ to be the graded $S$-linear map formed by the coordinates of
 \phi^{(k)}=\begin{bmatrix}\phi_0^k& \phi_0^{k-1}\phi_1& \cdots& \phi_n^k\end{bmatrix}:
 S^{\binom{n+k}{n}}\To S^1(k\mathbf e)
 \]
-and set $\Phi^{(k)}$ be the strand of $\phi^{(k)}$ in degree $\d$, that is,
+and set $\Phi^{(k)}$ be the linearization of $\phi^{(k)}$ in degree $\d$, that is,
 \[
 \Phi^{(k)}:S_{\mathbf d}^{\binom{n+k}{n}}\To S_{k\mathbf e+\mathbf d}^1
 \]
-is a map of complex vector spaces.
+as a map of complex vector spaces.
 
 Choosing bases \eqref{par:syzygies}, we can think of $\Phi^{(k)}$ as a matrix over $\CC$ of size
 \[
@@ -416,7 +402,7 @@ Let $Z$ be a zero-dimensional closed subscheme of a smooth projective variety $X
 Let $\mathscr{J}\se\mathscr{O}_X$ be the ideal sheaf of $Z$
 and let $q\in Z$ be any point.
 Since $Z$ is zero-dimensional,
-$\mathscr{J}_q\se\mathscr{O}_{q,X}$ is an ideal of definition
+$\mathscr{J}_q$ is an ideal of definition
 in the regular local ring $\mathscr{O}_{q,X}$.
 
 Define the multiplicity of $Z$ at $q$, denoted $e_q$,
@@ -428,15 +414,14 @@ Define the degree of $Z$ at $q$, denoted $d_q$, to be the length of the local ri
 	\length(\mathscr{O}_{q,Z})=\dim_{\CC}(\mathscr{O}_{q,Z})
 \]
 
-We have that $d_q\leq e_q$ with equality if and only if $q$ is a c.i. point
-(\citet{BH98}, Theorem 4.7.4).
+We have that $d_q\leq e_q$ with equality if and only if $q$ is a complete intersection point.
 \end{paragraf}
 
 \begin{paragraf}
 We shall mostly be interested in the degree and multiplicity of points on the base locus $Z$.
 Since by assumption $X$ is toric, the ideal sheaf $\mathscr{J}$ of $Z$ in \eqref{par:mult}
 is the ideal sheaf $\widetilde J$.
-We stick to this notation for the rest of the paper.
+We stick to the latter notation for the rest of the paper.
 \end{paragraf}
 
 \begin{paragraf}
@@ -471,30 +456,9 @@ so the only nonzero term in the power of $[\L]$ in the Chow ring, is the multipl
 of all rulings.
 \end{paragraf}
 
-\begin{example}
-Here is a list of ways to compute the degree and multiplicity, and also
-to show how not to compute them.
-\begin{itemize}
-	\item Both notions are geometric which means that we need to saturate our ideals
-	before computing the degree and multiplicity.
-	\item For both, the sum of the values at the points in a zero-dimensional scheme
-	add to the corresponding notion for the scheme.
-	This works better with degree.
-	\item Just typing $\mt{degree}(J)$ and $\mt{multiplicity}(J)$ in Macaulay2 often
-	has dissasterous results.
-	\item If $X=\PP^n$ and $J$ is saturated, then $\mt{degree}(J)$ is in fact the degree
-	of the zero-dimensional scheme.
-	If the scheme is supported on a single point, then that's the degree of the point.
-	Else, saturate with respect to the prime ideals of the other points.
-	\item We can freely work over non-algebraically closed fields.
-	Points in the same Galois closure are algebraically indistinguishable,
-	so just assume they split equally to closed points over $\CC$, or the algebraic closure.
-	\item $\mt{multiplicity}(J)$ does work in projective space for an ideal supported
-	on a single point.
-	And the implementation uses a cool trick --- the reference I have is due to Eisenbud.
-\end{itemize}
-\end{example}
-
+\begin{paragraf*}
+See Example~\ref{ex201} and Example~\ref{ex311} for more information.
+\end{paragraf*}
 
 
 \section{Examples}
@@ -505,7 +469,7 @@ to show how not to compute them.
 Let $X=\PP^1_{s,u}\times\PP^1_{t,v}$ be the product of two projective lines,
 and let $S=\CC[s,u;t,v]$ be its Cox ring --- a bihomogeneous ring graded by $\Pic(X)$
 such that $\deg(s)=\deg(u)=(1,0)$ and $\deg(t)=\deg(v)=(0,1)$.
-The irrelevant ideal $\n$ is the product of the irrelevant ideals of the components,
+The irrelevant ideal $\n$ is the product of the irrelevant ideals of the factors,
 \[
 	\n=\la s,u\ra\cap\la t,v\ra=\la st,sv,ut,uv\ra
 \]
@@ -519,7 +483,7 @@ In this case, the coordinates $\phi_0,\ldots,\phi_3$ are global sections
 of the line bundle $\O_X(2,2)$, and are linearly independent over the base field $\CC$.
 Note that
 \[
-	h^0(\O_X(2,2),X)=\dim_\CC(S_{(2,2)})=9
+	h^0(\O_X(2,2))=\dim_\CC(S_{(2,2)})=9
 \]
 
 The ideal of the coordinates,
@@ -533,7 +497,6 @@ In this case, $Z$ is supported on the points
 \]
 so the base locus is zero-dimensional and the map is generically finite.
 
-The points are qualitatively different.
 Near $q_1$ the scheme $Z$ looks like $V(s,t)$ in $\AA^2_{s,t}$,
 while near $q_2$, $Z$ looks like $V(u^2,uv,v^2)$ in $\AA^2_{u,v}$.
 This allows us to compute their degrees and multiplicities.
@@ -622,14 +585,15 @@ Specifically,
 \]
 
 In this sense, $N$ is a representation matrix as well as a matrix of syzygies.
-It represents a generating set for the graded syzygies of the $\phi_j$ with coefficients
+It represents a generating set for the graded syzygies on the $\phi_j$ with coefficients
 in $S_{(1,1)}$.
 \end{example}
 
 \begin{example}[$\mt{ex202}$]
 \label{ex202}
-Let $X=\PP^2$. Its Cox ring is just its standard homogeneous coordinate ring, $\CC[s,t,u]$,
-and the irrelevant ideal $\n=\la s,t,u\ra$.
+Let $X=\PP^2$.
+Its Cox ring is just its standard homogeneous coordinate ring, $\CC[s,t,u]$,
+with the irrelevant ideal $\n=\la s,t,u\ra$.
 
 Let $J\se S$ be a graded ideal generated by $4$ linearly independent forms of the same degree $\e$.
 For concreteness we can take
@@ -648,10 +612,10 @@ i.e.
 \[
 \sat(J)=J:\n^\infty=\la s^2,u\ra
 \]
-From this we know that $Z$ is supported on $q=(0,0,1)$ only,
+From this we know that $Z$ is supported on $q=(0,1,0)$ only,
 and that $q$ is a complete intersection point, so its degree and multiplicity coincide,
 \[
-	\e_q=d_q=\length(\O_q/\widetilde{J}_q)=2
+	e_q=d_q=\length(\O_q/\widetilde{J}_q)=2
 \]
 
 Let $P$ be the principal ideal generated by the implicit equation for $\phi$.
@@ -679,14 +643,14 @@ is a graded map of $S$-modules.
 We can linearize this map in this map in the following way.
 Take a degree on $S$, for concreteness, take $\d=1$.
 We take a the strand of the map $\phi^{(1)}$ in degree $\d=1$.
-To this end, note that the basis on the LHS can be indexed by the monomials in $R_{1,1}$,
+To this end,
+note that the basis on the source of $\phi^{(1)}$ can be indexed by the monomials in $R_{1,1}$,
 for example, by putting
 \[
 	\begin{bmatrix}0\\s\\0\\0\end{bmatrix}=sx_1
 \]
-and the basis on the RHS can be indexed by the monomials in $S_4$.
-Multiplying out $\phi^{(1)}$ with an element $S^4$ is then equivalent to evaluation $x_j=\phi_j$.
-Reading off the coefficients we get for the linearization
+and the basis on the target can be indexed by the monomials in $S_4$.
+For the linearization, we get
 \[
 	\Phi^{(1)}=
 	\bgroup\makeatletter\c@MaxMatrixCols=12\makeatother\begin{bmatrix}1&
