@@ -64,7 +64,7 @@ we find in Theorem~\ref{thm:rad-minors} that
 	\rad(\text{minors}(r,N))=P
 \]
 
-Furthermore, results of form:
+Furthermore, results of the form:
 if conditions (1)--($k$) hold,
 then there exists a square matrix $M$ such that $\det(M)=P(\mathbf x)$~---
 which are the main theme of the moving surfaces methods,
@@ -74,9 +74,9 @@ This suggest a template for proofs allowing one to focus the specifics of the co
 
 Moreover, the matrix $N$ can be computed incrementally
 using only tools from linear algebra.
-This is important because entails a significant on-average speed up,
+This is important because it entails a significant on-average speed up,
 allowing us to calculate examples which are out of reach via Gr\"obner basis techniques.
-More importantly, this allows us to use geometric tricks, say,
+More importantly, this allows us to use geometric tricks, for instance,
 to confirm that
 \[
 	P(\mathbf x)=\gcd(\det(M_1),\det(M_2))
@@ -95,16 +95,15 @@ In fact, we believe that a careful read renders some, or all, of the proofs of t
 presented in Chapter~\ref{ch:main-proofs}, unnecessary.
 Chapter~\ref{ch:koszul-bpf} relates our construction to the results of \citet{CGZ-00}.
 We take another stand point, though, outlining a template for such a proof in
-Section~\ref{sec:template-proof},
+\eqref{par:template-proof},
 and then filling-in the details in
 Sections~\ref{sec:moving-quadrics} and \ref{sec:moving-planes-quadrics}.
 
-We consider was conceived as a work in computational algebraic geometry.
+The paper was conceived as a work in computational algebraic geometry.
 As such we field-test our approach and in Chapter~\ref{ch:fast-method}
 we develop and implement, in Macaulay2, \citet{M2},
 algorithms for finding $N$ and $P$.
-We compare computation time against the standard techniques and
-show how one can use geometric insight to leverage computation time.
+We then calculate four somewhat computationally harder examples in Section~\ref{sec:long-examples}.
 
 %% STRIP BEGIN
 %% BIBLIOGRAPHY
