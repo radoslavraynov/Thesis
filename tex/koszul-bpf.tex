@@ -12,28 +12,28 @@
 
 \begin{paragraf}
 \label{par:template-proof}
-Results on methods of moving surfaces, at last so far, have focused on
+The methods of moving surfaces, at least so far, have focused on
 moving planes and moving quadrics.
 In those cases, matrices equivalent to our $\phi^{(i)}$ and $\Phi^{(i)}$ ($i=1,2$)
 from Section~\ref{sec:strands} have been employed.
-Most of the proofs follow the following outline
+Most of the results follow the following outline
 \begin{enumerate}
 \item
-Consider a specific $X$ and set some conditions on the base locus of allowed $\phi$,
+Consider a specific $X$ and impose some conditions on the base locus,
 e.g. empty or 0-dimensional and locally complete intersection;
 \item
 Choose the degree $\d$ as a fixed function of $\e$;
 \item
-Use matrices columns from $\phi^{(i)}$ and $\Phi^{(i)}$ ($i=1,2$) to construct a matrix a
-square $M$;
+Select columns from $\phi^{(i)}$ and $\Phi^{(i)}$ ($i=1,2$) to construct a square matrix~$M$
+such that $\det(M)$ has the expected degree.
 \item
-Show that $\det(M)$ vanishes on $P$ or $P^{\deg\phi}$;
+Show that $\det(M)$ is in $P$ or $P^{\deg\phi}$;
 \item
 Show that $M$ is nonsingular.
 \end{enumerate}
 
 The conditions on the base locus in (1) and (2) are dictated by
-making some numerics in (3) workout.
+making certain numerics in (3) workout.
 Step (4) is often automatic, especially if $\phi$ is assumed to be generically 1-1.
 Step (5), on the other hand, usually involves a cleverly chosen normal form for the syzygies,
 allowing the authors to assert that certain monomial on the $x_j$ shows up nontrivially
@@ -41,49 +41,49 @@ in the determinant of $M$.
 \end{paragraf}
 
 \begin{paragraf}
-From the standing point of this paper, those proofs most often entail
-figuring out the $h$-vector, \eqref{par:N-matrix}, of $N$.
+From the standing point of this paper, such a proof entails
+figuring out the $h$-vector \eqref{par:N-matrix} of $N$.
 This is difficult.
 For instance, in \citet{BCD-03},
-five conditions on the base locus need to be enforced.
+five conditions on the base locus need to be imposed.
 \end{paragraf}
 
 \begin{paragraf*}
-However, in the case of base-point free maps, some of the work can be avoided.
-Next result is a direct extension to Proposition 2.2 of \citet{CGZ-00}
-(see also the discussion of \citet{Cox-01}).
-The result there is in the case $X=\PPP$, $k=1$ and $\e=(p,q)$, $\d=(p-1,q-1)$
-but the generalization is immediate.
+However, in the case of basepoint-free maps, some of the work can be avoided.
+Next result is a direct extension of Proposition 2.2 in \citet{CGZ-00}
+(see also the discussion in \citet{Cox-01}).
+The result there is stated for $X=\PPP$, $k=1$, $\e=(p,q)$ and $\d=(p-1,q-1)$,
+but our generalization is immediate.
 \end{paragraf*}
 
 \begin{proposition}
 \label{prop:koszul-syzygies}
 Consider the setup of \eqref{par:again} with $\dim(X)=2$.
 Assume \itmref{itm:conds:1}{par:conds}.
-Suppose that $\phi_0,\phi_1,\phi_2$ are forms of degree $\e$ on $S$ with no common zero locus.
-Let $\d$ be any degree such that
+Suppose that $\phi_0,\phi_1,\phi_2$ are of degree $\e$ and have no common zero locus on $X$.
+Let $\d$ be any degree on $S$ such that
 \[
 	H^1(X,\O_X(\d-2\e))=0
 \]
-One has that the syzygies on
+Then the syzygies over degree $\d$ on
 \[
-	M_0=\Phi^{(k)}
+	M_0=\phi^{(k)}
 \]
-over degree $\d$ are Koszul, i.e. are of the form $M_1{\mathbf u}$,
+are Koszul, i.e. are of the form $M_1{\mathbf u}$,
 where $\mathbf u\in S_{\e-\d}$
 and $M_1$ is the first differential in a resolution of $M_0$
-when the $\phi_j$ are thought as variables.
+when the $\phi_j$ are considered as variables.
 \end{proposition}
 
 
 
 \section{Basepoint-Free Maps over $X=\PPP$}
-\label{sec:bpf-maps-ppp}
+\label{sec:moving-quadratics}
 
 \begin{paragraf*}
 In this section we present a proof of Corollary~\ref{cor:moving-quadrics}.
 To this end, we assume throughout the section that $X=\PPP$,
-$\phi$ is basepoint-free given by sections in degree $\e=(p,q)$
+$\phi$ is basepoint-free given by forms of degree $\e=(p,q)$
 and that $\d=(p-1,q-1)$ is fixed.
 Further, we assume that there are no linear syzygies (for the fixed $\d$),
 that is, $N_1=0$.
@@ -112,12 +112,12 @@ Write such a syzygy as
 \begin{align}\label{ebasi}
 	\sum_{|\alpha|=k} A_\alpha\cdot
 	x_0^{\alpha_0}x_1^{\alpha_1}x_2^{\alpha_2}+
-	\big(\sum_{|j|=k-1} B_{j}\cdot
-	x_0^{j_0}x_1^{j_1}x_2^{j_2}\big)x_3+
+	\big(\sum_{|\beta|=k-1} B_{j}\cdot
+	x_0^{\beta_0}x_1^{\beta_1}x_2^{\beta_2}\big)x_3+
 	\big(\sum_{|\gamma|=k-2}C_\gamma x^\gamma\big)x_3^2
 \end{align}
 where the first two sums correspond to
-the columns indexed by monomials involving $x_3$ at most linearly.
+the columns indexed by monomials of $R_{p-1,q-1,k}$ involving $x_3$ at most linearly.
 Their number is $\binom{k+2}{2}pq+\binom{k+1}{2}pq=(k+1)^2pq$,
 which is also the number of rows.
 Let $\Psi^{(k)}$ be the square submatrix of $\Phi^{(k)}$ formed by those columns.
@@ -134,112 +134,108 @@ If $k=1$, then $\Psi^{(1)}$ is nonsingular by assumption.
 It it were not, a kernel element would give rise to nonzero $N_1$.
 
 The case $k>1$ is a direct consequence of the case $k=1$
-and the Proposition~\ref{prop:koszul-syzygies}.
+and Proposition~\ref{prop:koszul-syzygies}.
 Let
 \[
 	V=\begin{bmatrix}{V'}\\{V''}\end{bmatrix}
 \]
 be a kernel element of $\Psi^{(k)}$ with $V'$ a column-$\binom{k+2}{2}$-vector over $\CC$
-and $V''$ is a column-$\binom{k+1}{2}$-vector over $\CC$, corresponding to the coefficients
-not involving $x_3$ and the coefficients involving $x_3$, respectively.
-We can multiply out to get a $k$-syzygy on the $\phi_j$ over $S_{p-1,q-1}$, i.e.
+and $V''$ is a column-$\binom{k+1}{2}$-vector over $\CC$, corresponding to the part
+not involving $x_3$ and the part involving $x_3$, respectively.
+$V$ defines a $k$-syzygy on the $\phi_j$ over $S_{p-1,q-1}$, that is,
 \[
 	\sum_{|\alpha|=k} A_\alpha\cdot
 	\phi_0^{\alpha_0}\phi_1^{\alpha_1}\phi_2^{\alpha_2}+
-	\big(\sum_{|j|=k-1} B_{j}\cdot
-	\phi_0^{j_0}\phi_1^{j_1}\phi_2^{j_2}\big)\phi_3=0
+	\big(\sum_{|\beta|=k-1} B_{j}\cdot
+	\phi_0^{\beta_0}\phi_1^{\beta_1}\phi_2^{\beta_2}\big)\phi_3=0
 \]
-as an equality in $S$, where the coefficients $A_\alpha, B_j$ are in $S_{p-1,q-1}$.
-We rewrite the above as
+where $A_\alpha, B_\beta\in S_{p-1,q-1}$.
+The LHS above can be rewritten as
 \[
-	\sum_{|j|=k-1}\big(
-	C_{0,j}\phi_0+C_{1,j}\phi_1+C_{2,j}\phi_2+C_{3,j}\phi_3\big)
-	\phi_0^{j_0}\phi_1^{j_1}\phi_2^{j_2}=0
+	\sum_{|\beta|=k-1}\big(
+	C_{0,\beta}\phi_0+C_{1,\beta}\phi_1+C_{2,\beta}\phi_2+C_{3,\beta}\phi_3\big)
+	\phi_0^{\beta_0}\phi_1^{\beta_1}\phi_2^{\beta_2}=0
 \]
-which is again an equality in $S$, and again the coefficients $C_{j,j}$ are in $S_{p-1,q-1}$.
-Note also that $C_{3,j}=B_j$.
+with $C_{j,\beta}\in S_{p-1,q-1}$ again.
+Note that $C_{3,\beta}=B_\beta$.
 
-By Proposition~\ref{prop:koszul-syzygies}
+By Proposition~\ref{prop:koszul-syzygies},
 we can rewrite the coefficients as linear combinations of their Koszul syzygies,
-i.e. for each $j$ we get an equality in $S$ of the form
+i.e. for each $j$ we get an equality of the form
 \[
-	C_{0,j}\phi_0+C_{1,j}\phi_1+C_{2,j}\phi_2+C_{3,j}\phi_3=
-	D_{0,j}\phi_0+D_{1,j}\phi_1+D_{2,j}\phi_2
+	C_{0,\beta}\phi_0+C_{1,\beta}\phi_1+C_{2,\beta}\phi_2+C_{3,\beta}\phi_3=
+	D_{0,\beta}\phi_0+D_{1,\beta}\phi_1+D_{2,\beta}\phi_2
 \]
-where $D_0,D_1,D_2$ are in $S_{p-1,q-1}$.
+where $D_0,D_1,D_2\in S_{p-1,q-1}$.
 By the assumption on the independence of the $\phi_j$ over $S_{p-1,q-1}$,
-we must have that $C_{3,j}=0$.
-Equivalently, $B_j=0$ for every $j$, so $V''=0$.
+we must have that $C_{3,\beta}=0$, so also $B_\beta=0$ for every $j$.
+But then we must have $V''=0$.
 
 To conclude the proof, note further that any nontrivial syzygy
 of the monomials in $\phi_0,\phi_1,\phi_2$
-in any degree $k\geq1$ must be of degree degree at least $(p,q)$,
-i.e. must be a combination of Koszul syzygies again.
+in any degree $k\geq1$ must be of degree at least $(p,q)$,
+i.e. must be a combination of Koszul syzygies.
 Since $\deg(A_\alpha)=(p-1,q-1)$, it follows that $V'=0$ as well.
 \end{proof}
 
 \begin{paragraph}
-Paragraph \ref{par:count-rels} and Lemma \ref{lemma:Psi-nonsing} show that there are exactly
-$\binom{k+1}{3}pq$ linearly independent syzygies of degree $k$, so $pq$ quadratic syzygies.
+Lemma~\ref{lemma:Psi-nonsing} and \eqref{par:count-rels} show that there are exactly
+$\binom{k+1}{3}pq$ linearly independent syzygies of degree $k$,
+so exactly $pq$ quadratic syzygies.
 Clearly degree-$(k-2)$ $T$-combinations of quadratic syzygies introduce degree-$k$ syzygies.
 Next lemma shows that all syzygies of degree $k>2$ arise in this way.
 \end{paragraph}
 
 \begin{lemma}
 \label{another-lemma}
-Any degree $k>2$ syzygy of degree $d=(p-1,q-1)$ on the source is a degree-$(k-2)$
-$T$-combination of quadratic syzygies.
+Any degree $k>2$ syzygy over degree $\d=(p-1,q-1)$ is
+a degree-$(k-2)$ $T$-combination of quadratic syzygies.
 \end{lemma}
 
 \begin{proof}
-Since $\Psi^{(k)}$ is square and of maximal rank by Lemma \ref{lemma:Psi-nonsing},
-it is nonsingular, so $\Phi^{(k)}$ is of maximal rank, $(k+1)^3pq$.
+Since $\Psi^{(k)}$ is square and nonsingular by Lemma \ref{lemma:Psi-nonsing},
+$\Phi^{(k)}$ is of maximal rank, $(k+1)^3pq$.
 This means that there are $pq$ linearly independent quadratic syzygies
 and by the same lemma any one of them must involve $x_3^2$ nontrivially.
 It follows that, up to scaling, any nonzero quadratic syzygy is of the form
 \[
-	g_\nu(\mathbf s,\mathbf x)=\ldots+{\mathbf{s}}^\nu x_3
+	g_\nu(\mathbf s,\mathbf x)=\ldots+{\mathbf{s}}^\nu x_3^2
 \]
-where the $\mathbf{s}^\nu$ are the monomials of degree $(p-1,q-1)$ on the source.
+where the $\mathbf{s}^\nu$ are the monomials of degree $(p-1,q-1)$ on $S$.
 
 We can rewrite an arbitrary degree-$(k>2)$ syzygy as
 \[
 	g(\mathbf s, \mathbf x)=\sum_{|\alpha|=k} A'_\alpha\cdot
 	x_0^{\alpha_0}x_1^{\alpha_1}x_2^{\alpha_2}+
-	\big(\sum_{|j|=k-1} B'_{j}\cdot
-	x_0^{j_0}x_1^{j_1}x_2^{j_2}\big)x_3+
+	\big(\sum_{|\beta|=k-1} B'_{j}\cdot
+	x_0^{\beta_0}x_1^{\beta_1}x_2^{\beta_2}\big)x_3+
 	\big(\sum_\nu \mathbf{s}^\nu f_\nu\big)x_3^2
 \]
 where each $f_\nu$ is a form degree $k-2$ in $T$, so the syzygy
 \[
 	g(\mathbf s, \mathbf x)-\sum_\nu f_\nu\cdot g_\nu(\mathbf s, \mathbf x)
 \]
-has trivial $x_3^k$ part in the sense of the discussion above.
+has trivial $x_3^2$ part in the sense of the discussion above.
 By Lemma \ref{lemma:Psi-nonsing} again, this syzygy must be zero,
 so every syzygy of degree $k$ is a $T$-combination of quadratic syzygyes.
 \end{proof}
 
-\begin{proof}[\titlestyle Proof of Theorem \ref{thm:rel-moving-quadrics}]
-	Since there are no syzygies in degree $1$ and all syzygyes in degree $k>2$ are $T$-combinations
-	of quadratic syzygyes by Lemma \ref{another-lemma},
-	we have $N=N_2$. Since the number of linearly independent syzygies
-	of degree $2$ is $pq$, the matrix $N_2$ is square.
-	
-	To finish the prove we note that necessarily $\reg(B_P)\leq(p-1,q-1)$ since the ideal of points
-	$I_P$ is generated in degree $(p,q)$ over $K(T/P)$,
-	so Theorem \ref{thm:gcd-minors} applies.
-	
-	Finally, birationallity follows by comparing the degree on both hand-sides of Theorem \ref{thm:gcd-minors},
-	\[
-		\deg(Y)\deg(\phi)=\deg\det (N)=\deg\det(N_2)=2pq
-	\]
-	and $\deg(Y)=2pq$ since the parametrization is basepoint-free, so $\deg\phi=1$.
+\begin{proof}[\bf Proof of Corollary~\ref{cor:moving-quadrics}]
+Note that Proposition~\ref{prop:koszul-syzygies} applies in this case.
+(This is in fact the original proof.)
+Since there are no syzygies in degree $1$ and all syzygies in degree $k>2$ are
+$T$-combinations of quadratic syzygies by Lemma~\ref{another-lemma},
+we must have $N=N_2$.
+Since the number of linearly independent syzygies of degree $2$ is $pq$,
+the matrix $N_2$ is square.
+
+The result now follows from Theorem~\ref{thm:gcd-minors}.
 \end{proof}
 
 
 
 \section{Basepoint-Free Maps over $X=\PP^2$}
-\label{sec:bpf-maps-pp2}
+\label{sec:moving-planes-quadrics}
 
 \begin{lemma}
 	\label{lemma:rel-moving-planes-quadrics-min-dims}
@@ -374,7 +370,7 @@ so every syzygy of degree $k$ is a $T$-combination of quadratic syzygyes.
 	\[
 		g-\sum_\nu h_\nu g_\nu=\sum_{|\beta|=k-1} (A_{\beta,0}x_0+A_{\beta,1}x_1+A_{\beta,2}x_2+A_{\beta,3}x_3) x_0^{\beta_0}x_1^{\beta_1}x_2^{\beta_2}
 	\]
-	where $A_{\beta,j}$ is a $(p-1)$-form in $S$.
+	where $A_{\beta,\beta}$ is a $(p-1)$-form in $S$.
 	Lemma \ref{prop:key-koszul} and the same argument as in the proof of Lemma \ref{lemma:rel-moving-planes-quadrics-main}
 	show that the above must be $T$-generated by linear syzygies.
 	The result now follows.
