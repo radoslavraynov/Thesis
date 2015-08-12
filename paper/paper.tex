@@ -1,0 +1,2427 @@
+\documentclass[fleqn,reqno]{amsart}
+\usepackage{../lib/radoslav-macro}
+\usepackage{../lib/radoslav-more}
+\usepackage{times}
+\usepackage{natbib}
+
+\author{Michael Stillman}
+\author{Radoslav Zlatev}
+\title{Examples of Implicitization of Hypersurfaces through Syzygies}
+\address{Department of Mathematics, Cornell University, Ithaca NY 14853}
+\email{mike@math.cornell.edu}
+\email{radoslav@math.cornell.edu}
+
+\begin{document}
+
+\maketitle
+
+
+
+
+
+\section{Introduction}
+\label{ch:intro}
+
+\begin{paragraf*}
+The main goal of this thesis is to develop a framework for both
+efficiently computing the image~$Y$ of a rational map $\phi:X\longrightarrow\mathbb{P}^n$, and
+studying the relation between algebraic properties of the coordinates $\phi_j$ on one hand,
+and geometric properties of the image~$Y$, on the other.
+We are most interested in the case when $X$ is a smooth projective toric variety 
+of dimension $n-1$ and $\phi$ is generically finite,
+so finding the image entails computing a single equation~$P$, the implicit equation.
+\end{paragraf*}
+
+\begin{paragraf*}
+This is (a version of) the implicitization problem which is classical in algebraic geometry.
+It has an effective solution through elimination using Gr\"obner bases, for instance,
+but those techniques have two drawbacks.
+First, they become unfeasible even in modest complexity.
+Second, they represent a black box in terms of geometry---one which
+takes the~$\phi_j$ and returns~$P$, in our Sun's lifetime or not.
+Motivated by the advance of computer aided design (CAD),
+interest in new approaches to the implicitization problem
+was reincarnated in the 1990s,
+with the initiating papers being \cite{SC-95}.
+\end{paragraf*}
+
+\begin{paragraf*}
+Our approach follows the theme of moving surfaces but sets to remove the intrinsic
+ad-hoc constructions.
+In this sense,
+we drew inspiration by the method of the approximation complex, initiated by \cite{BJ-03}.
+Our main results are a blend of two.
+Specifically, let $S$ be the Cox ring of~$X$ graded by $\text{Pic}(X)$,
+and $J=\langle\phi_0,\ldots,\phi_n\rangle\subset S$ be the ideal of the coordinates.
+We construct, for any degree~$\mathit{\mathbf{d}}$ on $S$,
+a matrix~$N$ representing a generating set for the polynomial relations on the $\phi_j$
+with coefficients from $S_\mathit{\mathbf{d}}$ only.
+This matrix generalizes the types of representation matrices studied by the said methods.
+One of the our main results in an analogue to the results for approximation complex.
+We show that if $N$ is of size $r\times\mu$, then $\text{rank}(N)=r$ and
+\[
+	\gcd(\text{minors}(r,N))=P^{\deg(\phi)}
+\]
+Relaxing the requirement that $X$ be of dimension $n-1$, we find that
+\[
+	\rad(\text{minors}(r,N))=P
+\]
+
+Results of form:
+if conditions (1)--(k) hold, then there exists a square matrix $M$ such that $\det(M)=P$,
+which are the main theme of the moving surfaces method,
+are now equivalent to saying the degree-$(\d,\bullet)$
+ideal of the coordinates $J$ has $r$ relations over $S_d$
+as described above.
+This suggest a template for proofs allowing one to focus on the various conditions only.
+
+Moreover, the matrix $N$ can be computed incrementally
+using only tools from linear algebra,
+allowing calculation in situations previously out of reach.
+\end{paragraf*}
+
+
+
+
+
+\section{Results}
+\label{ch:results}
+
+\begin{paragraf*}
+We are now ready to state our main results.
+While this chapter is supposed to be self-contained and most of the relevant notation
+and definitions are listed in \eqref{par:again} below,
+one should consult Chapter \ref{ch:preliminaries} for a more relaxed exposition
+and further definitions, for instance,
+for the notions of degree and multiplicity of a basepoint.
+
+Examples \ref{ex201} and \ref{ex202} should serve as quick reference points.
+\end{paragraf*}
+
+\begin{paragraf}
+\label{par:again}
+\label{par:setup}
+Let $X$ be a smooth projective toric variety of dimension $n-1$ ($n>1$)
+with Cox ring $S$ and irrelevant ideal $\n\se S$.
+Let $T=\CC[x_0,\ldots,x_n]$ and let
+\[
+\phi=(\phi_0,\ldots,\phi_n):X\To\PP^n=\Proj(T)
+\]
+be a rational map given by linearly independent sections of the line bundle $\O_X(\e)$
+for some degree $\e$ on $S$.
+Let $J=\la \phi_0,\ldots,\phi_n\ra\se S$ be the ideal of the coordinates $\phi_j$.
+
+Let $\d$ be a degree on $S$ such that $r=\dim_\CC(S_\d)>0$ and
+let $I\se R=S\tensor T$ be the Rees ideal of $J$.
+Let $I_{\d,\bullet}$ be its degree-$(\d,\bullet)$ bigraded piece,
+considered as a finite graded $T$-module.
+We denote by $B=R/I$ the Rees algebra of $J$.
+
+Let $N$ be the $r\times\mu$ coefficient matrix of
+a minimal set of homogeneous generators for~$I_{\d,\bullet}$ with respect to $\basis(S_\d)$,
+and let $N_i$ be the submatrix of $N$ corresponding to generators of degree $i$, i.e.
+\[
+N=(~N_1~|\ldots|~N_\delta~)
+\]
+\end{paragraf}
+
+\begin{paragraf}
+\label{par:conds}
+Let $P\se T$ be the prime ideal corresponding to the closed image of $\phi$ in $\PP^n$.
+We denote this image by $Y=V(P)$.
+Let $Z=V(J)\se X$ be the base locus of $\phi$.
+
+We are going to be interested the following three conditions:
+\begin{enumerate}
+\item
+\label{itm:conds:1}
+The map $\phi$ is generically finite onto its image, that is,
+$Y\se\PP^n$ is of codimension~$1$ and in particular, the ideal $P$ is principal.
+In this case, we denote a generator of~$P$ by~$P(\mathbf x)$.
+
+\item
+\label{itm:conds:2} The base locus $Z$ is zero-dimensional, that is,
+consists of finitely many points.
+Note that those are necessarily closed over $\CC$.
+
+\item
+\label{itm:conds:3} The map $\phi$ is birational onto its image.
+\end{enumerate}
+
+Clearly, either of \eqref{itm:conds:2} and \eqref{itm:conds:3} implies \eqref{itm:conds:1}.
+\end{paragraf}
+
+\begin{paragraf*}
+A few easy but important observations about the Rees ideal follow.
+\end{paragraf*}
+
+\begin{proposition}
+\label{prop:BP} Consider the setup of \eqref{par:setup}. One has
+\begin{enumerate}
+\item
+The ideal $I\se R$ is prime, and so is $I_P$ in the $T$-module localization $R_P$.
+
+\item
+The quotient $B_P$ is naturally a finite-type graded $K(T/P)$-algebra with grading induced by $S$.
+
+\item\label{itm:BPKTP-alg}
+The $K(T/P)$-algebra $B_P$ is a homogeneous coordinate ring of a projective variety.
+\end{enumerate}
+\end{proposition}
+
+\begin{paragraf}
+\label{par:reg-IP}
+Let $V(I_P)$ be the closed subset of the projective toric variety $\Biproj(R_P)$.
+Note that the former is a variety over $K(T/P)$ with the grading of $S$.
+Following \citet{MS-04} and using Proposition~\ref{prop:BP},
+we consider the regularity of the defining ideal $I_P$,
+denoted by $\reg(I_P)$.
+
+Recall that $\reg(I_P)$ is a finitely generated additively-closed subset
+of the semigroup of degrees on $S$, and that
+for any $\d\in\reg(I_P)$, we have $\la(I_P)_\d\ra=I_P$.
+This parallels the usual Castelnuovo-Mumford regularity for $\PP^n$
+and is the content of Theorem 1.3 in the referenced paper.
+\end{paragraf}
+
+\begin{paragraf*}
+In light of Proposition \ref{prop:BP}, our first result becomes an easy exercise.
+However, it is a step toward the goal of this paper --- to exhibit a general relation between
+the algebra of the coordinates $\phi_j$ and the geometry of the image $Y$.
+\end{paragraf*}
+
+\begin{theorem}
+\label{thm:rad-minors}
+In the setup of \eqref{par:again}, one has
+\[
+	\rad(\mt{minors}(r,N))=P
+\]
+\end{theorem}
+
+\begin{paragraf*}
+The geometric interpretation of the theorem is clear ---
+the nonzero minors of $N$ define hypersurfaces in $\PP^n$ whose intersection,
+at least set-theoretically, is the image $Y$.
+
+Example~\ref{ex307}, for instance, shows that the radical is necessary.
+\end{paragraf*}
+
+\begin{paragraf*}
+Our next result is the main theorem of this thesis, unifying two currently
+popular non-Gr\"{o}bner basis approaches to implicitization and setting the stage for both
+the ad-hoc template proofs in Chapter~\ref{ch:koszul-bpf} and
+the fast implicitization method described in Chapter~\ref{ch:fast-method}.
+\end{paragraf*}
+
+\begin{theorem}
+\label{thm:gcd-minors}
+Consider the setup of \eqref{par:again} and assume \itmref{itm:conds:1}{par:conds}.
+Fix a degree $\mathbf d\in\reg(I_P)$ as described in \eqref{par:reg-IP}.
+One has
+\[
+	\gcd(\mt{minors}(r, N))=P^{\deg\phi}
+\]
+In particular, if $\mu=r$, then $N$ is square and, up to a unit,
+\[
+	\det(N)=P(\mathbf x)^{\deg\phi}
+\]
+\end{theorem}
+
+\begin{corollary}
+\label{thm:detM}
+In the setup of Theorem~\ref{thm:gcd-minors},
+let $M$ be any $r\times r$~matrix of syzygies over~$S_\d$. One has
+\[
+	\det(M)=P(\mathbf x)^{\deg\phi}\cdot H(\mathbf x)
+\]
+for a homogeneous $H(\mathbf x)$ of degree
+\begin{align}
+\label{eq:degree-offset}
+\deg(\det(M))-\deg(\phi)\cdot\deg(Y)
+\end{align}
+
+Furthermore, there exist a list of such matrices $\{M_k\}$ whose
+corresponding $H_k(\mathbf x)$ are nonzero and have common factor $1$.
+\end{corollary}
+
+\begin{paragraf*}
+Geometrically, the former is a refinement of Theorem \ref{thm:rad-minors}.
+Each of the maximal minors of $N$, in fact,
+the determinant of any $r\times r$ matrix $M$ of syzygies over~$S_\d$, is either zero
+or describes the union of a $\deg(\phi)$-fold $Y$ and
+a hypersurface of degree \eqref{eq:degree-offset}.
+While an arbitrary collection $M_k$ of such matrices may introduce hypersurfaces
+with an intersection that is strictly larger than $Y$,
+the maximal minors suffice to shave off any extraneous components.
+
+The theme of extraneous factors is already apparent in
+\citet{BCD-03}, \citet{BCJ-09} and \citet{BDD-09}.
+In our notation, they used the approximation complex to show that for a toric $X$,
+certain $\d$ and empty or zero-dimensional almost complete intersection base locus $Z$,
+\[
+	\gcd(\minors(r,N_1))=P^{\deg\phi}\cdot\prod_{q\in Z} L_q(\mathbf x)^{e_q-d_q}
+\]
+where each $L_q(\mathbf x)$ is a linear form, and
+$e_q$ and $d_q$ are the multiplicity and degree of $q$.
+
+In the case of complete intersection base locus, the proof of Theorem~\ref{thm:gcd-minors}
+gives a special case of the above.
+\end{paragraf*}
+
+\begin{paragraf*}
+It is known that if $M$ is a square matrix over $T$ of size $r$,
+then the singular locus of $V(\det(M))$ is contained in the closed subset defined by the
+comaximal minors, that is, the $(r-1)$-minors.
+Although we failed to find a reference,
+we believe that this relation is more intrinsic and holds for all representation matrices $N$.
+However, what this ought to correspond to is the multiple-point locus of the image.
+See Example~\ref{ex315} for details.
+We conjecture the following
+\end{paragraf*}
+
+\begin{conjecture}
+\label{conj:sing-locus}
+Consider the setup of \eqref{par:again} and assume \itmref{itm:conds:3}{par:conds}.
+On the level of closed points, one has
+\[
+	V(\minors(r-1,N))\se\mathrm{Sing}(Y)
+\]
+\end{conjecture}
+
+\begin{paragraf*}
+In the simplest cases of interest, when $X=\PP^2$ or $X=\PPP$ and $\phi$ is basepoint-free,
+we can chose $\d$ so that the matrix $N$ becomes square.
+Next two theorems are slight generalizations of the results in \citet{CGZ-00}.
+More importantly, they show that our methods directly generalize the methods of
+moving planes and quadrics in the setting in which they are most useful.
+\end{paragraf*}
+
+\begin{theorem}
+\label{cor:moving-planes-quadrics}
+Let $X=\PP^2$, $\phi$ be basepoint-free,
+and suppose that there are exactly $p=\e$ linear syzygies over degree $\d=p-1$,
+that is, the minimal possible number.
+One has that $N$ is square and $N=(N_1~|~N_2)$.
+In particular,
+\[
+	\det(N)=\det(N_1~|~N_2)=P(\mathbf x)^{\deg(\phi)}
+\]
+\end{theorem}
+
+\begin{theorem}
+\label{cor:moving-quadrics}
+Let $X=\PP^1\times\PP^1$, $\phi$ be basepoint-free with coordinates in degree $\mathbf e=(p,q)$,
+and suppose there are no linear syzygies over degree $\d=(p-1,q-1)$.
+Then one has that $N_2$ is square and $N=N_2$.
+In particular,
+\[
+	\det(N)=\det(N_2)=P(\mathbf x)^{\deg(\phi)}
+\]
+\end{theorem}
+
+\begin{paragraf*}
+Both of these theorems are examples of a template proof described in Chapter~\ref{ch:koszul-bpf}.
+While applying it in general requires elaborate choses of the degree $\d$ and
+regularity computations, for example \citet{AHW-05},
+in the case of Theorems \ref{cor:moving-planes-quadrics} and \ref{cor:moving-quadrics},
+we only use a type of Koszul-ness on the syzygies of low degree.
+This is the content of Section~\ref{template-proof}.
+\end{paragraf*}
+
+\begin{paragraf*}
+We conclude this list by a method to compute the degree of a rational map using Gr\"{o}bner bases.
+While we are only going to use this in our examples,
+it helps expand our understanding about the object $B_P$.
+
+The author wants to thank Mike Stillman for suggesting the following
+\end{paragraf*}
+
+\begin{proposition}
+\label{prop:deg-GB}
+Let $\CC[s_0,\ldots,s_m]$ be the fixed ambient polynomial ring of $S'$ as described in
+\eqref{par:setup}.
+Define the ideal $I_B$ of $\CC[s_0,\ldots,s_m;x_0,\ldots,x_n]$ by the equality
+\[
+	B=\CC[\mathbf s;\mathbf x]/I_B
+\]
+Let $>'$ be any product order in which the $\mathbf s$ variables
+come before the $\mathbf x$ variables.
+Then a reduced Gr\"obner basis for $I_B$ with respect to $>'$ has the form
+\begin{align*}
+	&g_1(\mathbf s;\mathbf x)=p_1(\mathbf x){\mathbf s}^{\alpha_1}+\text{lower order terms}\\
+	&\qquad\cdots\\
+	&g_r(\mathbf s;\mathbf x)=p_r(\mathbf x){\mathbf s}^{\alpha_r}+\text{lower order terms}\\
+	&g_{r+1}(\mathbf s;\mathbf x)=P(\mathbf x)
+\end{align*}
+Further, one has
+\[
+	\deg(\phi)=
+	\deg \big(\la{\mathbf s}^{\alpha_1},\ldots,{\mathbf s}^{\alpha_r}\ra\se\CC[\mathbf s]\big)
+\]
+\end{proposition}
+
+
+
+
+
+\section{Examples}
+\label{ch:examples}
+
+\begin{example}[$\mt{ex301}$]
+\label{ex301}
+Let $X=\PP^2_{s,t,u}$ and $J=\la tu,su,st,s^2+t^2+u^2\ra$.
+Then $\phi$ is basepoint-free and generically 1-1.
+The monic implicit equation is given by
+\[
+	P(\mathbf x)={x}_{0}^{2} {x}_{1}^{2}+{x}_{0}^{2} {x}_{2}^{2}+{x}_{1}^{2}
+	{x}_{2}^{2}-{x}_{0} {x}_{1} {x}_{2} {x}_{3}
+\]
+
+Setting $\d=1$, we get
+\[
+	N=
+	\bgroup\begin{bmatrix}0&
+      {x}_{0}&
+      {x}_{1} {x}_{2}\\
+      {x}_{1}&
+      0&
+      {x}_{0} {x}_{2}\\
+      {-{x}_{2}}&
+      {-{x}_{2}}&
+      {x}_{0} {x}_{1}-{x}_{2} {x}_{3}\\
+      \end{bmatrix}\egroup
+\]
+whose determinant is just $P(\mathbf x)$.
+The results of \citet{CGZ-00} apply and the matrix $N$ is a variant of the matrix
+produced by the method of moving planes and quadrics.
+
+Setting $\d=2$, we get
+\[
+	N=
+	\bgroup\begin{bmatrix}{x}_{2}&
+	      0&
+	      0&
+	      0&
+	      {x}_{1}&
+	      0&
+	      0&
+	      0&
+	      {x}_{0}\\
+	      {-{x}_{3}}&
+	      0&
+	      0&
+	      {x}_{1}&
+	      0&
+	      0&
+	      0&
+	      {x}_{0}&
+	      0\\
+	      0&
+	      0&
+	      0&
+	      {-{x}_{2}}&
+	      {-{x}_{3}}&
+	      {x}_{0}&
+	      {x}_{2}&
+	      0&
+	      {-{x}_{2}}\\
+	      {x}_{2}&
+	      0&
+	      {x}_{1}&
+	      0&
+	      0&
+	      0&
+	      {x}_{0}&
+	      0&
+	      0\\
+	      0&
+	      {x}_{1}&
+	      {-{x}_{2}}&
+	      0&
+	      {x}_{2}&
+	      0&
+	      {-{x}_{3}}&
+	      {-{x}_{2}}&
+	      0\\
+	      {x}_{2}&
+	      {-{x}_{2}}&
+	      0&
+	      0&
+	      {x}_{1}&
+	      {-{x}_{2}}&
+	      {x}_{0}&
+	      0&
+	      0\\
+	      \end{bmatrix}\egroup
+\]
+which is a $6\times9$ matrix of linear forms.
+This was expected --- the results of \cite{BJ-03} also apply and the method
+of the approximation complex guarantees a matrix of linear forms.
+Accordingly,
+\[
+	\gcd(\minors(6,N))=P
+\]
+
+Note that the claim that $\phi$ is of degree~$1$ follows, a fortiori, from the degree formula
+\eqref{eq:degree-formula}. Indeed, we have
+\[
+	4\deg(\phi)=2^2-0
+\]
+We confirm this using Proposition \ref{prop:deg-GB} in Example \ref{ex314}.
+\end{example}
+
+\begin{example}[$\mt{ex302}$]
+\label{ex302}
+Clearly, if we replace $s,t,u$ in Example \ref{ex301} by general linear forms $L_0,L_1,L_2$,
+effectively changing coordinates on the source, we get the same equation.
+In this example we describe what happens if we take $X=\PP^1_{s,u}\times\PP^1_{t,v}$ instead
+and let the $L_k$ be $(1,1)$-forms.
+Since the algebraic structure of the coordinates is the same, so is the equation of the image,
+\[
+	Y=V({x}_{0}^{2} {x}_{1}^{2}+{x}_{0}^{2} {x}_{2}^{2}+{x}_{1}^{2}
+	{x}_{2}^{2}-{x}_{0} {x}_{1} {x}_{2} {x}_{3})
+\]
+and $\phi$ is again basepoint-free, basically for the same reason ---
+the $L_k$ are general.
+However, the self-intersection of the divisor corresponding to the coordinates,
+now $[\O(2,2)]$, is $8$.
+It follows that $\phi$ is generically 2-1.
+
+For $\d=(1,1)$ we get a square matrix of size $4$ with $h=(2,1,0,1)$.
+As expected, up to a unit
+\[
+	\det(N)=P(\mathbf x)^2
+\]
+
+For $\d=(2,1)$ we get a square matrix of size $6$ with $h=(4,2)$, for which the
+last equality again applies.
+For $\d=(2,2)$ we get a $9\times12$-matrix with $h=(11,1)$ such that
+\[
+	\gcd(\minors(9,N))=P^2
+\]
+\end{example}
+
+\begin{example}[$\mt{ex303}$]
+\label{ex303}
+Suppose that in the situation of Example \ref{ex302} we took the forms $L_k$ from
+$\la st,sv,ut\ra$ instead.
+Now $\phi$ has the unique basepoint $(0,1)\times(0,1)$ which is c.i. of degree $4$.
+Indeed, on the affine open where $u=v=1$, the point looks like $V(st,s^2+t^2)$.
+The equation of the image remains the same.
+Once again, by \eqref{eq:degree-formula} we know that $\phi$ must be generically 1-1.
+
+For $\d=(1,1)$ we get a $4\times5$-matrix.
+Below is the matrix resulting from $(L_0,L_1,L_2)=(st,sv,ut)$,
+\[
+	N=
+	\bgroup\begin{bmatrix}0&
+      0&
+      0&
+      {x}_{0}&
+      {x}_{1} {x}_{2}\\
+      {x}_{1}&
+      {x}_{0}&
+      0&
+      0&
+      0\\
+      {-{x}_{2}}&
+      0&
+      {x}_{0}&
+      {-{x}_{2}}&
+      {-{x}_{2} {x}_{3}}\\
+      0&
+      {-{x}_{2}}&
+      {-{x}_{1}}&
+      0&
+      {x}_{1}^{2}+{x}_{2}^{2}\\
+      \end{bmatrix}\egroup
+\]
+and, of course,
+\[
+	\gcd(\minors(4,N))=P
+\]
+\end{example}
+
+\begin{example}[$\mt{ex304}$]
+\label{ex304}
+Let $X=\PP^2$ and $J=\la su^2,t^2(s+u),st(s+u),tu(s+u)\ra$.
+Then $\phi$ is generically 1-1 with three basepoints --- $(1,0,0)$, $(0,1,0)$ and $(0,0,1)$,
+all c.i. of degree 2, 3, and~1, respectively.
+
+The implicit equation is given by
+\[
+	P(\mathbf x)={x}_{0} {x}_{1} {x}_{2}+{x}_{0} {x}_{1} {x}_{3}-{x}_{2} {x}_{3}^{2}
+\]
+
+As before, both the method of the moving planes and quadrics,
+and the method of the approximation complex apply.
+For $\d=1$, we get
+\[
+	N=
+	\bgroup\begin{bmatrix}{-{x}_{3}}&
+      0&
+      {x}_{1}&
+      {-{x}_{3}^{2}}\\
+      0&
+      {-{x}_{3}}&
+      {-{x}_{2}}&
+      {x}_{0} {x}_{2}+{x}_{0} {x}_{3}\\
+      {x}_{2}&
+      {x}_{1}&
+      0&
+      0\\
+      \end{bmatrix}\egroup
+\]
+and for $\d=2$, we get a $6\times 9$-matrix whose entries are all linear.
+\end{example}
+
+\begin{example}[$\mt{ex305}$]
+\label{ex305}
+Let $X=\PP^2$ and $J=\la s^3,tu^2,s^2t+u^3,stu\ra$.
+Then $\phi$ is generically 1-1 with a single c.i. basepoint of degree 2.
+For $\d=1$ we have
+\[
+	N=
+	\bgroup\begin{bmatrix}{x}_{1}&
+      0&
+      {-{x}_{3}^{2}}\\
+      0&
+      {x}_{1} {x}_{2}-{x}_{3}^{2}&
+      {x}_{0} {x}_{1}\\
+      {{x}_{3}}&
+      {x}_{1}^{2}&
+      0\\
+      \end{bmatrix}\egroup
+\]
+and $\det(N)={x}_{0} {x}_{1}^{4}-{x}_{1} {x}_{2} {x}_{3}^{3}+{x}_{3}^{5}$,
+the implicit equation.
+
+Starting from $\d=2$, in which case we have
+\[
+	N=
+	\bgroup\begin{bmatrix}0&
+      0&
+      0&
+      {x}_{1}&
+      {-{x}_{3}}&
+      0&
+      0\\
+      {x}_{3}&
+      0&
+      {x}_{1}&
+      0&
+      0&
+      {-{x}_{2}}&
+      0\\
+      0&
+      {x}_{1}&
+      0&
+      {-{x}_{3}}&
+      0&
+      0&
+      0\\
+      0&
+      0&
+      0&
+      0&
+      0&
+      {x}_{0}&
+      -{x}_{1} {x}_{2}+{x}_{3}^{2}\\
+      {-{x}_{2}}&
+      0&
+      {-{x}_{3}}&
+      0&
+      {x}_{0}&
+      0&
+      {x}_{1}^{2}\\
+      {x}_{1}&
+      {-{x}_{3}}&
+      0&
+      0&
+      0&
+      {x}_{3}&
+      0\\
+      \end{bmatrix}\egroup
+\]
+we always have $\mu-1$ linear columns and a single quadratic one.
+\end{example}
+
+\begin{example}[$\mt{ex306}$]
+\label{ex306}
+Let $X=\PP^2$ and $J=\la s^{3},t^{2} u,s^{2} t+u^{3},s t u\ra$.
+This is the situation of Example~\ref{ex202}.
+We have 
+\[
+	P(\mathbf x)={x}_{0}^{3} {x}_{1}^{4}-{x}_{0}^{2} {x}_{1}^{3} {x}_{2} {x}_{3}+{x}_{3}^{7}
+\]
+
+For $\d=1$, we find that $N$ is square of order $3$ with $h=(1,1,0,1)$.
+For $\d=2$, we get a square $6\times6$ matrix with $h=(5,1)$,
+and for $\d\geq3$, we get a non-square matrix of linear forms only.
+\end{example}
+
+\begin{example}[$\mt{ex307}$]
+\label{ex307}
+Consider the twisted cubic curve $C$.
+It is the image of $X=\PP^1_{s,t}$ under the map
+\[
+	\phi=(s^3,s^2t,st^2,t^3):\PP^1\To\PP^3
+\]
+which is birational onto its image.
+In light of Theorem \ref{thm:rad-minors}, we can carry out the same calculations
+as before, even though the image is of codimension strictly bigger than $1$.
+
+Setting $\d=1$, we get
+\[
+	N=
+	\bgroup\begin{bmatrix}{-{x}_{3}}&
+      {-{x}_{2}}&
+      {-{x}_{1}}\\
+      {x}_{2}&
+      {x}_{1}&
+      {x}_{0}\\
+      \end{bmatrix}\egroup
+\]
+and
+\[
+	\minors(2,N)=\la {x}_{2}^{2}-{x}_{1} {x}_{3},{x}_{1} {x}_{2}-{x}_{0}
+      {x}_{3},{x}_{1}^{2}-{x}_{0} {x}_{2}\ra
+\]
+which are the usual equations for $C$ in $\PP^3$. Setting $\d=2$, we get
+\[
+	N=
+	\bgroup\begin{bmatrix}0&
+      {-{x}_{3}}&
+      {-{x}_{3}}&
+      {-{x}_{2}}&
+      {-{x}_{2}}&
+      {-{x}_{1}}\\
+      {-{x}_{3}}&
+      {x}_{2}&
+      0&
+      {x}_{1}&
+      0&
+      {x}_{0}\\
+      {x}_{2}&
+      0&
+      {x}_{1}&
+      0&
+      {x}_{0}&
+      0\\
+      \end{bmatrix}\egroup
+\]
+We have
+\[
+	\minors(3,N)=\Bigg\la
+	\begin{cases}
+	{x}_{2}^{2} {x}_{3}-{x}_{1} {x}_{3}^{2},
+	{x}_{1} {x}_{2} {x}_{3}-{x}_{0}{x}_{3}^{2},
+	{x}_{1}^{2} {x}_{3}-{x}_{0} {x}_{2} {x}_{3},\\
+	{x}_{2}^{3}-{x}_{0}{x}_{3}^{2},
+	{x}_{1} {x}_{2}^{2}-{x}_{0} {x}_{2} {x}_{3},
+	{x}_{0}{x}_{2}^{2}-{x}_{0} {x}_{1} {x}_{3},\\
+	{x}_{1}^{2} {x}_{2}-{x}_{0} {x}_{1}{x}_{3},
+	{x}_{0} {x}_{1} {x}_{2}-{x}_{0}^{2} {x}_{3},
+	{x}_{1}^{3}-{x}_{0}^{2}{x}_{3},{x}_{0} {x}_{1}^{2}-{x}_{0}^{2} {x}_{2}
+	\end{cases}
+	\Bigg\ra
+\]
+and
+\[
+	\rad(\minors(3,N))=
+	\la {x}_{2}^{2}-{x}_{1} {x}_{3},{x}_{1} {x}_{2}-{x}_{0}
+	      {x}_{3},{x}_{1}^{2}-{x}_{0} {x}_{2}\ra
+\]
+showing that the radical is necessary.
+\end{example}
+
+\begin{example}[$\mt{ex308}$]
+\label{ex308}
+Let $X=\PP^2_{s,t,u}$ and $J=\la s^5,t^5,su^4,st^2u^2\ra$.
+Then $\phi$ is generically 2-1 map with the unique basepoint $(0,0,1)$
+which is c.i. of degree $5$.
+The image is defined by
+\[
+	P(\mathbf x)={x}_{0} {x}_{1}^{4} {x}_{2}^{5}-{x}_{3}^{10}
+\]
+
+Setting $\d=1$, we get
+\[
+	N=
+	\bgroup\begin{bmatrix}{x}_{1} {x}_{2}&
+      {-{x}_{3}^{8}}&
+      0\\
+      {-{x}_{3}^{2}}&
+      {x}_{0} {x}_{1}^{3} {x}_{2}^{4}&
+      0\\
+      0&
+      0&
+      {x}_{0} {x}_{1}^{4} {x}_{2}^{5}-{x}_{3}^{10}\\
+      \end{bmatrix}\egroup
+\]
+and
+\[
+	\det(N)=P(\mathbf x)^2
+\]
+One should note that the principal $2$-minor of $N$ is just $P(\mathbf x)$.
+
+The alternative non-Gr\"obner bases approaches would require difficult computations;
+the method of the approximation complex would need to find the $\gcd$ of the maximal
+minors of a matrix of size $36\times58$, and none of the moving plane and quadrics
+methods will work since the map isn't birational
+(and (BP3) of \citet{BCD-03} fails in any case).
+
+The practical gain of our method for this example, however, is arguable at best ---
+we have to compute a degree $10$ syzygy which is already the degree of the implicit equation.
+On the other hand, a better choice for $\d$ might help.
+For $\d=3$ we get a $10\times10$-matrix with $h=(4,4,1,0,1)$,
+and for $\d=4$ we get a $15\times16$-matrix with $h=(11,4,1)$.
+\end{example}
+
+\begin{example}[$\mt{ex309}$]
+\label{ex309}
+Let $N_1$ be the matrix of linear columns for $\d=1$ in Example \ref{ex304}.
+We have that $\det(N_1)=0$. This shows that not all maximal minors need to be nonzero.
+
+This has nothing to do with the fact that $N_1$ is special.
+For another example, let us take $\d=4$ in Example \ref{ex308}.
+Then $N$ is a $15\times16$-matrix whose columns correspond to the syzygies
+\[
+	\begin{cases}
+	t^{2} u^{2} {x}_{2}-u^{4} {x}_{3},
+	t^{3} u {x}_{2}-t u^{3} {x}_{3},
+	s t^{2} u{x}_{2}-s u^{3} {x}_{3},
+	t^{4} {x}_{2}-t^{2} u^{2} {x}_{3},\\
+	s t^{3} {x}_{2}-s tu^{2} {x}_{3},
+	s^{2} t^{2} {x}_{2}-s^{2} u^{2} {x}_{3},
+	s u^{3} {x}_{1}-t^{3} u{x}_{3},
+	s t u^{2} {x}_{1}-t^{4} {x}_{3},\\
+	s^{2} u^{2} {x}_{1}-s t^{3}{x}_{3},
+	u^{4} {x}_{0}-s^{4} {x}_{2},
+	t^{2} u^{2} {x}_{0}-s^{4} {x}_{3},
+	s^{2} t u {x}_{1} {x}_{2}-s t^{2} u {x}_{3}^{2},\\
+	s^{3} u {x}_{1} {x}_{2}-s^{2} t u
+      {x}_{3}^{2},s^{3} t {x}_{1} {x}_{2}-s^{2} t^{2} {x}_{3}^{2},
+	  s^{4} {x}_{1}{x}_{2}-s^{3} t {x}_{3}^{2},
+	  t u^{3} {x}_{0} {x}_{1} {x}_{2}-s^{3} u{x}_{3}^{3}
+	\end{cases}
+\]
+
+Let $M$ be the square submatrix of the first 14 columns and the last column of $N$,
+that is,
+leaving out the column corresponding to the syzygy $s^{4} {x}_{1}{x}_{2}-s^{3} t {x}_{3}^{2}$.
+Then $\det(M)=0$.
+The same is true for the square submatrix consisting of the first 15 columns
+but in that case $M=(N_1~|~N_2)$ which we wanted to avoid.
+\end{example}
+
+\begin{example}[$\mt{ex310}$]
+\label{ex310}
+The following example has been presented elsewhere in the literature as a difficult one to handle.
+Let $X=\PP^2$ and take
+\begin{align*}
+	J=\la &-s^{2} t^{3}+3 s^{2} t^{2} u+s t^{3} u-4 s t^{2} u^{2}-s t
+	      u^{3}+2 t^{2} u^{3}-t u^{4}+u^{5}, &\ra\\
+		  &s^{2} t^{3}-3 s^{2} t^{2} u+s t^{3} u+3 s t
+	      u^{3}-2 t^{2} u^{3}+t u^{4}-u^{5},\\
+		  &s^{2} t^{3}-3 s^{2} t^{2} u-s t^{3} u+2
+	      s^{2} t u^{2}+4 s t^{2} u^{2}-3 s t u^{3}-2 t^{2} u^{3}+3 t u^{4}-u^{5},\\
+		  &-s^{2}
+	      t^{3}+3 s^{2} t^{2} u-s t^{3} u-3 s t u^{3}+3 t u^{4}-u^{5}
+\end{align*}
+so $\phi$ is generically 1-1
+with base locus of total degree $17$ and multiplicity 20.
+More precisely, the basepoints are the c.i. point $(1,1,1)$ of multiplicity $4$,
+the a.c.i. point $(0,1,0)$ of degree 4 and multiplicity 5, and
+the a.c.i. point $(1,0,0)$ of degree 9 and multiplicity 11.
+
+Unlike other examples in this section,
+already in degree $\d=1$,
+we find only linear and quadratic syzygies.
+In this sense the example is rather simple.
+We find
+\begin{align*}
+	N=\Bigg[&\bgroup\begin{matrix}{x}_{0}+{x}_{1}&
+      0&\ldots\\
+      -{x}_{0}-{x}_{2}&
+      3 {x}_{0} {x}_{1}-{x}_{1}^{2}+4 {x}_{1} {x}_{2}+3 {x}_{0} {x}_{3}-3 {x}_{1} {x}_{3}+4 {x}_{2} {x}_{3}-2 {x}_{3}^{2}&\ldots\\
+      -{x}_{2}+{x}_{3}&
+      {x}_{0}^{2}-{x}_{0} {x}_{1}-{x}_{1}^{2}-3 {x}_{0} {x}_{3}-3 {x}_{1} {x}_{3}-{x}_{3}^{2}&\ldots
+      \end{matrix}\egroup\\
+	  &\bgroup\begin{matrix}
+	  \ldots&{x}_{1}^{2}-{x}_{3}^{2}\\
+	  \ldots&{x}_{0}^{2}+7 {x}_{0} {x}_{1}-3 {x}_{1}^{2}+{x}_{0} {x}_{2}+10 {x}_{1} {x}_{2}+6 {x}_{0} {x}_{3}-9 {x}_{1} {x}_{3}+9 {x}_{2} {x}_{3}-6 {x}_{3}^{2}\\
+	  \ldots&-5 {x}_{0} {x}_{1}-2 {x}_{1}^{2}-3 {x}_{0} {x}_{2}-6 {x}_{1} {x}_{2}-8 {x}_{0} {x}_{3}-5 {x}_{1} {x}_{3}-3 {x}_{2} {x}_{3}
+	  \end{matrix}\egroup\Bigg]
+\end{align*}
+and
+\[
+	\det(N)=P(\mathbf x)
+\]
+\end{example}
+
+\begin{example}[$\mt{ex311}$]
+\label{ex311}
+Let $\phi$ be the rational map from Example \ref{ex310}.
+We compute the degree and multiplicity of the base locus $Z$.
+
+Set $q_1=(1,0,0)$, $q_2=(0,1,0)$ and $q_3=(1,1,1)$, so that set-theoretically $Z=\{q_1,q_2,q_3\}$.
+Since $J$ is saturated,
+the sum of the degrees of the basepoints is just the degree of the base locus,
+\[
+	\deg(Z\se\PP^2)=\deg(J\se\CC[s,t,u])=17
+\]
+
+Because we are in projective space, this can be checked directly in Macaulay2.
+However, since $Z$ is supported on multiple points,
+we cannot compute the total multiplicity in the same way.
+Indeed, running $\mt{multiplicity}(J)$ gives $45$, not the correct $20$.
+
+This is because the multiplicity is computed as the degree of the normal cone
+over the closed subscheme,
+but this is a well-behaved projective variety over a field only in case
+the support is a single point.
+
+Let $Q_k$ be the prime ideals corresponding to the points $q_k$, and set
+\[
+	J_k=J:(J:{Q_k}^\infty)
+\]
+The degree and multiplicity of $q_k$ can be computed from the ideal $J_k$ ---
+those capture the local structure of $Z$ near $q_k$.
+We have
+\[
+	\begin{cases}
+	J_1=\la t u^{2},t^{3}-3 t^{2} u,u^{5}\ra\\
+	J_2=\la s u,s^{2},u^{3}\ra\\
+	J_3=\la t^{2}-2 t u+u^{2},s^{2}-2 s u+u^{2}\ra
+	\end{cases}
+\]
+so in particular, $q_3$ is c.i., while $q_1$ and $q_2$ are a.c.i. points.
+\end{example}
+
+\begin{example}[$\mt{ex312}$]
+\label{ex312}
+Let $Y=V(P)$ for an irreducible form $P(\mathbf x)$ of degree $4$ on $\PP^3$.
+Suppose further that $\text{Sing}(Y)$, the singular locus of $Y$,
+contains 3 concurrent non-degenerate lines
+(that is, passing trough a common point and spanning all of $\PP^3$).
+Then $P(\mathbf x)$ is the determinant of a square order-$4$ matrix $M$ of linear forms.
+
+We can prove this claim by a direct calculation.
+After a linear change of coordinates on~$\PP^3$,
+we can assume that the lines are the 3 coordinate axes in the distinguished $\{x_3\neq0\}$,
+that is, the lines are given by $V(x_0,x_1)$, $V(x_1,x_2)$ and $V(x_0,x_2)$.
+
+On the level of ideals, using Euler's identity, the assumption translates to
+\[
+	\la P_{x_0}(\mathbf x),\ldots, P_{x_3}(\mathbf x) \ra\se\la x_0x_1,x_0x_2,x_1x_2\ra
+\]
+so writing out $P(\mathbf x)=\sum_{|\alpha|=4} a_\alpha {\mathbf x}^\alpha$
+and noting that each of the partials must be zero modulo $\la x_0x_1,x_0x_2,x_1x_2\ra$,
+we only need to solve a linear system in the indeterminate coefficients.
+We get
+\[
+	P(\mathbf x)=
+	a_1x_0^2x_1^2+a_2x_0^2x_2^2+a_3x_1^2x_2^2+a_4x_0^2x_1x_2+a_5x_0x_1^2x_2+a_6x_0x_1x_2^2+a_7x_0x_1x_2x_3
+\]
+which is the determinant of
+\[
+	M=\begin{bmatrix}
+	x_0&&&x_1\\
+	&x_1&&x_2\\
+	&&x_2&x_0\\
+	-a_3x_2&-a_2x_0&-a_1x_1& a_4x_0+a_5x_1+a_6x_2+a_7x_3
+	\end{bmatrix}
+\]
+
+In fact, if $a_7\neq0$ we can do better.
+Setting $a_7=1$, a linear change of coordinates by the matrix
+\[
+\begin{bmatrix}
+1&&&-a_4\\
+&1&&-a_5\\
+&&1&-a_6\\
+&&&1
+\end{bmatrix}
+\]
+leaves the singular locus the same but simplifies the general form to
+\[
+P'(\mathbf x)=a_1x_0^2x_1^2+a_2x_0^2x_2^2+a_3x_1^2x_2^2+x_0x_1x_2x_3
+\]
+and the matrix $M$ to
+\[
+M'=\begin{bmatrix}
+x_0&&&x_1\\
+&x_1&&x_2\\
+&&x_2&x_0\\
+-a_3x_2&-a_2x_0&-a_1x_1&x_3
+\end{bmatrix}
+\]
+whose entries are scaled variables.
+\end{example}
+
+\begin{example}[$\mt{ex313}$]
+\label{ex313}
+In the situation of Example~\ref{ex201}, we had
+\[
+	N=\begin{bmatrix}0&
+	       {x}_{1}&
+	       0&
+	       0&
+	       {x}_{0} {x}_{2}-{x}_{3}^{2}\\
+	       {x}_{2}&
+	       {-{x}_{3}}&
+	       {-{x}_{1}}&
+	       {-{x}_{3}}&
+	       {-{x}_{3}^{2}}\\
+	       {-{x}_{3}}&
+	       {-101 {x}_{1}}&
+	       0&
+	       {x}_{0}-101 {x}_{1}&
+	       -10201 {x}_{1} {x}_{2}-202 {x}_{3}^{2}\\
+	       -101 {x}_{2}-{x}_{3}&
+	       0&
+	       {x}_{0}&
+	       0&
+	       20402 {x}_{2} {x}_{3}-202 {x}_{3}^{2}\\
+	       \end{bmatrix}
+\]
+where $N=N_1|N_2$ and $\det(N_1)=x_1P(\mathbf x)$.
+Let $M$ be the submatrix corresponding to rows $\{2,3,4\}$ and columns $\{1,2,3\}$.
+Then $\det(M)=P(\mathbf x)$ but $M$ is not technically a representation matrix~---
+its rows cannot be indexed by the monomials of $S_\d$.
+
+The situation of the previous example,~\ref{ex312}, is very similar.
+While we were lucky and found a determinantal representation for $P(\mathbf x)$,
+it does not come in the form of a matrix of syzygies.
+There is only $3$ linear syzygies, corresponding to there of the columns of $M$,
+but the last one is not.
+\end{example}
+
+% \begin{example}[$\mt{ex318}$]
+% \label{ex318}
+% Change to $\PP^1\times\PP^1$ source. This is not what you had before --- the map
+% must be of degree 1. Compute it.
+% \end{example}
+
+\begin{example}[$\mt{ex319}$]
+\label{ex319}
+Let $X=\PPP$ and $J\se S=\CC[s,u;t,v]$ be given by 4 general $(2,2)$ forms in $\la s^2,st,t^2\ra$.
+Then $\phi$ is generically 1-1 with
+the unique basepoint $(0,1)\times(0,1)$ of degree $3$ and multiplicity $4$.
+After a linear change of coordinates on the target,
+we can assume that the $\phi_j$ are of the form outlined in Example~\ref{ex302},
+so the representation of Example~\ref{ex312} applies.
+\end{example}
+
+\begin{example}[$\mt{ex314}$]
+\label{ex314}
+We apply Proposition \ref{prop:deg-GB} to compute the degree of the rational map
+in Example \ref{ex301}.
+We have
+\[
+	I=\Bigg\la
+	\begin{cases}
+		{x}_{1} t-{x}_{2} u,\\{x}_{0} s-{x}_{2} u,\\{x}_{2} s^{2}-{x}_{3} s t+{x}_{2}
+	     t^{2}+{x}_{2} u^{2},\\{x}_{1} s^{2}-{x}_{3} s u+{x}_{2} t u+{x}_{1} u^{2},\\{x}_{0}
+	     t^{2}+{x}_{2} s u-{x}_{3} t u+{x}_{0} u^{2},\\{x}_{1} {x}_{2} s+{x}_{0} {x}_{2}
+	     t+({x}_{0} {x}_{1}-{x}_{2} {x}_{3}) u,\\{x}_{0}^{2} {x}_{1}^{2}+{x}_{0}^{2}
+	     {x}_{2}^{2}+{x}_{1}^{2} {x}_{2}^{2}-{x}_{0} {x}_{1} {x}_{2} {x}_{3}
+	\end{cases}\Bigg\ra
+\]
+and we see $P(\mathbf x)$ as the last generator.
+Next, we calculate a Gr\"obner basis with respect to a product monomial order where
+the $s,t,u$ variables come before the $x_j$ variables.
+Dropping the implicit equation, we get
+\[
+	\begin{cases}
+		{x}_{1} t-{x}_{2} u,\\{x}_{0}^{2}
+	      {x}_{2} t+({x}_{0}^{2} {x}_{1}+{x}_{1} {x}_{2}^{2}-{x}_{0} {x}_{2} {x}_{3})
+	      u,\\{x}_{0} s-{x}_{2} u,\\{x}_{1} {x}_{2} s+{x}_{0} {x}_{2} t+({x}_{0}
+	      {x}_{1}-{x}_{2} {x}_{3}) u,\\{x}_{0} t^{2}+{x}_{2} s u-{x}_{3} t u+{x}_{0}
+	      u^{2},\\{x}_{2} s^{2}-{x}_{3} s t+{x}_{2} t^{2}+{x}_{2} u^{2},\\{x}_{1}
+	      s^{2}-{x}_{3} s u+{x}_{2} t u+{x}_{1} u^{2}
+	\end{cases}
+\]
+Collecting the $S$-part of the leading terms, we get the ideal $\la s,t\ra$ whose degree
+is obviously $1$.
+
+We can carry out the same calculation for the map in Example \ref{ex308}.
+The Rees ideal and its Gr\"obner basis are as follow,
+\[
+	I=\Bigg\la\begin{cases}
+	{x}_{2} t^{2}-{x}_{3} u^{2},\\{x}_{1} {x}_{2} s-{x}_{3}^{2} t,\\-{x}_{3}
+	     t^{3}+{x}_{1} s u^{2},\\-{x}_{2} s^{4}+{x}_{0} u^{4},\\-{x}_{3} s^{4}+{x}_{0} t^{2}
+	     u^{2},\\-{x}_{1} s^{5}+{x}_{0} t^{5},\\-{x}_{3}^{3} s^{3}+{x}_{0} {x}_{1} {x}_{2} t
+	     u^{2},\\-{x}_{3}^{5} s^{2}+{x}_{0} {x}_{1}^{2} {x}_{2}^{2} u^{2},\\-{x}_{3}^{8}
+	     s+{x}_{0} {x}_{1}^{3} {x}_{2}^{4} t,\\{x}_{0} {x}_{1}^{4}
+	     {x}_{2}^{5}-{x}_{3}^{10}
+	\end{cases}\Bigg\ra,
+	\quad
+	\begin{cases}
+		{x}_{1} {x}_{2} s-{x}_{3}^{2}
+		      t,\\{x}_{3}^{8} s-{x}_{0} {x}_{1}^{3} {x}_{2}^{4} t,\\{x}_{2} t^{2}-{x}_{3}
+		      u^{2},\\{x}_{3}^{9} t^{2}-{x}_{0} {x}_{1}^{4} {x}_{2}^{4} u^{2},\\{x}_{3}^{7} s
+		      t-{x}_{0} {x}_{1}^{3} {x}_{2}^{3} u^{2},\\{x}_{3}^{5} s^{2}-{x}_{0} {x}_{1}^{2}
+		      {x}_{2}^{2} u^{2},\\{x}_{3} t^{3}-{x}_{1} s u^{2},\\{x}_{3}^{3} s^{3}-{x}_{0}
+		      {x}_{1} {x}_{2} t u^{2},\\{x}_{3}^{4} s^{2} t^{2}-{x}_{0} {x}_{1}^{2} {x}_{2}
+		      u^{4},\\{x}_{3}^{2} s^{3} t-{x}_{0} {x}_{1} u^{4},\\{x}_{3} s^{4}-{x}_{0} t^{2}
+		      u^{2},\\{x}_{2} s^{4}-{x}_{0} u^{4},\\{x}_{1} s^{5}-{x}_{0} t^{5}
+	\end{cases}
+\]
+This time the ideal of the $S$-part of the leading terms is $\la s,t^2\ra$ which is of degree 2.
+\end{example}
+
+\begin{example}[$\mt{ex315}$]
+\label{ex315}
+While Examples \ref{ex301}, \ref{ex306} and \ref{ex307} support Conjecture \ref{conj:sing-locus},
+we point out that the latter is stated in its strongest possible form.
+For one, the claim is trivial in the case $\deg(\phi)>1$
+for then the comaximal minors vanish on all of $Y$ again.
+This can be seen in Example \ref{ex308}.
+
+On the other hand, while it is tempting to conjecture that
+\[
+	\rad(\la P_{x_j}:j\ra)\se\sat(\minors(r-1,N))
+\]
+that is, that the inclusion of the conjecture is on the level of schemes,
+this is not true as illustrated by Example \ref{ex304}.
+In the case $\d=1$, we get
+\begin{align*}
+	\rad(\la P_{x_j}:j\ra)&=\la {x}_{3},{x}_{1} {x}_{2},{x}_{0} {x}_{2},{x}_{0} {x}_{1}\ra\\
+	\sat(\minors(r-1,N))&=\la{x}_{3}^{2},{x}_{2} {x}_{3},{x}_{1} {x}_{3},{x}_{2}^{2},{x}_{1}
+      {x}_{2},{x}_{1}^{2}\ra\\
+	\rad(\minors(r-1,N))&=\la {x}_{1},{x}_{2},{x}_{3}\ra
+\end{align*}
+and the only inclusion we have is
+\[
+	\rad(\la P_{x_j}:j\ra)\se\rad(\minors(r-1,N))
+\]
+The results for other values of $\d$ are analogous.
+\end{example}
+
+% \begin{example}[316]
+% \label{ex316}
+% The construction of Lemma \ref{lemma:lengthRees} is already apparent in Example \ref{ex207}.
+% Since $P\se I$ in $R$, the bihomogeneous primes in $R/I=B$
+% which pull back to $P$ are those in
+% \[
+% 	(\CC[x_0,x_1,x_2]/\la x_0+x_1-x_2\ra)[s,t]/\la x_1s^2-x_0t^2\ra
+% \]
+% which intersect the coefficient ring trivially, so in turn, those in
+% \[
+% 	(\CC[x_0,x_1,x_2]\setminus\la x_0+x_1-x_2\ra)\inv(\CC[x_0,x_1,x_2]/\la x_0+x_1-x_2\ra)[s,t]/\la x_1s^2-x_0t^2\ra
+% \]
+% \end{example}
+
+\begin{example}
+\label{ex317}
+It may seem at first that taking the smallest possible degree is always our best option,
+but Example~\ref{ex308} provides a good counterexample.
+The examples in Chapter~\ref{ch:fast-method}, which are computationally more complex,
+often have the first few $N_i$ being zero, for low $\d$,
+so nonzero matrices tend to be larger in size and degree of their minors.
+
+It is precisely this flexibility to choose a good $\d$,
+that is one of the contributions of
+our results to the methods of moving hypersurfaces.
+\end{example}
+
+
+
+
+
+\section{Proofs}
+\label{ch:main-proofs}
+
+\begin{paragraf*}
+While the ultimate goal of this chapter is to prove the results of Chapter~\ref{ch:main-results},
+it is written in a way to help develop intuition about the interplay between
+representation matrices on one hand and the geometry of $Y$ on the other.
+
+For this reason we start with a few elementary results with two-fold purpose.
+Firstly, they put together a some easy facts about our matrices $N$.
+Secondly, they highlight, when compared to other ad-hoc proofs, the advantage of our point of view.
+\end{paragraf*}
+
+\begin{paragraf*}
+We follow the notation of Chapter~\ref{ch:preliminaries} and
+adopt the setup of \eqref{par:again}.
+In particular, we work over a fix degree $\d$ with $S_\d\neq0$,
+and do not yet require that $\phi$ be generically finite.
+\end{paragraf*}
+
+\begin{lemma}
+\label{lemma:detM-P}
+Let $M$ be a square $r\times r$ matrix of syzygies.
+Then
+\[
+	\det(M)\in P
+\]
+In particular, if $M$ is any (not necessarily square) matrix of syzygies, then
+\[
+	\mt{minors}(r,M)\se P
+\]
+\end{lemma}
+
+\begin{proof}
+The second statement clearly follows from the first, setting an empty minor to zero.
+
+Let $\text{adj}(M)$ be adjugate matrix and set $\mathbf b=\basis(S_\d)$.
+Then
+\[
+	(\mathbf b\cdot M)\cdot\text{adj}(M)=\mathbf b\cdot\det(M)\mathbf 1_r=\det(M)\mathbf b
+\]
+Since $\mathbf b\cdot M$ is a row vector of syzygies,
+the LHS vanishes identically in $S$ under the substitution
+$x_0=\phi_0(\mathbf s),\ldots,x_n=\phi_n(\mathbf s)$.
+But then
+\[
+	\text{RHS}|_{x_0=\phi_0,\ldots,x_n=\phi_n}=\det(M)(\phi_0,\ldots,\phi_n)\mathbf b=
+	\begin{bmatrix}0& 0& \ldots& 0\end{bmatrix}
+\]
+over the domain $S$.
+It follows that $\det(M)(\phi_0,\ldots,\phi_n)=0$,
+so that $\det(M)$ is in the kernel $P$ of $\phi^\#$, proving the first statement.
+\end{proof}
+
+\begin{lemma}
+\label{lemma:nonzero-detM}
+Any representation matrix $N$ has at least as many columns as rows, i.e.
+\[
+	\mu\geq r
+\]
+and its ideal of maximal minors is nonzero.
+\end{lemma}
+
+\begin{proof}
+For each standard basis column vector $e_k\in\CC^r$, $P(\mathbf x)e_k$ is a graded syzygy.
+Let $F$ be the $\mu\times r$ matrix of coefficients for getting $P(\mathbf x)e_k$
+out of the generators of the syzygies over $S_\d$, that is
+\[
+	N\cdot F=P(\mathbf x)\mathbf 1_r
+\]
+The sizes of the matrices on the LHS are $r\times\mu$ and $\mu\times r$.
+Since the rank of the RHS as a $T$-matrix is $r$, we must have $\mu\geq r$.
+
+The maximal minors are then of size $r\times r$. Since $\rank(N\cdot F)=r$,
+also $\rank(N)=r$ and so not all maximal minors vanish.
+\end{proof}
+
+\begin{lemma}
+\label{lemma:cokerN}
+There is an isomorphism of graded $T$-modules
+\[
+	\coker N\cong B_{\d,\bullet}
+\]
+In particular, if $\mathcal{C}_\nbul$ is any graded resolution of $\coker(N)$ over $T$,
+then $H_0\mathcal{C}_\nbul=B_{\d,\bullet}$.
+\end{lemma}
+
+\begin{proof}
+This is obvious. The sequence
+\begin{align}
+	\label{eq:exact-seq-coker}
+	\bigoplus_k T(-i_k)\xrightarrow{~N~}T^r\xrightarrow{~{\mathbf b}~\cdot~}B_{\d,\bullet}\To 0
+\end{align}
+is exact by definition, proving the claim.
+% 
+% Let $C_k$ be the columns of $N$ and $i_k$ be the degree of the entries of $C_k$,
+% i.e. the degree of the homogeneous $C_k$ in the free $T$-module $T^r$.
+% Let $\mathbf b$ be the $1\times\mu$ vector of the basis of $S_d$,
+% regarded as a graded map $T^r\To R_{d,\bullet}$ by multiplying on the left,
+% and let $\bar{\mathbf b}$ be the natural extension to $B_{d,\bullet}$.
+% Note that $\mathbf b$ and so $\bar{\mathbf b}$ are surjective.
+%
+% To establish the claim we only need to prove that the sequence of graded maps
+% is exact. In turn we only need to prove exactness at $T^r$.
+%
+% For any standard basis element $e_k$ of $\CC^r$ thought of as a basis element of the leftmost module above,
+% \[
+% 	(\mathbf b\cdot N\cdot e_k)(\mathbf\phi)=(\mathbf b\cdot C_k)(\mathbf\phi)=0
+% \]
+% by the construction of $N$. This shows that the image is in $I_{d,\bullet}$
+% so the sequence is a complex.
+%
+% Let $G\in\ker \bar{\mathbf b}$ be homogeneous of degree $i$, i.e. $\mathbf b\cdot G(\mathbf\phi)=0$
+% and the entries of $G$ are of degree $i$. Set $g=g(\mathbf s;\mathbf x)=\mathbf b\cdot G\in I_{(d,i)}$.
+% Because $I_{d,\bullet}$ is finite over $T$, generated by $g_k=\mathbf b\cdot C_k$ by construction of $N$,
+% there are forms $f_k$ in $T$
+% of degree $i-i_k$ (setting $f_k=0$ for $i<i_k$) such that
+% \[
+% 	g=\textstyle\sum f_kg_k
+% \]
+% or equivalently,
+% \[
+% 	\mathbf b\cdot G=\textstyle\sum f_k(\mathbf b\cdot C_k)=\mathbf b\cdot(\textstyle\sum f_kC_k)
+% \]
+% in $R_{(d,i)}$. In particular, $G=\sum f_kC_k=N\cdot\begin{bmatrix}f_1\ldots f_\mu\end{bmatrix}\T$
+% is in the image of $N$, proving exactness at $T^r$.
+\end{proof}
+
+\begin{lemma}
+\label{lemma:anncokerN}
+One has
+\[
+	\ann_T (B_{\d,\bullet})=P
+\]
+\end{lemma}
+
+\begin{proof}
+Identifying $T=1\tensor T=R_{0,\bullet}$, we can think of $T$ as a subring of $R$.
+Since $R$ is a graded domain, we have
+\[
+	\ann_T(B_{\d,\bullet})=T\cap I
+\]
+By the definition of $I$, any form $Q(\mathbf x)\in T$ with $Q(\mathbf x)\in I$ is the the kernel
+of the ring map~$\phi^\#$. It follows that
+\[
+	T\cap I=P
+\]
+completing the proof.
+\end{proof}
+
+\begin{remarkhint}
+The lemma above shows that $\Supp_T (B_{\d,\bullet})=V(P)$ and there is a cool way
+to see that the $T$-module localization $(B_{\d,\bullet})_P$ is nonzero.
+Let $N'$ be the localization of $N$ at $P$.
+Then 
+\[
+	(B_{\d,\bullet})_P=\coker(N)_P=\coker(N')
+\]
+Since $\Fitt_0\coker(N')=\mt{minors}(r,N')\se PT_P\neq T_P$ by Lemma~\ref{lemma:detM-P},
+the cokernel is nonzero, for example, by (\citet{Eis95}, Proposition 20.6).
+
+For a geometric argument, see the proof of Lemma \ref{lemma:lengthRees}.
+\end{remarkhint}
+
+\begin{proof}[\bf Proof of Proposition \ref{prop:BP}]
+Since $I$ is the kernel of a ring map into a domain, $I$ is prime.
+By Lemma~\ref{lemma:anncokerN},
+\[
+	P=T\cap I\se R
+\]
+so $B=R/I$ is naturally a finite-type $S$-graded $T/P$-algebra.
+The $T$-module localization of $B$ at $P$ is just
+the localization of the ring $R/I$ at the multiplicative set $(T-P)$.
+In particular, the localization $B_P$ remains a domain,
+now as a $K(T/P)$-algebra.
+This proves parts (a) and (b).
+
+Since $I$ is prime in $R$, $I$ is saturated with respect to the irrelevant ideal $\n\se S\se R$.
+Now (c) follows because saturation commutes with localization.
+\end{proof}
+
+\begin{proof}[\bf Proof of Theorem \ref{thm:rad-minors}]
+By Lemma~\ref{lemma:cokerN}, Lemma~\ref{lemma:anncokerN} and
+(\citet{Eis95}, Proposition~20.7),
+we have
+\[
+	\rad(\mt{minors}(r,N))=\rad(\Fitt_0(\coker N))=\rad(\ann (B_{\d,\bullet}))=P\qedhere
+\]
+\end{proof}
+
+\begin{paragraf*}
+From now on, we assume that $\phi$ is generically finite, or equivalently,
+that $P$ is principal.
+\end{paragraf*}
+
+\begin{lemma}
+\label{lemma:divdetC}
+Let $\mathcal{C}_\nbul$ be a finite graded free resolution of $\coker N$. One has
+\[
+	\thediv(\det(\mathcal{C}_\nbul))=\length_{T_P}(B_{\d,\bullet})_P\cdot[Y]
+\]
+as Weil divisors on $\PP^n$.
+\end{lemma}
+
+\begin{proof}
+By (\citet{GKZ94}, A, Theorem 30), applied to the factorial $T$, a principal prime $Q=\la Q(\mathbf x)\ra$,
+and the generically exact $\mathcal{C}_\nbul$,
+\[
+	\ord_{Q(\mathbf x)}(\det(\mathcal{C}_\nbul))=\sum_i (-1)^i \mult_Q(H_i\mathcal{C}_\nbul)
+\]
+Since $\mathcal{C}_\nbul$ is exact, all the higher homology vanishes, so
+\[
+	\ord_{Q(\mathbf x)}(\det(\mathcal{C}_\nbul))=\mult_Q(H_0\mathcal{C}_\nbul)
+\]
+The RHS above is zero outside $\ann(H_0\mathcal{C}_\nbul)$,
+so by Lemma \ref{lemma:cokerN} and \ref{lemma:anncokerN},
+the RHS is nonzero only for $Q=P$.
+Summing over all non-associate irreducible homogeneous polynomials,
+we get
+\begin{align*}
+	\thediv(\det(\mathcal{C}_\nbul))&=\sum_{Q(\mathbf x)}
+		\ord_{Q(\mathbf x)}(\det(\mathcal{C}_\nbul))\cdot[V(Q)]\\
+	&=\sum_{Q(\mathbf x)} \mult_Q (H_0\mathcal{C}_\nbul)\cdot [V(Q)]\\
+	&=\mult_P (H_0\mathcal{C}_\nbul)\cdot[Y]\\
+	&=\length_{T_P}(B_{\d,\bullet})_P\cdot[Y]
+\end{align*}
+establishing the claim.
+\end{proof}
+
+\begin{lemma}
+\label{lemma:lengthBdimB}
+One has
+\[
+	\length_{T_P}(B_{\d,\bullet})_P=\dim_{K(T/P)}(B_{\d,\bullet})_P
+\]
+\end{lemma}
+
+\begin{proof}
+Note that $P(\mathbf x)\in I$, so $P(\mathbf x)$ annihilates $B$ as a $T$-module.
+Setting $\m_P=PT_P\se T_P$,
+\begin{align*}
+	\length_{T_P}(B_{\d,\bullet})_P&=
+	\sum_{k}\dim_{T_P/\m_P} \m_P^{k}(B_{\d,\bullet})_P/\m_P^{k+1}(B_{\d,\bullet})_P\\
+	&=\dim_{T_P/\m_P}(B_{\d,\bullet})_P
+\end{align*}
+since $\m_P$ in turn annihilates $(B_{\d,\bullet})_P$.
+\end{proof}
+
+\begin{remarkhint}
+A one-line argument would be: the $T$- and $T/P$-module structure of $B$ are the same.
+\end{remarkhint}
+
+\begin{lemma}
+\label{lemma:lengthRees}
+Let $\d\in \reg(I_P)$ in the sense of \eqref{par:reg-IP}. One has
+\[
+	\dim_{K(T/P)} (B_{d,\bullet})_P=\deg(\phi)
+\]
+\end{lemma}
+
+\begin{remarkhint}
+This result requires neither $\codim(Y\se\PP^n)=1$ nor $\dim V(J)=0$.
+\end{remarkhint}
+
+\begin{proof}
+Let $\Gamma=\Biproj(B)$ be the graph of the rational map $\phi$, or equivalently
+the blow-up of $X$ along the basepoints $V(J)$. Let $E\se\Gamma$ be the exceptional
+locus.
+We point the reader to (\citet{Har77}, II, Example 7.17.3) for the details,
+summarized in the following commutative diagram
+
+\begin{tikzcd}[column sep=large]
+	\Biproj(B)=\Gamma \arrow[hookleftarrow]{r}\arrow[]{d}{\pi_1}\arrow[two heads, bend left=35]{rrd}[description]{\pi_2} &
+		\Gamma-E\arrow[]{d}{\cong}[swap]{\pi_1|_{\Gamma-E}}\arrow[two heads]{rd}[description]{\pi_2|_{\Gamma-E}} \\
+	X \arrow[hookleftarrow]{r}\arrow[bend right=17, dashed]{rr}[description]{\phi} &
+		X-V(J) \arrow[two heads]{r}{\phi|_{X-V{J}}} &
+		~ Y\se\PP^n
+\end{tikzcd}
+
+Since $\pi_2|_{\Gamma-E}=\phi|_{X-V(J)}\circ\pi_1|_{\Gamma-E}$ and
+$\pi_1|_{\Gamma-E}$ is an isomorphism,
+the morphism $\pi_2$ is generically finite onto its image and $\deg(\phi)=\deg(\pi_2)$.
+If $\gamma\in\PP^n$ is the generic point of $Y$, then the scheme-theoretic fiber
+\[
+	\pi_2\inv(\gamma)=\Spec(\O_{\gamma,Y})\times_Y \Gamma
+\]
+is a closed zero-dimensional subscheme of $\Gamma$ consisting of
+$\deg(\pi_2)$ points, counted with multiplicity.
+
+The morphism $\pi_2:\Biproj(B)\to\Proj(T)$ is induced by the graded map of $\CC$-algebras
+\[
+	\pi_2^\sharp=(x_j\mapsto \overline{x_j\tensor1}):T\To{(T\tensor S)}/{I}=B
+\]
+and the fiber of $\gamma=[P]\in\Proj (T)$ corresponds to the set of
+bihomogeneous prime ideals of $B$
+which pull back to $P\se T$ via $\pi_2^\sharp$.
+By an easy reduction,
+for example (\citet{Vak10}, Exercise 7.3.H, 7.3.K and 9.3.A),
+this set corresponds to the set of $S$-grading-homogeneous prime ideals of the $K(T/P)$-algebra
+\[
+	K(T/P)\tensor_{T/P}B\cong B_P
+\]
+
+The identification above presents the fiber as a $\Proj(-)$ over a field,
+that is,
+\[
+	\Proj_{K(T/P)} B_P\xrightarrow{~\sim~}\pi_2\inv(\gamma)\se\Biproj(B)
+\]
+
+Since this is a finite projective scheme over the field $K(T/P)$,
+its degree is well-defined and given by
+\[
+	\dim_{K(T/P)} (B_P)_\d=\dim_{K(T/P)} (B_{\d,\bullet})_P
+\]
+for all $\d\in\reg(I_P)$.
+\end{proof}
+
+\begin{proof}[\bf Proof of Theorem \ref{thm:gcd-minors}]
+Let $\mathcal{C}_\nbul$ be a minimal graded free resolution of $\coker N$.
+By (\citet{GKZ94}, A, Theorem 34) which applies since $\mathcal{C}_\nbul$ is exact,
+\[
+	\det(\mathcal{C}_\nbul)=\gcd(\mt{minors}(r,N))
+\]
+up to a unit of $T$. But then by Lemma \ref{lemma:divdetC}, \ref{lemma:lengthBdimB} and \ref{lemma:lengthRees},
+\begin{align*}
+\thediv(\gcd(\mt{minors}(r,N)))&=\thediv(\det(\mathcal{C}_\nbul))\\
+&=\length_{T_P} (B_{d,\bullet})_P\cdot[Y]\\
+&=\dim_{K(T/P)} (B_{d,\bullet})_P\cdot[Y]\\
+&=\deg(\phi)\cdot[Y]
+\end{align*}
+
+Because this is just an equality of Weil divisors,
+\[
+\gcd(\mt{minors}(r,N))=P^{\deg(\phi)}\qedhere
+\]
+\end{proof}
+
+\begin{proof}[\bf Proof of Corollary \ref{thm:detM}]
+This follows directly from Theorem \ref{thm:gcd-minors}.
+\end{proof}
+
+\begin{proof}[\bf Proof of Proposition~\ref{prop:deg-GB}]
+For any choice of $>'$, a reduced Gr\"oebner basis for $I_B$ will have the outlined general form
+except possibly for the term $g_{r+1}$.
+Since $I\cap T=P$ by Lemma~\ref{lemma:anncokerN},
+a Gr\"obner basis must include $P(\mathbf x)$ as its unique generator involving just the $x_j$.
+This proves the first part.
+
+Define the ideal $I'_B$ by the identity
+\[
+	B_P=\frac{(\CC[\mathbf x]-P)\inv\CC[\mathbf s;\mathbf x]}{I'_B}
+\]
+By reduce-ness, $P(\mathbf x)\nmid p_k(\mathbf x)$,
+so $I'_B$ can be obtained from the generating set for $I_B$ by removing $P(\mathbf x)$.
+
+By the proof of Lemma~\ref{lemma:lengthRees},
+we know that $\Proj_{K(T/P)} B_P$ corresponds to
+the scheme-theoretic preimage of the generic point of $Y$,
+and in turn, this gives
+\[
+	\deg(\phi)=H^0(\Proj_{K(T/P)} B_P,\O)=\deg(I'_B)
+\]
+where $\O$ denotes the structure sheaf of $\Proj_{K(T/P)} B_P$,
+and the degree on the far-right is the degree in $K(T/P)\CC[\mathbf s]$.
+The result now follows because the initial ideal of $I'_B$ has the same degree as $I'_B$.
+\end{proof}
+
+
+
+
+
+\section{A Method for Fast Implicitization}
+\label{ch:fast-method}
+
+\begin{paragraf*}
+This chapter is devoted to the computational aspects of our results.
+Section~\ref{sec:algorithms} describes two algorithms for implicitization.
+The first one is simple and robust, and is used for studying the matrices $N$
+when Gr\"obner basis calculations can be carried out efficiently.
+The second one is more involved and is used when direct computations are unfeasible.
+In those cases, the second algorithm's lead is significant.
+Section~\ref{sec:long-examples} provides details about the algorithms
+and support to the latter claim in the form of a few worked examples.
+\end{paragraf*}
+
+\begin{paragraf*}
+Both, as means to illustrate that our algorithms are effective, say,
+in the sense of computational algebraic geometry,
+and as a setup for the examples to follow,
+in Section~\ref{sec:implementation} we implement those algorithms in
+the Macaulay2 system.
+\end{paragraf*}
+
+\begin{paragraf*}
+The code is available at
+\begin{center}
+	\url{http://www.math.cornell.edu/~rzlatev/phd-thesis}
+\end{center}
+\end{paragraf*}
+
+\begin{paragraf*}
+We continue to follow the notation of Chapter~\ref{ch:preliminaries}
+and the setup of \eqref{par:setup}.
+However, to avoid distraction,
+we assume throughout the chapter that $\phi$ is generically 1-1.
+\end{paragraf*}
+
+\subsection{The Algorithms}
+\label{sec:algorithms}
+
+\begin{paragraf*}
+At first glance, an algorithm for finding the implicit equation is contained in the proof
+of the our main theorem, Theorem \ref{thm:gcd-minors}.
+In its simplest form, it becomes
+\end{paragraf*}
+
+\begin{algorithm} {\sc Naive Algorithm\bf.}
+\label{algo:naive}
+\begin{algorithmic}
+  \State {\bf input:} $J$, $\d$
+  \State {\bf output:} $N$, $P$
+  \State Set $r=\dim_\CC(S_{\mathbf d})$
+  \State Compute an $R$-generating set $\{h_\ell:\ell\}$ for the Rees ideal $I$
+  \State Compute a $T$-generating set $\{g_k:k\}$ for $I_{\d,\bullet}$ from the $h_\ell$
+  	using \eqref{lemma:push-gens}
+  \State Set $N$ to be the coefficient matrix of the $g_k$ with respect to $\mt{basis}(S_\d)$
+  \State Compute $P=\gcd(\mt{minors}(r,N))$
+  \State Return $N$, $P$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{paragraf}
+\label{par:flaws}
+The conciseness and robustness of Algorithm \ref{algo:naive} made it our preferred tool
+for testing the theory.
+In fact, all calculations presented so far,
+including all examples of Chapter \ref{ch:examples},
+were carried out using this algorithm.
+
+At the same time, its simplicity allows us to spot some of its drawbacks.
+We distinguish four major ones.
+\begin{enumerate}
+\item
+\label{itm:flaws:GB}
+Computing an $R$-generating set for the Rees ideal is at least as hard as
+computing the implicit equation itself --- we have $I_{0,\bullet}=P$.
+This follows from Proposition~\ref{prop:deg-GB} and
+shows up in Examples~\ref{ex202} and \ref{ex314}.
+
+\item
+\label{itm:flaws:many-minors}
+While computing the $\gcd$ of two polynomials is fast,
+computing all minors could be difficult since their number can be very large.
+This happens even for reasonably small examples.
+For instance, the smallest nonzero matrix $N$ for $\d=(2,2,1)$ in Example~\ref{ex603}
+is of size $18\times50$.
+The number of maximal minors is
+\[
+	\binom{50}{18}=18'053'528'883'775
+\]
+so even if it takes the unrealistic $0.001$ seconds to compute each minor,
+a single machine would require 572 years to compute them all.
+
+\item
+\label{itm:flaws:large-det}
+Continuing with Example~\ref{ex603},
+we note that each maximal minor is a determinant of an $18\times18$-matrix
+of quartic forms in 5 variables.
+Computing large determinants symbolically is time-consuming.
+We did not manage to compute any nonzero minor.
+
+Example~\ref{ex602} involves a somewhat similar calculation ---
+the determinant of a $12\times12$-matrix of quadratic forms in 5 variables
+took about an hour to compute.
+Extrapolating, we can speculate that our $18\times18$ determinant would take somewhere
+in the order of
+\[
+	13\times14\times15\times16\times17\times18=13'366'080
+\]
+hours.
+That is about $1525$ years.
+
+\item
+\label{itm:flaws:large-poly}
+Finally, suppose we have found the polynomial in question --- by whatever means.
+It is a form of degree $48$ in 5 variables, and very likely dense in the monomials of that degree.
+This suggests that the polynomial will be represented by
+\[
+	\binom{53}{5}=2'869'685
+\]
+coefficients.
+\end{enumerate}
+\end{paragraf}
+
+\begin{paragraf*}
+Regrettably,
+\itmref{itm:flaws:large-det}{par:flaws} would be an issue for any algorithm
+relying on computing determinants of representation matrices,
+while \itmref{itm:flaws:large-poly}{par:flaws}
+would be an issue for any implicitization algorithm whatsoever.
+Rather than seeing these as obstacles,
+we point them out as an argument {\em for} the idea of using
+representation matrices in place of the implicit equation altogether.
+We explore this theme further in the examples of Section~\ref{sec:long-examples}.
+\end{paragraf*}
+
+\begin{paragraf}
+\label{par:proposed}
+Fix a degree $\d$ as before and recall that
+\[
+	N=(~N_1~|~\cdots~|~N_\delta~)
+\]
+
+Consider the following.
+\begin{enumerate}
+\item
+\label{itm:N'}
+Instead of computing the whole matrix $N$, one can compute the $N_i$'s separately,
+keeping track of a partial representation matrix $N'$.
+\item
+\label{itm:gcd}
+Instead of computing all the minors, one only needs to compute sufficiently many to determine
+the $\gcd$ correctly.
+\end{enumerate}
+\end{paragraf}
+
+\begin{paragraf*}
+These two simple observations produce an immense speed up on average.
+The advantage of \itmref{itm:N'}{par:proposed} over computing an $R$-generating set for the
+Rees ideal is that it uses only linear algebraic routines.
+The advantage of computing only sufficiently many, rather than all, of the minors is obvious.
+\end{paragraf*}
+
+\begin{paragraf}
+Let
+\[
+	N'=N'_i=(~N_1~|~\cdots~|~N_i~)
+\]
+be the partial matrix of syzygies up to degree $i$.
+Recall that $h_i$ denotes the number of columns in $N_i$
+and set $p=\deg(P)$.
+Consider the following condition
+\begin{align}
+	\label{C:matrix}
+	\tag{C1}
+	\begin{cases}
+		\quad\sum h_ii=p &\text{if}~\sum h_i=r\\
+		\quad\sum h_ii\geq p&\text{if}~\sum h_i>r
+	\end{cases}
+\end{align}
+This is a necessary condition for $N'$ to be used instead of $N$,
+since if $\deg(\det(M))<\deg(P)$, then $M$ must be singular.
+It is almost certainly not a sufficient condition to conclude that $N'=N$,
+but often this is the case.
+\end{paragraf}
+
+\begin{paragraf}
+\label{par:intersect-general-line}
+Let $M_1,M_2$ be nonsingular matrices of syzygies, as in \eqref{lemma:detM-P},
+and let $Y_1,Y_2\se\PP^n$ be the hypersurfaces they define.
+Let $L$ be a general line in $\PP^n$.
+If $M_1,M_2$ satisfy the condition
+\begin{align}
+	\label{C:minors}
+	\tag{C2}
+	L\cap Y_1\cap Y_2\se L\cap Y
+\end{align}
+then $\gcd(\det(M_1),\det(M_2))=P$.
+
+The condition can be used for testing \itmref{itm:gcd}{par:proposed}.
+To prove the claim, note that we always have
+\[
+	Y_1\cap Y_2\supset V(\gcd(\det(M_1),\det(M_2)))\supset Y
+\]
+which together with \eqref{C:minors} gives $L\cap Y_1\cap Y_2=L\cap Y$,
+which is true exactly when $Y_1\cap Y_2$ does not contain any other hypersurfaces besides $Y$.
+Indeed, if the $\gcd$ is a proper multiple of $P$, then the intersection of
+$Y_1$ and $Y_2$ contains another hypersurface, whose intersection with the general $L$
+is not going to be on $Y$.
+
+Furthermore, the condition itself can be tested by computing the multiplicity
+of $Y_1\cap Y_2\cap L$ and comparing it to the multiplicity of $Y\cap L$.
+If the two are equal, then the condition is satisfied.
+\end{paragraf}
+
+\begin{paragraf*}
+Summarizing the discussion so far, we propose
+\end{paragraf*}
+
+\begin{algorithm}{\sc Proposed Algorithm}{\bf.}
+\label{algo:proposed}
+\begin{algorithmic}
+\State{{\bf input:} $J$, $\d$, $p=\deg(P)$}
+\State{{\bf output:} a list of matrices $M_k$ such that $\gcd(\{M_k:k\})=P$}
+\State{Set $r=\dim_\CC(S_\d)$}
+\State{Set $N'=r\times0$ matrix over $T$}
+\State{}
+\While{\eqref{C:matrix} is not satisfied for $N'$}
+	\State{Given $N_1,\ldots,N_{i-1}$, use Algorithm \ref{algo:compute-Ni} to compute $N_i$}
+	% \Comment{Call Recursion again}
+	\State{Set $N'=N'~|~N_i$}
+\EndWhile
+\State{Set $M_1,M_2$ to be the zero $r\times r$ matrix}
+\State{Let $\mathcal{C}$ be some stopping criterion}
+\State{Let $i$ be the index of the last computed matrix and let $\ell=r-h_1-\ldots-h_{i-1}$}
+\While{$\mathcal{C}$ is not satisfied and $M_1,M_2$ is do not satisfy \eqref{C:minors}}
+	\State{Let $c_1,c_2$ be a random sets of $\ell$ columns of $N_i$}
+	\State{Set $M_1=N_1|\cdots|N_{i-1}|(N_{i})_{c_1}$}
+	\State{Set $M_2=N_1|\cdots|N_{i-1}|(N_{i})_{c_2}$}
+\EndWhile
+\State{Return $P=\gcd(\det(M_1),\det(M_2))$}
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}{\sc Compute Partial Syzygies}{\bf.}
+\label{algo:compute-Ni}
+\begin{algorithmic}
+\State{{\bf input:} a list of the already computed $N_1,\ldots,N_{i-1}$}
+\State{{\bf output:} $N_i$}
+\For{$0<j<i$}
+%	\State{Let $\mt{basis}(T)$ be the basis for $T_{i-j}$ as a row vector}
+	\State{Set $N_{ji}=\mt{basis}(T_{i-j})\tensor N_{j}$}
+	\State{Set $K_{ji}$ to be the linearization of $N_{ji}$}
+\EndFor
+\State{Set $K_i=\ker(\Phi^{(i)})$}
+\State{Let $K_i'$ be such that $\Span(K_i)=\Span(K_i')\oplus(\sum_j\Span(K_{ji}))$}
+\State{Let $N_i$ be such that $\mt{basis}(R_{\mathbf d,i})\cdot K_i'=\mt{basis}(S_{\mathbf d})\cdot N_i$}
+\State{Return $N_i$}
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Implementation in Macaulay2}
+\label{sec:implementation}
+
+\begin{paragraf}
+\label{code:lemma:push-gens}
+We start with a realization for \eqref{lemma:push-gens}.
+\label{code:lemma:push-gens}
+\begin{verbatim}
+PushGens = (d,I) -> (
+  r := toList(0..(#d-1));
+  G := for g in I_* list (
+    if all(d-((degree g)_r), Z->Z>=0)
+    then basis((d-((degree g)_r))|{0},ring I)**g
+    else continue);
+  trim image fold(G,matrix {{0_(ring I)}},(a, b)->a|b)
+  )
+\end{verbatim}
+\end{paragraf}
+
+\begin{paragraf}
+\label{code:algo:naive}
+Using \eqref{code:lemma:push-gens},
+Algorithm \ref{algo:naive} is straight-forward to implement.
+We require~$R$ for encapsulation.
+\begin{verbatim}
+ComputeNRees = method ()
+ComputeNRees (Ideal, List, Ring) := Matrix => (J, d, R) -> (
+  x := symbol x;
+  I := reesIdeal(J, Variable=>x);
+  AI := ring I;
+  zm := 0*d;
+  g := map(R,AI,first entries super basis(zm|{1},R));
+  I = g(I);
+  V := PushGens (d,I);
+  matrix entries ( (gens V) // basis(d|{0}, R) )
+  )
+\end{verbatim}
+\end{paragraf}
+
+\begin{paragraf}
+\label{code:algo:compute-Ni}
+Algorithm~\ref{algo:compute-Ni} is the one we make most use of in Section~\ref{sec:long-examples}.
+Its fourth argument is the list of already computed matrices $N_1,\ldots,N_{i-1}$.
+If this list's size is not $i-1$,
+then we just compute all linearly independent syzygies of degree~$i$ --- $\basis(I_{\d,i})$.
+The ideal $J$ is supplied in the form of the matrix
+$F=\phi^{(1)}\tensor R$ (see \ref{par:strands}).
+\begin{verbatim}
+ComputeNi = method ()
+ComputeNi (Matrix, ZZ, List, List) := Matrix => (F, i, d, lst) -> (
+  R := ring F;
+  m := #d;
+  d0 := d|{0};
+  di := d|{i};
+  zm := 0*d;
+  fj := flatten entries matrix F;
+  xj := flatten entries super basis (zm|{1}, R);
+  n := #fj;
+  r := numcols super basis(d0, R);
+  subs := apply(n,j->xj_j=>fj_j);
+  e0 := (degree fj_0);
+  G := sub(super basis(di, R), subs) // (super basis(i*e0+d0, R));
+  K := matrix entries gens ker G;
+  Nii := (super basis(di, R))*K // (super basis(d0, R));
+  Nii = sub(matrix entries Nii,R);
+  Nji := random(R^r,R^0);
+  if #lst==i-1
+  then Nji = fold (for j from 1 to #lst list
+    (super basis(zm|{i-j}, R)**(lst_(j-1))), random(R^r,R^0), (m1,m2)->m1|m2);
+  gens trim image (Nii%Nji)
+  )
+\end{verbatim}
+\end{paragraf}
+
+\begin{paragraf}
+\label{code:algo:proposed}
+We now implement the first part of the proposed Algorithm~\ref{algo:proposed}.
+We omit the second part simply because of \itmref{itm:flaws:large-det}{par:flaws}.
+Besides, after a general change of coordinates,
+any two nonzero minors are likely to suffice and we can compute them manually when necessary.
+See Examples~\ref{ex603} and \ref{ex604} for details.
+\begin{verbatim}
+ComputeNConj = method ()
+ComputeNConj (Matrix, ZZ, List) := Matrix => (F, p, d) -> (
+  R := ring F;
+  q := 0;
+  i := 1;
+  lst := {};
+  r := numcols super basis (d|{0},R);
+  N := random(R^r,R^0);
+  
+  zm := 0*d;
+  fj := flatten entries matrix F;
+  xj := flatten entries super basis (zm|{1}, R);
+  n := #fj;
+  subs := apply(n,j->xj_j=>fj_j);
+  
+  while q<p or not procTestCondN(N, subs) do (
+    Ni := ComputeNi(F,i,d,lst);
+    q = q + (numcols Ni)*i;
+    lst = append(lst, Ni);
+    N = N|Ni;
+    i = i+1; );
+  N
+  )
+\end{verbatim}
+\end{paragraf}
+
+\subsection{Examples}
+\label{sec:long-examples}
+
+\begin{paragraf*}
+We now field-test our algorithms and code on several examples of
+somewhat higher computational complexity than those in Chapter~\ref{ch:examples}.
+
+The running times can vary a lot from one machine to another,
+so the numbers below should not be treated as benchmarks.
+We include them only to provide a general idea how the different methods preform
+relative to each other.
+
+The machine that we used was a MacBook Pro laptop with
+a 2.9 GHz Intel Core i7 processor and 8 GB 1600 MHz DDR3 memory,
+running Macaulay2 version 1.8.
+\end{paragraf*}
+
+\begin{example}[$\mt{ex601}$]
+\label{ex601}
+Let $\phi:(\PP^1)^3\To\PP^4$ be given by 5 generic $(2,1,1)$-forms.
+The base locus is empty,
+so by \eqref{eq:formula-prod-P1} and \eqref{eq:degree-formula},
+the degree of the image is $12$.
+
+Consider $\d=(1,1,1)$.
+Our method computes a candidate matrix $N'$ in a little more than 0.1s.
+The matrix $N'$ is square and we have $\det(N')=P$.
+Computing the determinant of the $8\times8$-matrix $N$ takes 3s.
+The standard Gr\"obner basis computation takes 131s.
+
+The details follow.
+\begin{verbatim}
+i1 : loadPackage "ImplicitizationAlgos";
+
+i2 : KK=ZZ/32009;
+
+i3 : S=KK[s_0,s_1,t_0,t_1,u_0,u_1,
+          Degrees=>{2:{1,0,0},2:{0,1,0},2:{0,0,1}}];
+
+i4 : T=KK[x_0..x_4];
+
+i5 : B=super basis({2,1,1},S);
+
+             1       12
+o5 : Matrix S  <--- S
+
+i6 : J=ideal(B*random(S^12,S^5));
+
+o6 : Ideal of S
+
+i7 : R=KK[s_0,s_1,t_0,t_1,u_0,u_1,x_0..x_4,
+          Degrees=>{2:{1,0,0,0},2:{0,1,0,0},2:{0,0,1,0},5:{0,0,0,1}}];
+
+i8 : F=sub(gens J,R);
+
+             1       5
+o8 : Matrix R  <--- R
+
+i9 : d={1,1,1};
+
+i10 : time N1=ComputeNi(F,1,d,{});
+     -- used 0.0119639 seconds
+
+              8       4
+o10 : Matrix R  <--- R
+
+i11 : time N2=ComputeNi(F,2,d,{N1});
+     -- used 0.0920771 seconds
+
+              8       4
+o11 : Matrix R  <--- R
+\end{verbatim}
+The partial matrix $N'=N_1|N_2$ is square.
+The degree of its determinant is $12=4\cdot1+4\cdot2$, so this is our candidate matrix.
+We check at the end that $\det(N')=P(\mathbf x)$.
+\begin{verbatim}
+i12 : time ComputeNi(F,2,d,{});
+     -- used 0.0867573 seconds
+
+              8       24
+o12 : Matrix R  <--- R
+
+i13 : time N3=ComputeNi(F,3,d,{N1,N2});
+     -- used 0.846328 seconds
+
+              8
+o13 : Matrix R  <--- 0
+
+i14 : time ComputeNi(F,3,d,{});
+     -- used 0.903612 seconds
+
+              8       80
+o14 : Matrix R  <--- R
+
+i15 : time ComputeNi(F,4,d,{});
+     -- used 6.38165 seconds
+
+              8       200
+o15 : Matrix R  <--- R
+\end{verbatim}
+Note that even though $N'$ is square and giving the implicit equation right off the bat,
+we cannot be sure that $N=N_1|N_2$.
+Lines 12--15 support this claim.
+% First note that line 14 and 15 don't actually compute $N_i$ but rather $I_{\d,i}$.
+For instance, because the columns of $N_1$ and $N_2$ form a nonsingular matrix,
+the degree-$3$ syzygies they give rise to are going to be linearly independent.
+There are exactly $80=4\cdot\binom{4+2}{2}+4\cdot\binom{4+1}{1}$ of them, so $N_3=0$.
+The same argument shows that $N_4=0$.
+
+\begin{verbatim}
+i16 : N=sub(N1|N2,T);
+
+              8       8
+o16 : Matrix T  <--- T
+
+i17 : time N'=ComputeNConj(F,12,d);
+     -- used 0.138608 seconds
+
+              8       8
+o17 : Matrix R  <--- R
+
+i18 : N'=sub(N',T);
+
+              8       8
+o18 : Matrix T  <--- T
+
+i19 : image N==image N'
+
+o19 = true
+
+i20 : time P'=ideal det N;
+     -- used 3.0447 seconds
+
+o20 : Ideal of T
+\end{verbatim}
+Line 20 shows that $\det(N')=P(\mathbf x)$.
+\begin{verbatim}
+i21 : time P=ker map(S,T,J_*);
+     -- used 131.05 seconds
+
+o21 : Ideal of T
+
+i22 : P==P'
+
+o22 = true
+\end{verbatim}
+The standard method to compute the implicit equation takes more than 40 times longer.
+\end{example}
+
+\begin{example}[$\mt{ex602}$]
+\label{ex602}
+We compute the implicit equation of five general $(2,2,1)$-forms over $(\PP^1)^3$.
+The base locus is empty, so the degree of the equation is $24$.
+It takes our method less than a second to find it in the form of
+a determinant of an $18\times18$-matrix of quadratic forms.
+It take a little less than an hour to compute the actual equation.
+The standard Gr\"obner basis calculation did not finish in 24 hours.
+\begin{verbatim}
+i1 : loadPackage "ImplicitizationAlgos";
+
+i2 : KK=ZZ/32009;
+
+i3 : S=KK[s_0,s_1,t_0,t_1,u_0,u_1,
+          Degrees=>{2:{1,0,0},2:{0,1,0},2:{0,0,1}}];
+
+i4 : T=KK[x_0..x_4];
+
+i5 : B=super basis({2,2,1},S);
+
+             1       18
+o5 : Matrix S  <--- S
+
+i6 : J=ideal(B*random(S^18,S^5));
+
+o6 : Ideal of S
+
+i7 : R=KK[s_0,s_1,t_0,t_1,u_0,u_1,x_0..x_4,
+          Degrees=>{2:{1,0,0,0},2:{0,1,0,0},2:{0,0,1,0},5:{0,0,0,1}}];
+
+i8 : F=sub(gens J,R);
+
+             1       5
+o8 : Matrix R  <--- R
+
+i9 : d={2,1,1};
+
+i10 : time N1=ComputeNi(F,1,d,{});
+     -- used 0.017498 seconds
+
+              12
+o10 : Matrix R   <--- 0
+
+i11 : time N2=ComputeNi(F,2,d,{});
+     -- used 0.298143 seconds
+
+              12       12
+o11 : Matrix R   <--- R
+
+i12 : time N3=ComputeNi(F,3,d,{N1,N2});
+     -- used 4.01669 seconds
+
+              12
+o12 : Matrix R   <--- 0
+
+i13 : time N'=ComputeNConj(F,24,d);
+     -- used 0.762765 seconds
+
+              12       12
+o13 : Matrix R   <--- R
+
+i14 : N'==N2
+
+o14 = true
+
+i15 : rank N2
+
+o15 = 12
+\end{verbatim}
+Since we know that $N'=N_2$ is square,
+its determinant is a form of degree $12\cdot2=24$,
+so $\det(N')=P(\mathbf x)$.
+Note that we do not have to compute the determinant to make sure that $N'$ is nonsingular.
+We can compute the rank by substituting random numbers for the $x_j$
+and computing over a finite field.
+\begin{verbatim}
+i17 : N=sub(N2,T);
+
+              12       12
+o17 : Matrix T   <--- T
+
+i18 : time P'=det N;
+     -- used 3310.29 seconds
+\end{verbatim}
+While we actually can compute the determinant, so also the implicit equation itself,
+we could have answered questions like "Is this point on the image" using $N'$ only.
+\end{example}
+
+\begin{example}[$\mt{ex604}$]
+\label{ex604}
+Consider a map given by four general bi-quartics in the ideal $\la s^3,s^2t,t^2\ra$.
+Then the base locus is the point $(0,0,1)$ of degree $5$ and multiplicity $6$.
+The degree of the image is $26$.
+Our method finds it in explicit form in about $6$ minutes,
+while it takes us less than a minute to find two square matrices $M_1,M_2$
+for which
+\[
+	\gcd(\det(M_1),\det(M_2))=P(\mathbf x)
+\]
+
+This highlights the interplay between the algebra and geometry~--- 
+one of our initial goals.
+The standard method takes more than 6 hours.
+\begin{verbatim}
+i1 : loadPackage "ImplicitizationAlgos";
+
+i2 : KK=ZZ/32009;
+
+i3 : S=KK[s,u,t,v,Degrees=>{2:{1,0},2:{0,1}}];
+
+i4 : T=KK[x_0..x_3];
+
+i5 : Z=ideal(s^3,s^2*t,t^2);
+
+o5 : Ideal of S
+
+i6 : B=super basis({4,4},Z);
+
+             1       20
+o6 : Matrix S  <--- S
+
+i7 : J=ideal(B*random(S^20,S^4));
+
+o7 : Ideal of S
+
+i8 : decompose J
+
+o8 = {ideal (s, t), ideal (s, u), ideal (v, t)}
+
+o8 : List
+
+i9 : multiplicity Z
+
+o9 = 6
+\end{verbatim}
+The base locus is supported on a single point, so the Macaulay2 command
+computes the correct quantity.
+\begin{verbatim}
+i10 : R=KK[s,u,t,v,x_0..x_3,
+           Degrees=>{2:{1,0,0},2:{0,1,0},4:{0,0,1}}];
+
+i11 : F=sub(gens J,R);
+
+              1       4
+o11 : Matrix R  <--- R
+
+i12 : d={2,2};
+
+i13 : time N1=ComputeNi(F,1,d,{});
+     -- used 0.00821136 seconds
+
+              9
+o13 : Matrix R  <--- 0
+
+i14 : time N2=ComputeNi(F,2,d,{N1});
+     -- used 0.0901831 seconds
+
+              9
+o14 : Matrix R  <--- 0
+\end{verbatim}
+The degree $\d=(2,2)$ does not look promising.
+Take $\d=(3,3)$ instead.
+\begin{verbatim}
+i15 : d={3,3};
+
+i16 : time N1=ComputeNi(F,1,d,{});
+     -- used 0.0208163 seconds
+
+              16       5
+o16 : Matrix R   <--- R
+
+i17 : time N2=ComputeNi(F,2,d,{N1});
+     -- used 0.221774 seconds
+
+              16       12
+o17 : Matrix R   <--- R
+
+i18 : N=N1|N2;
+
+              16       17
+o18 : Matrix R   <--- R
+
+i19 : time rank N
+     -- used 0.009011 seconds
+
+o19 = 16
+\end{verbatim}
+This is our candidate matrix $N'$ --- it has more columns than rows and any
+nonzero minor would have degree $27$ or $28$.
+Having $N'$ be of full rank is not enough by itself.
+\begin{verbatim}
+i20 : c1=sort join({0,1,2,3,4}, RandPerm(5,16,11));
+
+i21 : time rank N_c1
+     -- used 0.00241363 seconds
+
+o21 = 16
+
+i22 : c2=sort join({0,1,2,3,4}, RandPerm(5,16,11));
+
+i23 : c1==c2
+
+o23 = false
+
+i24 : time rank N_c2
+     -- used 0.00881294 seconds
+
+o24 = 16
+\end{verbatim}
+At this point we found two distinct length-$12$ sets of columns, $c_1,c_2$,
+such that the square matrices $M_1,M_2$ they give rise to are nonsingular.
+We can show that these satisfy the equality described above.
+However, we can actually compute the implicit equation in this case.
+\begin{verbatim}
+i25 : time D1=det N_c1;
+     -- used 164.479 seconds
+
+i26 : time D2=det N_c2;
+     -- used 162.898 seconds
+
+i27 : time P=gcd(D1,D2);
+     -- used 0.0646495 seconds
+
+i28 : deg P
+
+o28 : 26
+\end{verbatim}
+\end{example}
+
+\begin{example}[$\mt{ex603}$]
+\label{ex603}
+We enhance Example~\ref{ex602} and compute the implicit equation of five general
+$(2,2,2)$-forms on $(\PP^1)^3$.
+The base locus is again empty, so the degree of the image is $48$.
+
+In this setup there is no hope of computing any determinant explicitly,
+let alone computing $P(\mathbf x)$ using Gr\"obner bases directly.
+We can, however, repeat what we did in Example~\ref{ex604}.
+We work over $\d=(2,2,1)$ and find two square matrices $M_1,M_2$ of order $18$
+such that
+\[
+	\gcd(\det(M_1),\det(M_2))=P(\mathbf x)
+\]
+While testing if the matrices are nonsingular is easy,
+checking whether their determinants do not have any other prime common factor
+is much harder.
+We follow the discussion in~\eqref{par:intersect-general-line} and find
+that the common intersection locus of the two hypersurfaces with a general line
+has multiplicity $48$.
+\begin{verbatim}
+i1 : loadPackage "ImplicitizationAlgos";
+
+i2 : KK=ZZ/32009;
+
+i3 : S=KK[s_0,s_1,t_0,t_1,u_0,u_1,Degrees=>{2:{1,0,0},2:{0,1,0},2:{0,0,1}}];
+
+i4 : T=KK[x_0..x_4];
+
+i5 : B=super basis({2,2,2},S);
+
+             1       27
+o5 : Matrix S  <--- S
+
+i6 : J=ideal(B*random(S^27,S^5));
+
+o6 : Ideal of S
+
+i7 : R=KK[s_0,s_1,t_0,t_1,u_0,u_1,x_0..x_4,
+         Degrees=>{2:{1,0,0,0},2:{0,1,0,0},2:{0,0,1,0},5:{0,0,0,1}}];
+
+i8 : F=sub(gens J,R);
+
+             1       5
+o8 : Matrix R  <--- R
+
+i9 : d={1,1,1};
+
+i10 : N1=ComputeNi(F,1,d,{});
+
+              8
+o10 : Matrix R  <--- 0
+
+i11 : N2=ComputeNi(F,2,d,{});
+
+              8
+o11 : Matrix R  <--- 0
+
+i12 : N3=ComputeNi(F,2,d,{});
+
+              8
+o12 : Matrix R  <--- 0
+\end{verbatim}
+We sneak in a remark here.
+One might expect to find that $N_6$ is square, so that $\deg(\det(N_6))=48$.
+In fact $N_i=0$ for up to at least $i=8$.
+In general, smaller $\d$ tend to produce the few matrices $N_i$ zero.
+This follows from the sort of Koszul-ness of small syzygies.
+Take $\d=(2,2,1)$ instead.
+\begin{verbatim}
+i13 : d = {2,2,1};
+
+i14 : time N4=ComputeNi(F,4,d,{});
+     -- used 151.652 seconds
+
+              18       50
+o14 : Matrix R   <--- R
+
+i15 : time rank N4
+     -- used 2.2373 seconds
+
+o15 = 18
+
+i16 : c1=RandPerm(0,49,18);
+
+i17 : M1=N4_c1;
+
+              18       18
+o17 : Matrix R   <--- R
+
+i18 : rank M1
+
+o18 = 18
+
+i19 : c2=RandPerm(0,49,18);
+
+i20 : M2=N4_c2;
+
+              18       18
+o20 : Matrix R   <--- R
+
+i21 : rank M2
+
+o21 = 18
+
+i22 : sort c1==sort c2
+
+o22 = false
+\end{verbatim}
+The two matrices are nonsingular.
+\begin{verbatim}
+i23 : M1=sub(M1,T);
+
+              18       18
+o23 : Matrix T   <--- T
+
+i24 : M2=sub(M2,T);
+
+              18       18
+o24 : Matrix T   <--- T
+
+i25 : L=ideal random(T^{1,1,1},T^1);
+
+o25 : Ideal of T
+\end{verbatim}
+Here $L$ or rather $V(L)$ is the generic line.
+\begin{verbatim}
+i26 : TL=T/L;
+
+i27 : super basis(1,TL)
+
+o27 = | x_3 x_4 |
+
+               1        2
+o27 : Matrix TL  <--- TL
+
+i28 : U=KK[y_0,y_1];
+
+i29 : g=map(U,TL,{0,0,0,y_0,y_1});
+
+o29 : RingMap U <--- TL
+
+i30 : M1'=g(sub(M1,TL));
+
+              18       18
+o30 : Matrix U   <--- U
+
+i31 : M2'=g(sub(M2,TL));
+
+              18       18
+o31 : Matrix U   <--- U
+\end{verbatim}
+This last bit is for computational purposes only.
+Since we are on a $\PP^1$, we should make use of this and work over 2 variables only.
+\begin{verbatim}
+i32 : time D1=det(M1');
+     -- used 0.317001 seconds
+
+i33 : time D2=det(M2');
+     -- used 0.334676 seconds
+
+i34 : degree gcd(D1,D2)
+
+o34 = {48}
+
+o34 : List
+\end{verbatim}
+The multiplicity of the common intersection is $48$! We are done.
+\end{example}
+
+
+
+
+
+\bibliographystyle{unsrtnat}
+\bibliography{../lib/refs}
+\end{document}
