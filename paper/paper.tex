@@ -11,91 +11,153 @@
 \email{mike@math.cornell.edu}
 \email{radoslav@math.cornell.edu}
 
+\setenumerate{label=\normalfont(\alph*),ref=\normalfont\alph*}
+\renewcommand{\itmref}[2]{{\normalfont\hyperref[#1]{(\ref*{#2}\ref*{#1})}}}
+
 \begin{document}
 
 \maketitle
+
+\begin{abstract}
+Let $X$ be a smooth projective toric variety of dimension~$n-1$
+and let $\phi:X\To\PP^n$ be a generically finite rational map.
+The closed image~$Y$ can be defined by a single equation $P(\mathbf x)$,
+called the implicit equation.
+The implicitization problem asks for techniques for finding the implicit equation.
+This is an old problem in algebraic geometry and can be solved effectively
+through elimination using Gr\"obner bases, for instance.
+However, this solution represents
+a black box in terms of geometry and is unfeasible for even rather modest examples.
+
+In this thesis, we develop a framework for both
+efficiently computing the image~$Y$ of a rational map and
+studying the relation between algebraic properties of the coordinates $\phi_j$ on one hand,
+and geometric properties of the image~$Y$, on the other.
+We follow the theme of moving surfaces by \citet{CGZ-00} and
+the method of the approximation complex by \citet{BJ-03}
+to construct a family of matrices $N$, one for each element in $\Pic(X)$,
+capturing determinantal representations for the implicit equation.
+
+An algorithm for computing $N$ and $P(\mathbf x)$ is described and implemented in the Macaulay2 system.
+It is benchmarked against standard approaches and
+later used to carry out computations in previously intractable situations.
+\end{abstract}
 
 
 
 
 
 \section{Introduction}
-\label{ch:intro}
+\label{sec:intro}
 
 \begin{paragraf*}
-The main goal of this thesis is to develop a framework for both
-efficiently computing the image~$Y$ of a rational map $\phi:X\longrightarrow\mathbb{P}^n$, and
-studying the relation between algebraic properties of the coordinates $\phi_j$ on one hand,
+The goal of this paper is to develop a framework for
+efficiently computing the closed image of a rational map $\phi:X\To\PP^n$ by
+making use of the relation between algebraic properties of the coordinates $\phi_j$ on one hand,
 and geometric properties of the image~$Y$, on the other.
-We are most interested in the case when $X$ is a smooth projective toric variety 
-of dimension $n-1$ and $\phi$ is generically finite,
-so finding the image entails computing a single equation~$P$, the implicit equation.
+We consider the setup where $X$ is a smooth projective toric variety
+and are most interested in the case when $X$ is of dimension $n-1$ and
+$\phi$ is generically finite onto its closed image.
+In this case,
+the image is defined by a single equation~$P(\mathbf x)$,
+called the implicit equation.
 \end{paragraf*}
 
 \begin{paragraf*}
-This is (a version of) the implicitization problem which is classical in algebraic geometry.
+This is a version of the implicitization problem, which is classical in algebraic geometry.
 It has an effective solution through elimination using Gr\"obner bases, for instance,
 but those techniques have two drawbacks.
-First, they become unfeasible even in modest complexity.
-Second, they represent a black box in terms of geometry---one which
-takes the~$\phi_j$ and returns~$P$, in our Sun's lifetime or not.
-Motivated by the advance of computer aided design (CAD),
+First, they become unfeasible even on examples of very modest complexity.
+Second, they represent a black box in terms of geometry---a tool which
+takes the~$\phi_j$ and returns~$P$,
+but whether the computation finishes in our Sun's lifetime or not,
+no geometric feature can be used for or inferred from the process.
+Motivated partially by the advance of computer aided design (CAD),
 interest in new approaches to the implicitization problem
-was reincarnated in the 1990s,
-with the initiating papers being \cite{SC-95}.
+reappeared in the 1990s.
+One reference often cited as the initiating work is \cite{SC-95}~---
+a SIGGRAPH paper using moving curves and surfaces for implicitization.
+One of the first works building on this idea from the standing point
+of commutative algebra and algebraic geometry is \citet{CGZ-00}.
 \end{paragraf*}
 
 \begin{paragraf*}
 Our approach follows the theme of moving surfaces but sets to remove the intrinsic
-ad-hoc constructions.
+ad-hoc constructions it requires.
 In this sense,
-we drew inspiration by the method of the approximation complex, initiated by \cite{BJ-03}.
-Our main results are a blend of two.
-Specifically, let $S$ be the Cox ring of~$X$ graded by $\text{Pic}(X)$,
-and $J=\langle\phi_0,\ldots,\phi_n\rangle\subset S$ be the ideal of the coordinates.
-We construct, for any degree~$\mathit{\mathbf{d}}$ on $S$,
+we draw inspiration from the method of the approximation complex,
+initiated by \citet{BJ-03}.
+Our main results are a blend of the results in the two papers.
+
+Let $S$ be the Cox ring of~$X$ and
+let $J=\la\phi_0,\ldots,\phi_n\ra\se S$ be the ideal of the coordinates.
+Then the Rees ideal $I$ of $J$ can be thought of as
+an algebraic object through the Rees algebra, but also
+a geometric object through the graph of $\phi$.
+We use this duality to present shorter and better motivated proofs.
+We construct, for any degree~$\d$ on $S$,
 a matrix~$N$ representing a generating set for the polynomial relations on the $\phi_j$
-with coefficients from $S_\mathit{\mathbf{d}}$ only.
-This matrix generalizes the types of representation matrices studied by the said methods.
-One of the our main results in an analogue to the results for approximation complex.
-We show that if $N$ is of size $r\times\mu$, then $\text{rank}(N)=r$ and
+with coefficients from $S_\d$ only.
+This is just a bigraded piece of the Rees ideal.
+The matrix $N$ generalizes the types of representation matrices
+studied by the aforementioned papers.
+One of our main results, Theorem~\ref{thm:gcd-minors},
+is an analogue of a result for the approximation complex.
+If we let $r\times\mu$ be the size of $N$,
+we show that $\text{rank}(N)=r$ and,
+under mild assumptions on $\d$, that
 \[
-	\gcd(\text{minors}(r,N))=P^{\deg(\phi)}
+	\gcd(\text{minors}(r,N))=P(\mathbf x)^{\deg(\phi)}
 \]
-Relaxing the requirement that $X$ be of dimension $n-1$, we find that
+Relaxing the requirement that $X$ be of dimension $n-1$,
+we find in Theorem~\ref{thm:rad-minors} that
 \[
 	\rad(\text{minors}(r,N))=P
 \]
-
-Results of form:
-if conditions (1)--(k) hold, then there exists a square matrix $M$ such that $\det(M)=P$,
-which are the main theme of the moving surfaces method,
-are now equivalent to saying the degree-$(\d,\bullet)$
-ideal of the coordinates $J$ has $r$ relations over $S_d$
-as described above.
-This suggest a template for proofs allowing one to focus on the various conditions only.
-
-Moreover, the matrix $N$ can be computed incrementally
-using only tools from linear algebra,
-allowing calculation in situations previously out of reach.
 \end{paragraf*}
 
+\begin{paragraf*}
+Furthermore, results of the form:
+if conditions (1)--($k$) hold,
+then there exists a square matrix $M$ such that $\det(M)=P(\mathbf x)$~---
+which are the main theme of the moving surfaces methods,
+now become essentially equivalent to saying that the degree-$(\d,\bullet)$ graded piece
+of the Rees ideal is minimally generated by $r$ elements.
+This suggest a template for proofs allowing one to more clearly
+address the specifics of the new conditions.
 
-
-
-
-\section{Results}
-\label{ch:results}
+Moreover, the matrix $N$ can be computed incrementally
+using only tools from linear algebra.
+This is important because it entails a significant on-average speed up,
+allowing us to calculate examples which are out of reach via Gr\"obner basis techniques.
+More importantly, this allows us to use geometric tricks, for instance,
+to confirm that
+\[
+	P(\mathbf x)=\gcd(\det(M_1),\det(M_2))
+\]
+for some selected matrices $M_1$ and $M_2$.
+See Examples~\ref{ex604} and~\ref{ex603}.
+\end{paragraf*}
 
 \begin{paragraf*}
-We are now ready to state our main results.
-While this chapter is supposed to be self-contained and most of the relevant notation
-and definitions are listed in \eqref{par:again} below,
-one should consult Chapter \ref{ch:preliminaries} for a more relaxed exposition
-and further definitions, for instance,
-for the notions of degree and multiplicity of a basepoint.
+We state our results in Section~\ref{sec:results}.
+As the title suggests, examples are the heart of this paper,
+so in Section~\ref{sec:examples} we presents 20 examples describing these results.
+In fact, we believe that a careful read of the section renders some, if not all,
+of the proofs, presented in Section~\ref{sec:proofs}, unnecessary.
 
-Examples \ref{ex201} and \ref{ex202} should serve as quick reference points.
+The paper was conceived as a work in computational algebraic geometry.
+As such we field-test our approach and in Section~\ref{sec:fast-method}
+we develop and implement, in Macaulay2, \citet{M2},
+algorithms for computing $N$ and $P$.
+We then use this implementation them to benchmark our algorithms against the standard approach
+and workout several computationally more difficult examples.
+\end{paragraf*}
+
+\begin{paragraf*}
+In the remainder of this section,
+we setup the notation and define our main objects of interests.
+We also recall a few relevant results and provide a few examples.
 \end{paragraf*}
 
 \begin{paragraf}
@@ -151,9 +213,12 @@ Note that those are necessarily closed over $\CC$.
 Clearly, either of \eqref{itm:conds:2} and \eqref{itm:conds:3} implies \eqref{itm:conds:1}.
 \end{paragraf}
 
-\begin{paragraf*}
-A few easy but important observations about the Rees ideal follow.
-\end{paragraf*}
+
+
+
+
+\section{Results}
+\label{sec:results}
 
 \begin{proposition}
 \label{prop:BP} Consider the setup of \eqref{par:setup}. One has
@@ -365,7 +430,7 @@ Further, one has
 
 
 \section{Examples}
-\label{ch:examples}
+\label{sec:examples}
 
 \begin{example}[$\mt{ex301}$]
 \label{ex301}
@@ -1132,7 +1197,7 @@ our results to the methods of moving hypersurfaces.
 
 
 \section{Proofs}
-\label{ch:main-proofs}
+\label{sec:proofs}
 
 \begin{paragraf*}
 While the ultimate goal of this chapter is to prove the results of Chapter~\ref{ch:main-results},
@@ -1503,7 +1568,7 @@ The result now follows because the initial ideal of $I'_B$ has the same degree a
 
 
 \section{A Method for Fast Implicitization}
-\label{ch:fast-method}
+\label{sec:fast-method}
 
 \begin{paragraf*}
 This chapter is devoted to the computational aspects of our results.
@@ -1527,7 +1592,7 @@ the Macaulay2 system.
 \begin{paragraf*}
 The code is available at
 \begin{center}
-	\url{http://www.math.cornell.edu/~rzlatev/phd-thesis}
+	\url{https://github.com/radoslavraynov/ImplicitizationAlgos}
 \end{center}
 \end{paragraf*}
 
