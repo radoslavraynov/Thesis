@@ -1,20 +1,20 @@
 ## Latest version
 
 The latest version of the thesis is the document `THESIS.pdf` in the main directory.
-Previous versions are available through the Github 'history' interface for the file.
+Previous versions are available through the Github 'history' interface.
 
-## How to run
+## How to compile
 
-Make sure you have Git. Get this repository locally
+Make sure you have Git. Clone the repository
 
     $ git clone https://github.com/radoslavraynov/Thesis.git
-	$ cd Thesis/tex
+    $ cd Thesis/tex
 
 Make sure you have Python. We provide a `makefile` with rules `add`, `pdf`, `bib` and `clean`.
 Run
 
     $ make bib
-	$ make
+    $ make
 
 the first time, and then every time a bibliography changed.
 Otherwise, simply running `make` should do.
